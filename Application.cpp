@@ -10,9 +10,6 @@ exitButton(window),
 restartButton(window),
 state(ApplicationState::Menu)
 {
-    background.setSize(Vector2f(500, 500));
-    background.setFillColor(Color(243, 197, 255));
-
     musicMenuTheme.openFromFile("assets/musics/menu_theme.wav");
     musicFightTheme.openFromFile("assets/musics/fight_theme.wav");
     musicMenuTheme.setLoop(true);
@@ -98,8 +95,7 @@ void Application::ProcessEvents()
 
 void Application::Render()
 {
-    window.clear();
-    window.draw(background);
+    window.clear(Color(243, 197, 255));
     musicButton.Draw();
     exitButton.Draw();
 

@@ -41,7 +41,6 @@ private:
     RestartButton restartButton;
 
     Clock clock;
-    RectangleShape background;
     Music musicMenuTheme;
     Music musicFightTheme;
 };

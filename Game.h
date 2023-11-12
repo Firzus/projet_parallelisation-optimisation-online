@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 
+#include "Grid.h"
+
 using namespace sf;
 using namespace std;
 
@@ -13,5 +15,6 @@ public:
 	void HandleInput(Event& event);
 
 private:
-
+	RenderWindow& window;
+	Grid grid;
 };
