@@ -6,6 +6,7 @@ menu(window),
 game(window),
 result(window),
 musicButton(window),
+exitButton(window),
 state(ApplicationState::Menu)
 {
     background.setSize(Vector2f(500, 500));
@@ -46,6 +47,7 @@ void Application::ProcessEvents()
         }
 
         musicButton.HandleEvent(event);
+        exitButton.HandleEvent(event);
 
         if (state == ApplicationState::Menu)
         {
@@ -94,6 +96,7 @@ void Application::Render()
     window.clear();
     window.draw(background);
     musicButton.Draw();
+    exitButton.Draw();
 
     if (state == ApplicationState::Menu) {
         menu.Draw();

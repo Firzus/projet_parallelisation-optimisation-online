@@ -13,7 +13,6 @@ public:
 	void HandleEvent(Event& event);
 	void HandleButton();
 	bool IsMusicPlaying();
-	//void ToggleMusic(Music& music);
 
 private:
 	RenderWindow& window;
@@ -21,7 +20,7 @@ private:
 	Texture textureMusicOn;
 	Texture textureMusicOff;
 
-	Sprite spriteButton;
+	Sprite spriteMusicButton;
 
 	bool isMusicPlaying;
 };

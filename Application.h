@@ -7,6 +7,7 @@
 #include "Game.h"
 #include "Result.h"
 #include "MusicButton.h"
+#include "ExitButton.h"
 
 using namespace sf;
 
@@ -35,6 +36,7 @@ private:
     Result result;
 
     MusicButton musicButton;
+    ExitButton exitButton;
 
     Clock clock;
     RectangleShape background;
