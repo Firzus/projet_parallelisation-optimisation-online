@@ -40,8 +40,6 @@ void Application::ProcessEvents()
         {
             game.HandleInput(event);
         }
-
-        menu.HandleInput(event);
     }
 }
 
