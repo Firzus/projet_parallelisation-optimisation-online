@@ -1,19 +1,17 @@
-#pragma once
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
-class Game {
+using namespace sf;
+using namespace std;
+
+class Game
+{
 public:
-    Game();
-    virtual ~Game();
+	Game(RenderWindow& window);
+	~Game();
 
-    void Run();
+	void Draw();
+	void HandleInput(Event& event);
 
 private:
-    sf::RenderWindow window;
-    sf::CircleShape shape;
 
-    void ProcessEvents();
-    void Render();
-    virtual void Update();
 };
