@@ -40,8 +40,6 @@ Menu::Menu(sf::RenderWindow& window) : window(window), playClicked(false)
     FloatRect textRect = textStartButton.getLocalBounds();
     textStartButton.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     textStartButton.setPosition(rectStartButton.getPosition() + Vector2f(rectStartButton.getSize() / 2.0f));
-
-    playerName = "Default Name";
 }
 
 Menu::~Menu() {}
@@ -84,7 +82,7 @@ void Menu::HandleInput(Event& event)
 
 string Menu::GetName() const
 {
-    return playerName;
+    return userInput;
 }
 
 bool Menu::IsStartClicked() const

@@ -6,16 +6,22 @@ using namespace sf;
 class MusicButton
 {
 public:
-	MusicButton();
+	MusicButton(RenderWindow& window);
 	~MusicButton();
 
-	void HandleEvent(sf::Event& event, sf::RenderWindow& window);
-	void ToggleMusic();
+	void Draw();
+	void HandleEvent(Event& event);
+	void HandleButton();
+	bool IsMusicPlaying();
+	//void ToggleMusic(Music& music);
 
 private:
+	RenderWindow& window;
+
 	Texture textureMusicOn;
 	Texture textureMusicOff;
 
-	Sprite buttonSprite;
-	Music music;
+	Sprite spriteButton;
+
+	bool isMusicPlaying;
 };

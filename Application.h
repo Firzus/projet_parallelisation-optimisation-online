@@ -1,11 +1,12 @@
-#pragma once
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "Menu.h"
 #include "Game.h"
 #include "Result.h"
+#include "MusicButton.h"
 
 using namespace sf;
 
@@ -19,7 +20,6 @@ class Application {
 public:
     Application();
     virtual ~Application();
-
     void Run();
 
 private:
@@ -29,9 +29,15 @@ private:
 
     RenderWindow window;
     ApplicationState state;
-    RectangleShape background;
-    Clock clock;
+
     Menu menu;
     Game game;
     Result result;
+
+    MusicButton musicButton;
+
+    Clock clock;
+    RectangleShape background;
+    Music musicMenuTheme;
+    Music musicFightTheme;
 };

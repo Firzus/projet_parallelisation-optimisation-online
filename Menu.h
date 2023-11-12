@@ -31,7 +31,6 @@ private:
     RectangleShape rectInput;
     RectangleShape rectStartButton;
 
-    string playerName;
     string userInput;
     bool playClicked;
 };
