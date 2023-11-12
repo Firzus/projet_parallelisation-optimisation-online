@@ -33,5 +33,5 @@ private:
 
     string playerName;
     string userInput;
-    bool startClicked;
+    bool playClicked;
 };

@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-Menu::Menu(sf::RenderWindow& window) : window(window), startClicked(false) 
+Menu::Menu(sf::RenderWindow& window) : window(window), playClicked(false)
 {
     fontRegular.loadFromFile("assets/fonts/Roboto-Regular.ttf");
     fontSemiBold.loadFromFile("assets/fonts/Roboto-Medium.ttf");
@@ -58,7 +58,7 @@ void Menu::Draw()
 
 void Menu::HandleInput(Event& event)
 {
-    if (event.type == sf::Event::TextEntered) {
+    if (event.type == Event::TextEntered) {
 
         if (event.text.unicode == 8 && !userInput.empty()) {
             userInput.pop_back();
@@ -71,11 +71,14 @@ void Menu::HandleInput(Event& event)
         textInput.setString(userInput.empty() ? "Your name" : userInput);
     }
 
-    if (event.mouseButton.button == Mouse::Left || event.mouseButton.button == Event::MouseButtonPressed) {
+    if (event.mouseButton.button == Mouse::Left) {
         Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
         if (rectStartButton.getGlobalBounds().contains(mousePos)) {
-            startClicked = true;
+            playClicked = true;
         }
+    }
+    else if (event.type == Event::KeyPressed && event.key.code == Keyboard::Enter) {
+        playClicked = true;
     }
 }
 
@@ -86,5 +89,5 @@ string Menu::GetName() const
 
 bool Menu::IsStartClicked() const
 {
-    return startClicked;
+    return playClicked;
 }
