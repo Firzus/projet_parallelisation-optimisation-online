@@ -7,6 +7,7 @@ game(window),
 result(window),
 musicButton(window),
 exitButton(window),
+restartButton(window),
 state(ApplicationState::Menu)
 {
     background.setSize(Vector2f(500, 500));
@@ -87,6 +88,10 @@ void Application::ProcessEvents()
         else if (state == ApplicationState::Result)
         {
             result.HandleInput(event);
+
+            if (restartButton.HandleEvent(event)) {
+                state = ApplicationState::Menu;
+            }
         }
     }
 }
@@ -106,6 +111,7 @@ void Application::Render()
     }
     else if (state == ApplicationState::Result) {
         result.Draw();
+        restartButton.Draw();
     }
     window.display();
 }

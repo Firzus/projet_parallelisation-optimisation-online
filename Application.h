@@ -8,6 +8,7 @@
 #include "Result.h"
 #include "MusicButton.h"
 #include "ExitButton.h"
+#include "RestartButton.h"
 
 using namespace sf;
 
@@ -37,6 +38,7 @@ private:
 
     MusicButton musicButton;
     ExitButton exitButton;
+    RestartButton restartButton;
 
     Clock clock;
     RectangleShape background;

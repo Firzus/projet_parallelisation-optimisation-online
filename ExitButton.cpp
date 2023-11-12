@@ -8,9 +8,7 @@ ExitButton::ExitButton(RenderWindow& window) : window(window)
 	spriteExitButton.setPosition(Vector2f(16, 444));
 }
 
-ExitButton::~ExitButton()
-{
-}
+ExitButton::~ExitButton() {}
 
 void ExitButton::Draw()
 {
