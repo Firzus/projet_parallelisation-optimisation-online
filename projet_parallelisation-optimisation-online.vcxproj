@@ -162,6 +162,9 @@
     <Image Include="assets\icons\exit.png" />
     <Image Include="assets\icons\music_off.png" />
     <Image Include="assets\icons\music_on.png" />
+    <Image Include="assets\icons\o.png" />
+    <Image Include="assets\icons\restart.png" />
+    <Image Include="assets\icons\x.png" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\musics\fight_theme.wav" />

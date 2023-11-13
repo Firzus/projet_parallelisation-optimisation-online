@@ -80,7 +80,9 @@ void Application::ProcessEvents()
                 }
             }
 
-            game.HandleInput(event);
+            if (event.type == Event::MouseButtonPressed) {
+                game.HandleMouseClick(event.mouseButton.x, event.mouseButton.y);
+            }
         }
         else if (state == ApplicationState::Result)
         {

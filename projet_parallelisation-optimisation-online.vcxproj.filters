@@ -99,6 +99,15 @@
     <Image Include="assets\icons\music_on.png">
       <Filter>Fichiers de ressources\icons</Filter>
     </Image>
+    <Image Include="assets\icons\o.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\restart.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\x.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="assets\musics\fight_theme.wav">
