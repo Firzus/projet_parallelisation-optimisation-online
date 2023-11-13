@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Grid.h"
+#include "TurnMessage.h"
 
 // debug
 #include <iostream>
@@ -19,20 +20,18 @@ public:
 	~Game();
 
 	void Draw();
+	void Update();
 	void HandleMouseClick(float x, float y);
 	bool CheckWin(char playerSymbol);
 	bool CheckDraw();
 	void CleanBoard();
 	Vector2f GetCellPosition(int row, int col);
 	string GetPlayerName(char currentPlayer);
-	void DisplayCurrentPlayer(char currentPlayer);
 
 private:
 	RenderWindow& window;
 	Grid grid;
-
-	Text textWhoPlay;
-	Font fontBold;
+	TurnMessage turnMessage;
 
 	Texture textureX, textureO;
 	Sprite spriteX, spriteO;
@@ -44,8 +43,6 @@ private:
 	const int screenSize = 500;
 	const int gridWidth = 300;
 	const int gridSize = 3;
-	const int offsetTexture = 18;
-	const float cellSize = gridWidth / gridSize;
-	const float xOffset = (screenSize - gridWidth) / 2 + offsetTexture;
-	const float yOffset = (screenSize - gridWidth) / 2 + offsetTexture;
+	const int cellSize = 100;
+	const int offset = 118;
 };

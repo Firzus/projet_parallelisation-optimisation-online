@@ -27,7 +27,7 @@ public:
 private:
     void ProcessEvents();
     void Render();
-    virtual void Update(float deltaTime);
+    void Update(float deltaTime);
 
     RenderWindow window;
     ApplicationState state;

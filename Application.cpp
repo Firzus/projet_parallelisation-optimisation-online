@@ -12,8 +12,10 @@ state(ApplicationState::Menu)
 {
     musicMenuTheme.openFromFile("assets/musics/menu_theme.wav");
     musicFightTheme.openFromFile("assets/musics/fight_theme.wav");
+
     musicMenuTheme.setLoop(true);
     musicFightTheme.setLoop(true);
+
     musicMenuTheme.setVolume(30.f);
     musicFightTheme.setVolume(30.f);
 }
@@ -116,5 +118,5 @@ void Application::Render()
 
 void Application::Update(float deltaTime)
 {
-
+    game.Update();
 }
