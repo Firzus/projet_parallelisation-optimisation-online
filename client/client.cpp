@@ -3,7 +3,6 @@
 
 #include "framework.h"
 #include "client.h"
-#include "SFML/Graphics.hpp"
 
 #define MAX_LOADSTRING 100
 
@@ -120,6 +119,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_COMMAND  - traite le menu de l'application
 //  WM_PAINT    - Dessine la fenêtre principale
 //  WM_DESTROY  - génère un message d'arrêt et retourne
+//
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
