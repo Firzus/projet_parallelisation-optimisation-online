@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <string>
-#include <iostream>
 
 using namespace sf;
 using namespace std;
@@ -31,7 +30,6 @@ private:
     RectangleShape rectInput;
     RectangleShape rectStartButton;
 
-    string playerName;
     string userInput;
     bool playClicked;
 };
