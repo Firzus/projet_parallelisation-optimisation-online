@@ -142,6 +142,7 @@
     <ClCompile Include="MusicButton.cpp" />
     <ClCompile Include="RestartButton.cpp" />
     <ClCompile Include="Result.cpp" />
+    <ClCompile Include="TurnMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ExitButton.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="MusicButton.h" />
     <ClInclude Include="RestartButton.h" />
     <ClInclude Include="Result.h" />
+    <ClInclude Include="TurnMessage.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\font\Roboto-Bold.ttf" />

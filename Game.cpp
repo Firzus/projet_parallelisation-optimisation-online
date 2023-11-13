@@ -2,7 +2,8 @@
 
 Game::Game(RenderWindow& window) : 
 window(window),
-grid(window)
+grid(window),
+turnMessage(window)
 {
 	textureX.loadFromFile("assets/icons/x.png");
 	textureO.loadFromFile("assets/icons/o.png");
@@ -18,6 +19,7 @@ Game::~Game() {}
 void Game::Draw()
 {
 	grid.Draw();
+    turnMessage.Draw();
 
     for (int row = 0; row < gridSize; ++row) {
         for (int col = 0; col < gridSize; ++col) {
@@ -35,9 +37,14 @@ void Game::Draw()
     }
 }
 
+void Game::Update()
+{
+    turnMessage.Update(GetPlayerName(currentPlayer));
+}
+
 void Game::HandleMouseClick(float x, float y) {
-    x -= xOffset;
-    y -= yOffset;
+    x -= offset;
+    y -= offset;
 
     if (x >= 0 && x < gridWidth && y >= 0 && y < gridWidth) {
         int col = static_cast<int>(x / cellSize);
@@ -48,9 +55,11 @@ void Game::HandleMouseClick(float x, float y) {
 
             if (CheckWin(currentPlayer)) {
                 cout << "le joueur : " << currentPlayer << " a gagne !" << endl;
+                CleanBoard();
             }
             else if (CheckDraw()) {
                 cout << "Personne n'a gagne" << endl;
+                CleanBoard();
             }
             else {
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
@@ -95,7 +104,16 @@ bool Game::CheckDraw() {
 }
 
 Vector2f Game::GetCellPosition(int row, int col) {
-    return Vector2f(xOffset + col * cellSize, yOffset + row * cellSize);
+    return Vector2f(offset + col * cellSize, offset + row * cellSize);
+}
+
+string Game::GetPlayerName(char currentPlayer) {
+    if (currentPlayer == 'X') {
+        return "Player";
+    }
+    else {
+        return "Ordinateur";
+    }
 }
 
 void Game::CleanBoard() {
