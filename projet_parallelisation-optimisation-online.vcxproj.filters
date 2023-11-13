@@ -13,18 +13,114 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Fichiers de ressources\font">
+      <UniqueIdentifier>{79872b9a-1324-4d52-9191-a72d0bb9c84a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\icons">
+      <UniqueIdentifier>{f29f2651-2e4e-419b-b417-3b5b6b79d20b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fichiers de ressources\musics">
+      <UniqueIdentifier>{b75faad6-6ea4-4ec2-a9eb-17f0949ad289}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="MusicButton.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitButton.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
     <ClCompile Include="Game.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Result.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="RestartButton.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="TurnMessage.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="MusicButton.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitButton.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="Result.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="RestartButton.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnMessage.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\font\Roboto-Bold.ttf">
+      <Filter>Fichiers de ressources\font</Filter>
+    </Font>
+    <Font Include="assets\font\Roboto-Medium.ttf">
+      <Filter>Fichiers de ressources\font</Filter>
+    </Font>
+    <Font Include="assets\font\Roboto-Regular.ttf">
+      <Filter>Fichiers de ressources\font</Filter>
+    </Font>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\icons\exit.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\music_off.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\music_on.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\o.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\restart.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\x.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\musics\fight_theme.wav">
+      <Filter>Fichiers de ressources\musics</Filter>
+    </Media>
+    <Media Include="assets\musics\menu_theme.wav">
+      <Filter>Fichiers de ressources\musics</Filter>
+    </Media>
   </ItemGroup>
 </Project>
