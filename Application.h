@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+//#include <SFML/Audio.hpp>
 
 #include "Menu.h"
 #include "Game.h"
@@ -36,11 +36,11 @@ private:
     Game game;
     Result result;
 
-    MusicButton musicButton;
+    //MusicButton musicButton;
     ExitButton exitButton;
     RestartButton restartButton;
 
     Clock clock;
-    Music musicMenuTheme;
-    Music musicFightTheme;
+    //Music musicMenuTheme;
+    //Music musicFightTheme;
 };
