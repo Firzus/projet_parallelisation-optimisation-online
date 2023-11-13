@@ -4,6 +4,16 @@ Game::Game(RenderWindow& window) :
 window(window),
 grid(window)
 {
+    fontBold.loadFromFile("assets/fonts/Roboto-Bold.ttf");
+
+    textWhoPlay.setFont(fontBold);
+    textWhoPlay.setString("C’est à Firzus de jouer");
+    textWhoPlay.setCharacterSize(24);
+    textWhoPlay.setFillColor(Color(133, 94, 194));
+
+    FloatRect textRect = textWhoPlay.getGlobalBounds();
+    textWhoPlay.setPosition(Vector2f(screenSize / 2 - textRect.width / 2, 456));
+
 	textureX.loadFromFile("assets/icons/x.png");
 	textureO.loadFromFile("assets/icons/o.png");
 
@@ -18,6 +28,7 @@ Game::~Game() {}
 void Game::Draw()
 {
 	grid.Draw();
+    window.draw(textWhoPlay);
 
     for (int row = 0; row < gridSize; ++row) {
         for (int col = 0; col < gridSize; ++col) {
@@ -48,9 +59,11 @@ void Game::HandleMouseClick(float x, float y) {
 
             if (CheckWin(currentPlayer)) {
                 cout << "le joueur : " << currentPlayer << " a gagne !" << endl;
+                CleanBoard();
             }
             else if (CheckDraw()) {
                 cout << "Personne n'a gagne" << endl;
+                CleanBoard();
             }
             else {
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
@@ -96,6 +109,19 @@ bool Game::CheckDraw() {
 
 Vector2f Game::GetCellPosition(int row, int col) {
     return Vector2f(xOffset + col * cellSize, yOffset + row * cellSize);
+}
+
+string Game::GetPlayerName(char currentPlayer) {
+    if (currentPlayer == 'X') {
+        return "Player";
+    }
+    else {
+        return "Ordinateur";
+    }
+}
+
+void Game::DisplayCurrentPlayer(char currentPlayer) {
+    textWhoPlay.setString("test 2");
 }
 
 void Game::CleanBoard() {
