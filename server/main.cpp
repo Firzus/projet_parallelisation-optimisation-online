@@ -1,6 +1,7 @@
 // server.cpp : Définit le point d'entrée de l'application.
 //
 
+#include "Serveur.h"
 #include "Resource.h"
 #include "framework.h"
 
@@ -25,7 +26,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Placez le code ici.
+    Serveur serveur;
+    serveur.Run();
 
     // Initialise les chaînes globales
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -147,6 +149,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: Ajoutez ici le code de dessin qui utilise hdc...
+
             EndPaint(hWnd, &ps);
         }
         break;
