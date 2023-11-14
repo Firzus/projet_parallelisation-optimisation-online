@@ -135,10 +135,12 @@
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Serveur.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Serveur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="server.rc" />
