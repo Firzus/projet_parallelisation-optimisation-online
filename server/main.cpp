@@ -1,8 +1,8 @@
 // server.cpp : Définit le point d'entrée de l'application.
 //
 
+#include "Resource.h"
 #include "framework.h"
-#include "server.h"
 
 #define MAX_LOADSTRING 100
 
