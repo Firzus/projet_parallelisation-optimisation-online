@@ -133,20 +133,52 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="client.h" />
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="ExitButton.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Grid.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="MusicButton.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RestartButton.h" />
+    <ClInclude Include="Result.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TurnMessage.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="client.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="ExitButton.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="MusicButton.cpp" />
+    <ClCompile Include="RestartButton.cpp" />
+    <ClCompile Include="Result.cpp" />
+    <ClCompile Include="TurnMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="client.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\icons\exit.png" />
+    <Image Include="assets\icons\music_off.png" />
+    <Image Include="assets\icons\music_on.png" />
+    <Image Include="assets\icons\o.png" />
+    <Image Include="assets\icons\restart.png" />
+    <Image Include="assets\icons\x.png" />
     <Image Include="client.ico" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\Roboto-Bold.ttf" />
+    <Font Include="assets\fonts\Roboto-Medium.ttf" />
+    <Font Include="assets\fonts\Roboto-Regular.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\musics\fight_theme.wav" />
+    <Media Include="assets\musics\menu_theme.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
