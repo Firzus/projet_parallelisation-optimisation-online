@@ -10,6 +10,8 @@
 #include "ExitButton.h"
 #include "RestartButton.h"
 
+#include <windows.h>
+
 using namespace sf;
 
 enum class ApplicationState {
@@ -27,7 +29,7 @@ public:
 private:
     void ProcessEvents();
     void Render();
-    void Update(float deltaTime);
+    void Update();
 
     RenderWindow window;
     ApplicationState state;
@@ -35,12 +37,10 @@ private:
     Menu menu;
     Game game;
     Result result;
-
-    //MusicButton musicButton;
-    ExitButton exitButton;
     RestartButton restartButton;
+    ExitButton exitButton;
+    //MusicButton musicButton;
 
-    Clock clock;
     //Music musicMenuTheme;
     //Music musicFightTheme;
 };
