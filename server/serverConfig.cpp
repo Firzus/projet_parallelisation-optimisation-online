@@ -33,7 +33,7 @@ void serverConfig::InitWinSock() {
 
 void serverConfig::CreateSocket() {
 	// Resolve the local address and port to be used by the server
-	iResult = getaddrinfo("192.168.1.13", DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		//printf("getaddrinfo failed: %d\n", iResult);
 		MessageBox(NULL, L"getaddrinfo failed:" + iResult, 0, 0);
