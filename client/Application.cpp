@@ -5,9 +5,9 @@ window(VideoMode(500, 500), "Online Tic Tac Toe"),
 menu(window),
 game(window),
 result(window),
-//musicButton(window),
 exitButton(window),
 restartButton(window),
+//musicButton(window),
 state(ApplicationState::Menu)
 {
     //musicMenuTheme.openFromFile("assets/musics/menu_theme.wav");
@@ -28,12 +28,24 @@ Application::~Application()
 
 void Application::Run()
 {
-    Time deltaTime = clock.restart();
+    MSG msg;
+    ZeroMemory(&msg, sizeof(MSG));
 
     while (window.isOpen()) {
         ProcessEvents();
-        Update(deltaTime.asSeconds());
+        Update();
         Render();
+
+        // Traitement des messages Windows
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+            if (msg.message == WM_QUIT) {
+                window.close();
+            }
+            else {
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
+            }
+        }
     }
 }
 
@@ -116,7 +128,7 @@ void Application::Render()
     window.display();
 }
 
-void Application::Update(float deltaTime)
+void Application::Update()
 {
     game.Update();
 }
