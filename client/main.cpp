@@ -1,8 +1,9 @@
 // client.cpp : Définit le point d'entrée de l'application.
 //
 
+#include "Application.h"
 #include "framework.h"
-#include "client.h"
+#include "resource.h"
 
 #define MAX_LOADSTRING 100
 
@@ -26,6 +27,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: Placez le code ici.
+    Application app;
+    app.Run();
 
     // Initialise les chaînes globales
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
