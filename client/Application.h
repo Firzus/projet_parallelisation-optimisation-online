@@ -1,6 +1,5 @@
 #include <iostream>
-
-#include <SFML/Graphics.hpp>
+#include "framework.h"
 //#include <SFML/Audio.hpp>
 
 #include "Menu.h"
