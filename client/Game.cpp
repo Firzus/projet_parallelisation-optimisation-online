@@ -3,6 +3,7 @@
 Game::Game(RenderWindow& window) : 
 window(window),
 grid(window),
+scoreIndicator(window),
 turnMessage(window)
 {
 	textureX.loadFromFile("assets/icons/x.png");
@@ -11,7 +12,7 @@ turnMessage(window)
 	spriteX.setTexture(textureX);
 	spriteO.setTexture(textureO);
 
-    CleanBoard();
+    ResetGame();
 }
 
 Game::~Game() {}
@@ -20,6 +21,7 @@ void Game::Draw()
 {
 	grid.Draw();
     turnMessage.Draw();
+    scoreIndicator.Draw();
 
     for (int row = 0; row < gridSize; ++row) {
         for (int col = 0; col < gridSize; ++col) {
@@ -35,6 +37,9 @@ void Game::Draw()
             }
         }
     }
+
+    cout << "Score - Joueur: " << scoreP1 << ", Ordinateur: " << scoreP2<< endl;
+    cout << "Manche : " << currentRound << " sur 3" << endl;
 }
 
 void Game::Update()
@@ -103,6 +108,49 @@ bool Game::CheckDraw() {
     return true;
 }
 
+void Game::UpdateScore(char winner) {
+    if (winner == 'X') {
+        scoreP1++;
+    }
+    else if (winner == 'O') {
+        scoreP2++;
+    }
+}
+
+void Game::StartNewRound() {
+    currentRound++;
+    if (currentRound > 3) {
+        DetermineFinalWinner();
+    }
+    else {
+        CleanBoard();
+    }
+}
+
+void Game::DetermineFinalWinner() {
+    if (scoreP1 > scoreP2) {
+        cout << "Le joueur remporte la victoire finale !" << endl;
+    }
+    else if (scoreP2 > scoreP1) {
+        cout << "L'ordinateur remporte la victoire finale !" << endl;
+    }
+    else {
+        cout << "La partie se termine par une égalité !" << endl;
+    }
+
+    ResetGame();
+}
+
+void Game::ResetGame() {
+    playerHasWon = false;
+    currentPlayer = 'X';
+    scoreP1 = 0;
+    scoreP2 = 0;
+    currentRound = 1;
+
+    CleanBoard();
+}
+
 Vector2f Game::GetCellPosition(int row, int col) {
     return Vector2f(offset + col * cellSize, offset + row * cellSize);
 }
@@ -120,6 +168,4 @@ void Game::CleanBoard() {
     for (auto& row : board) {
         row.fill(' ');
     }
-    playerHasWon = false;
-    currentPlayer = 'X';
 }
