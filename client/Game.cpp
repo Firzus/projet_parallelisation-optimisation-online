@@ -6,11 +6,11 @@ grid(window),
 scoreIndicator(window),
 turnMessage(window)
 {
-	textureX.loadFromFile("assets/icons/x.png");
 	textureO.loadFromFile("assets/icons/o.png");
+	textureX.loadFromFile("assets/icons/x.png");
 
-	spriteX.setTexture(textureX);
 	spriteO.setTexture(textureO);
+	spriteX.setTexture(textureX);
 
     ResetGame();
 }
@@ -45,6 +45,9 @@ void Game::Draw()
 void Game::Update()
 {
     turnMessage.Update(GetPlayerName(currentPlayer));
+    scoreIndicator.Update(scoreP1, scoreP2);
+
+    OutputDebugStringA(to_string(currentRound).c_str());
 }
 
 void Game::HandleMouseClick(float x, float y) {
@@ -60,11 +63,12 @@ void Game::HandleMouseClick(float x, float y) {
 
             if (CheckWin(currentPlayer)) {
                 cout << "le joueur : " << currentPlayer << " a gagne !" << endl;
-                CleanBoard();
+                UpdateScore(currentPlayer);
+                StartNewRound();
             }
             else if (CheckDraw()) {
                 cout << "Personne n'a gagne" << endl;
-                CleanBoard();
+                StartNewRound();
             }
             else {
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
@@ -109,10 +113,10 @@ bool Game::CheckDraw() {
 }
 
 void Game::UpdateScore(char winner) {
-    if (winner == 'X') {
+    if (winner == 'O') {
         scoreP1++;
     }
-    else if (winner == 'O') {
+    else if (winner == 'X') {
         scoreP2++;
     }
 }
@@ -143,7 +147,7 @@ void Game::DetermineFinalWinner() {
 
 void Game::ResetGame() {
     playerHasWon = false;
-    currentPlayer = 'X';
+    currentPlayer = 'O';
     scoreP1 = 0;
     scoreP2 = 0;
     currentRound = 1;
@@ -156,7 +160,7 @@ Vector2f Game::GetCellPosition(int row, int col) {
 }
 
 string Game::GetPlayerName(char currentPlayer) {
-    if (currentPlayer == 'X') {
+    if (currentPlayer == 'O') {
         return "Player";
     }
     else {

@@ -10,6 +10,7 @@
 
 // debug
 #include <iostream>
+#include <windows.h>
 
 using namespace sf;
 using namespace std;
@@ -35,6 +36,7 @@ public:
 
 private:
 	RenderWindow& window;
+
 	Grid grid;
 	TurnMessage turnMessage;
 	ScoreIndicator scoreIndicator;
