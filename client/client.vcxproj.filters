@@ -19,9 +19,6 @@
     <Filter Include="Fichiers de ressources\icons">
       <UniqueIdentifier>{5ac25be9-53be-4b3d-ad37-0a59a71f6448}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers de ressources\musics">
-      <UniqueIdentifier>{71a4e564-5711-48ab-a8f1-8b11a078710e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -46,9 +43,6 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="MusicButton.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="RestartButton.h">
@@ -78,9 +72,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="MusicButton.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="RestartButton.cpp">
@@ -134,13 +125,5 @@
     <Font Include="assets\fonts\Roboto-Regular.ttf">
       <Filter>Fichiers de ressources\fonts</Filter>
     </Font>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="assets\musics\fight_theme.wav">
-      <Filter>Fichiers de ressources\musics</Filter>
-    </Media>
-    <Media Include="assets\musics\menu_theme.wav">
-      <Filter>Fichiers de ressources\musics</Filter>
-    </Media>
   </ItemGroup>
 </Project>

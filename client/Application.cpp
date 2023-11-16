@@ -7,24 +7,10 @@ game(window),
 result(window),
 exitButton(window),
 restartButton(window),
-//musicButton(window),
 state(ApplicationState::Menu)
-{
-    //musicMenuTheme.openFromFile("assets/musics/menu_theme.wav");
-    //musicFightTheme.openFromFile("assets/musics/fight_theme.wav");
+{}
 
-    //musicMenuTheme.setLoop(true);
-    //musicFightTheme.setLoop(true);
-
-    //musicMenuTheme.setVolume(30.f);
-    //musicFightTheme.setVolume(30.f);
-}
-
-Application::~Application()
-{
-    //musicMenuTheme.stop();
-    //musicFightTheme.stop();
-}
+Application::~Application() {}
 
 void Application::Run()
 {
@@ -58,42 +44,18 @@ void Application::ProcessEvents()
             window.close();
         }
 
-        //musicButton.HandleEvent(event);
         exitButton.HandleEvent(event);
 
         if (state == ApplicationState::Menu)
         {
-            //if (musicButton.IsMusicPlaying()) {
-            //    if (musicMenuTheme.getStatus() != Music::Playing) {
-            //        musicMenuTheme.play();
-            //    }
-            //}
-            //else {
-            //    if (musicMenuTheme.getStatus() == Music::Playing) {
-            //        musicMenuTheme.stop();
-            //    }
-            //}
-
             menu.HandleInput(event);
             if (menu.IsStartClicked())
             {
                 state = ApplicationState::Game;
-                //musicMenuTheme.stop();
             }
         }
         else if (state == ApplicationState::Game)
         {
-           /* if (musicButton.IsMusicPlaying()) {
-                if (musicFightTheme.getStatus() != Music::Playing) {
-                    musicFightTheme.play();
-                }
-            }
-            else {
-                if (musicFightTheme.getStatus() == Music::Playing) {
-                    musicFightTheme.stop();
-                }
-            }*/
-
             if (event.type == Event::MouseButtonPressed) {
                 game.HandleMouseClick(event.mouseButton.x, event.mouseButton.y);
             }
@@ -112,7 +74,6 @@ void Application::ProcessEvents()
 void Application::Render()
 {
     window.clear(Color(243, 197, 255));
-    //musicButton.Draw();
     exitButton.Draw();
 
     if (state == ApplicationState::Menu) {

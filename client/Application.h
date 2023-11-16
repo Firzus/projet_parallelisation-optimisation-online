@@ -1,12 +1,10 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
 
 #include "Menu.h"
 #include "Game.h"
 #include "Result.h"
-#include "MusicButton.h"
 #include "ExitButton.h"
 #include "RestartButton.h"
 
@@ -39,8 +37,4 @@ private:
     Result result;
     RestartButton restartButton;
     ExitButton exitButton;
-    //MusicButton musicButton;
-
-    //Music musicMenuTheme;
-    //Music musicFightTheme;
 };

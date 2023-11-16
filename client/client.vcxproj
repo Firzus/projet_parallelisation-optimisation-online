@@ -139,7 +139,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="MusicButton.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RestartButton.h" />
     <ClInclude Include="Result.h" />
@@ -153,7 +152,6 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="MusicButton.cpp" />
     <ClCompile Include="RestartButton.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="TurnMessage.cpp" />
@@ -175,10 +173,6 @@
     <Font Include="assets\fonts\Roboto-Bold.ttf" />
     <Font Include="assets\fonts\Roboto-Medium.ttf" />
     <Font Include="assets\fonts\Roboto-Regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="assets\musics\fight_theme.wav" />
-    <Media Include="assets\musics\menu_theme.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
