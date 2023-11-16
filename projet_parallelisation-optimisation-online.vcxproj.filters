@@ -19,9 +19,6 @@
     <Filter Include="Fichiers de ressources\icons">
       <UniqueIdentifier>{f29f2651-2e4e-419b-b417-3b5b6b79d20b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Fichiers de ressources\musics">
-      <UniqueIdentifier>{b75faad6-6ea4-4ec2-a9eb-17f0949ad289}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -31,9 +28,6 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Menu.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
-    <ClCompile Include="MusicButton.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="ExitButton.cpp">
@@ -60,9 +54,6 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
-    <ClInclude Include="MusicButton.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="ExitButton.h">
@@ -114,13 +105,5 @@
     <Image Include="assets\icons\x.png">
       <Filter>Fichiers de ressources\icons</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Media Include="assets\musics\fight_theme.wav">
-      <Filter>Fichiers de ressources\musics</Filter>
-    </Media>
-    <Media Include="assets\musics\menu_theme.wav">
-      <Filter>Fichiers de ressources\musics</Filter>
-    </Media>
   </ItemGroup>
 </Project>
