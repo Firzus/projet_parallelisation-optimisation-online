@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "projet_parallelisation-optimisation-online", "projet_parallelisation-optimisation-online.vcxproj", "{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "server", "server\server.vcxproj", "{D51FC327-4A1F-4A3F-B784-DA42320C97E3}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "client", "client\client.vcxproj", "{8B08B41A-B8F8-402E-9DC3-AF98A19331BF}"
@@ -17,14 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Debug|x64.ActiveCfg = Debug|x64
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Debug|x64.Build.0 = Debug|x64
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Debug|x86.ActiveCfg = Debug|Win32
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Debug|x86.Build.0 = Debug|Win32
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Release|x64.ActiveCfg = Release|x64
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Release|x64.Build.0 = Release|x64
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Release|x86.ActiveCfg = Release|Win32
-		{9EC7BC03-ECAA-4E59-955E-5734CBFF2812}.Release|x86.Build.0 = Release|Win32
 		{D51FC327-4A1F-4A3F-B784-DA42320C97E3}.Debug|x64.ActiveCfg = Debug|x64
 		{D51FC327-4A1F-4A3F-B784-DA42320C97E3}.Debug|x64.Build.0 = Debug|x64
 		{D51FC327-4A1F-4A3F-B784-DA42320C97E3}.Debug|x86.ActiveCfg = Debug|Win32
