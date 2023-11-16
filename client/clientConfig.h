@@ -1,12 +1,14 @@
-#ifndef WIN32_LEAN_AND_MEAN
-#define WIN32_LEAN_AND_MEAN
-#endif
+#pragma once
+#include "framework.h"
 
-#include <windows.h>
+
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
 #include <stdio.h>
+
+#include "json.hpp"
+using json = nlohmann::json;
 
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
@@ -32,8 +34,8 @@ public:
 private:
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
+
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;
-	const char* sendbuf = "bonjour";
 	char recvbuf[DEFAULT_BUFLEN];
 };

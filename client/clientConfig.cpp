@@ -21,8 +21,7 @@ void clientConfig::InitWinSock() {
 	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
-		//printf("WSAStartup failed: %d\n", iResult);
-		MessageBox(NULL, L"WSAStartup failed:" + iResult, 0, 0);
+		printf("WSAStartup failed: %d\n", iResult);
 		//return 1;
 	}
 }
@@ -32,8 +31,7 @@ void clientConfig::CreateSocket() {
 	// Resolve the server address and port 
 	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
-		//printf("getaddrinfo failed: %d\n", iResult);
-		MessageBox(NULL, L"getaddrinfo failed:" + iResult, 0, 0);
+		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();
 		//return 1;
 	}
@@ -48,8 +46,7 @@ void clientConfig::CreateSocket() {
 
 	// verify if the socket is valid
 	if (ConnectSocket == INVALID_SOCKET) {
-		//printf("Error at socket(): %ld\n", WSAGetLastError());
-		MessageBox(NULL, L"Error at socket():" + WSAGetLastError(), 0, 0);
+		printf("Error at socket(): %ld\n", WSAGetLastError());
 		freeaddrinfo(result);
 		WSACleanup();
 		//return 1;
@@ -72,33 +69,37 @@ void clientConfig::ConnectSocketMethod() {
 	freeaddrinfo(result);
 
 	if (ConnectSocket == INVALID_SOCKET) {
-		//printf("Unable to connect to server!\n");
-		MessageBox(NULL, L"Unable to connect to server!", 0, 0);
+		printf("Unable to connect to server!\n");
 		WSACleanup();
 		//return 1;
 	}
 }
 
 void clientConfig::SendAndReceiveData() {
-	// Send an initial buffer
-	iResult = send(ConnectSocket, sendbuf, (int)strlen(sendbuf), 0);
+	bool test = true;
+	json ex3 = { {"happy", test},{"pi", 0.2}, };
+	// Convertir l'objet JSON en chaîne JSON
+	std::string jsonString = ex3.dump();
+
+	// Utiliser sendbuf dans la portée actuelle
+	iResult = send(ConnectSocket, jsonString.c_str(), jsonString.length(), 0);
 	if (iResult == SOCKET_ERROR) {
-		//printf("send failed: %d\n", WSAGetLastError());
-		MessageBox(NULL, L"send failed:" + WSAGetLastError(), 0, 0);
+		printf("send failed: %d\n", WSAGetLastError());
+		
 		closesocket(ConnectSocket);
 		WSACleanup();
 		//return 1;
 	}
-
-	//printf("Bytes Sent: %ld\n", iResult);
-	MessageBox(NULL, L"Bytes Sent:" + iResult, 0, 0);
+	MessageBox(NULL, "1", 0, 0);
+	printf("Bytes Sent: %ld\n", iResult);
+	
 
 
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		//printf("shutdown failed: %d\n", WSAGetLastError());
-		MessageBox(NULL, L"shutdown failed:" + WSAGetLastError(), 0, 0);
+		printf("shutdown failed: %d\n", WSAGetLastError());
+		
 		closesocket(ConnectSocket);
 		WSACleanup();
 		//return 1;
@@ -108,17 +109,17 @@ void clientConfig::SendAndReceiveData() {
 	do {
 		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			//printf("Bytes received: %d\n", iResult);
-			MessageBox(NULL, L"Bytes received:" + iResult, 0, 0);
+			printf("Bytes received: %d\n", iResult);
+			
 		}
 
 		else if (iResult == 0){
-			//printf("Connection closed\n");
-			MessageBox(NULL, L"Connection closed", 0, 0);
+			printf("Connection closed\n");
+			
 		}
 		else {
-			//printf("recv failed: %d\n", WSAGetLastError());
-			MessageBox(NULL, L"recv failed:" + WSAGetLastError(), 0, 0);
+			printf("recv failed: %d\n", WSAGetLastError());
+			
 		}
 	} while (iResult > 0);
 }
@@ -128,8 +129,7 @@ void clientConfig::Shutdown() {
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		//printf("shutdown failed: %d\n", WSAGetLastError());
-		MessageBox(NULL, L"shutdown failed:" + WSAGetLastError(), 0, 0);
+		printf("shutdown failed: %d\n", WSAGetLastError());
 		closesocket(ConnectSocket);
 		WSACleanup();
 		//return 1;
