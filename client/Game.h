@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 
-#include <sstream>
 #include <array>
 #include <string>
 
@@ -8,9 +7,7 @@
 #include "TurnMessage.h"
 #include "ScoreIndicator.h"
 
-// debug
-#include <iostream>
-#include <windows.h>
+#include "GameManager.h"
 
 using namespace sf;
 using namespace std;
@@ -30,9 +27,10 @@ public:
 	void UpdateScore(char winner);
 	void StartNewRound();
 	void ResetGame();
-	void DetermineFinalWinner();
 	Vector2f GetCellPosition(int row, int col);
 	string GetPlayerName(char currentPlayer);
+	bool IsGameOver();
+	void GetWinner();
 
 private:
 	RenderWindow& window;
@@ -47,6 +45,7 @@ private:
 	array<array<char, 3>, 3> board{};
 
 	bool playerHasWon;
+	bool isGameOver;
 	char currentPlayer;
 	const int screenSize = 500;
 	const int gridWidth = 300;

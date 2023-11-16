@@ -37,17 +37,12 @@ void Game::Draw()
             }
         }
     }
-
-    cout << "Score - Joueur: " << scoreP1 << ", Ordinateur: " << scoreP2<< endl;
-    cout << "Manche : " << currentRound << " sur 3" << endl;
 }
 
 void Game::Update()
 {
     turnMessage.Update(GetPlayerName(currentPlayer));
     scoreIndicator.Update(scoreP1, scoreP2);
-
-    OutputDebugStringA(to_string(currentRound).c_str());
 }
 
 void Game::HandleMouseClick(float x, float y) {
@@ -62,12 +57,10 @@ void Game::HandleMouseClick(float x, float y) {
             board[row][col] = currentPlayer;
 
             if (CheckWin(currentPlayer)) {
-                cout << "le joueur : " << currentPlayer << " a gagne !" << endl;
                 UpdateScore(currentPlayer);
                 StartNewRound();
             }
             else if (CheckDraw()) {
-                cout << "Personne n'a gagne" << endl;
                 StartNewRound();
             }
             else {
@@ -124,22 +117,29 @@ void Game::UpdateScore(char winner) {
 void Game::StartNewRound() {
     currentRound++;
     if (currentRound > 3) {
-        DetermineFinalWinner();
+        GetWinner();
+        isGameOver = true;
     }
     else {
         CleanBoard();
     }
 }
 
-void Game::DetermineFinalWinner() {
+bool Game::IsGameOver()
+{
+    return isGameOver;
+}
+
+void Game::GetWinner()
+{
     if (scoreP1 > scoreP2) {
-        cout << "Le joueur remporte la victoire finale !" << endl;
+        GameManager::GetInstance().SetWinner(GameManager::GetInstance().GetPlayerName());
     }
     else if (scoreP2 > scoreP1) {
-        cout << "L'ordinateur remporte la victoire finale !" << endl;
+        GameManager::GetInstance().SetWinner("Ordinateur");
     }
     else {
-        cout << "La partie se termine par une égalité !" << endl;
+        GameManager::GetInstance().SetWinner("Personne");
     }
 
     ResetGame();
@@ -161,7 +161,7 @@ Vector2f Game::GetCellPosition(int row, int col) {
 
 string Game::GetPlayerName(char currentPlayer) {
     if (currentPlayer == 'O') {
-        return "Player";
+        return GameManager::GetInstance().GetPlayerName();
     }
     else {
         return "Ordinateur";

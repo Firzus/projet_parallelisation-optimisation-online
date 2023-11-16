@@ -49,6 +49,7 @@ void Application::ProcessEvents()
         if (state == ApplicationState::Menu)
         {
             menu.HandleInput(event);
+
             if (menu.IsStartClicked())
             {
                 state = ApplicationState::Game;
@@ -59,12 +60,18 @@ void Application::ProcessEvents()
             if (event.type == Event::MouseButtonPressed) {
                 game.HandleMouseClick(event.mouseButton.x, event.mouseButton.y);
             }
+
+            if (game.IsGameOver())
+            {
+                state = ApplicationState::Result;
+            }
         }
         else if (state == ApplicationState::Result)
         {
             result.HandleInput(event);
 
-            if (restartButton.HandleEvent(event)) {
+            if (result.IsRestartButtonClicked())
+            {
                 state = ApplicationState::Menu;
             }
         }
@@ -92,4 +99,5 @@ void Application::Render()
 void Application::Update()
 {
     game.Update();
+    result.Update();
 }
