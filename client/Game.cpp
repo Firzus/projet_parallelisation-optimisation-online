@@ -115,8 +115,7 @@ void Game::UpdateScore(char winner) {
 }
 
 void Game::StartNewRound() {
-    currentRound++;
-    if (currentRound > 3) {
+    if (scoreP1 >= 3 || scoreP2 >= 3) {
         GetWinner();
         isGameOver = true;
     }
@@ -130,30 +129,32 @@ bool Game::IsGameOver()
     return isGameOver;
 }
 
-void Game::GetWinner()
-{
+void Game::GetWinner() {
     if (scoreP1 > scoreP2) {
         GameManager::GetInstance().SetWinner(GameManager::GetInstance().GetPlayerName());
     }
     else if (scoreP2 > scoreP1) {
         GameManager::GetInstance().SetWinner("Ordinateur");
     }
-    else {
-        GameManager::GetInstance().SetWinner("Personne");
-    }
 
-    ResetGame();
+    if (isGameOver) {
+        ResetGame();
+    }
 }
 
 void Game::ResetGame() {
     playerHasWon = false;
     currentPlayer = 'O';
-    scoreP1 = 0;
-    scoreP2 = 0;
-    currentRound = 1;
+
+    if (isGameOver) {
+        scoreP1 = 0;
+        scoreP2 = 0;
+        isGameOver = false;
+    }
 
     CleanBoard();
 }
+
 
 Vector2f Game::GetCellPosition(int row, int col) {
     return Vector2f(offset + col * cellSize, offset + row * cellSize);
