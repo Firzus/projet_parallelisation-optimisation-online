@@ -157,7 +157,7 @@ void Game::ResetGame() {
 
 
 Vector2f Game::GetCellPosition(int row, int col) {
-    return Vector2f(offset + col * cellSize, offset + row * cellSize);
+    return Vector2f(static_cast<float>(offset + col * cellSize), static_cast<float>(offset + row * cellSize));
 }
 
 string Game::GetPlayerName(char currentPlayer) {
