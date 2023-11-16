@@ -58,6 +58,12 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
+    <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="clientConfig.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -93,6 +99,9 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
+     <Filter>Fichiers sources</Filter>
+      </ClCompile>
+    <ClCompile Include="clientConfig.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

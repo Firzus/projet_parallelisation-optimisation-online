@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
+#include "framework.h"
 
 #include "Menu.h"
 #include "Game.h"
