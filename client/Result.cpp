@@ -25,7 +25,7 @@ void Result::Draw()
 
 void Result::Update()
 {
-    textWhoWin.setString(GameManager::GetInstance().GetWinner() + " a gagné");
+    textWhoWin.setString(GameManager::GetInstance().GetWinner() + " gagne");
 
     FloatRect textRect = textWhoWin.getGlobalBounds();
     textWhoWin.setPosition(Vector2f(500 / 2 - textRect.width / 2, 236));

@@ -58,7 +58,7 @@ void Application::ProcessEvents()
         else if (state == ApplicationState::Game)
         {
             if (event.type == Event::MouseButtonPressed) {
-                game.HandleMouseClick(event.mouseButton.x, event.mouseButton.y);
+                game.HandleMouseClick(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
             }
 
             if (game.IsGameOver())

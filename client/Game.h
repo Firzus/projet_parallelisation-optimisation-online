@@ -52,8 +52,6 @@ private:
 	const int gridSize = 3;
 	const int cellSize = 100;
 	const int offset = 118;
-
 	int scoreP1;
 	int scoreP2;
-	int currentRound;
 };
