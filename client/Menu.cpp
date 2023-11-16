@@ -1,7 +1,9 @@
 #include "Menu.h"
 
-Menu::Menu(sf::RenderWindow& window) : window(window), playClicked(false)
+Menu::Menu(sf::RenderWindow& window) : window(window)
 {
+    playClicked = false;
+
     fontRegular.loadFromFile("assets/fonts/Roboto-Regular.ttf");
     fontSemiBold.loadFromFile("assets/fonts/Roboto-Medium.ttf");
     fontBold.loadFromFile("assets/fonts/Roboto-Bold.ttf");
@@ -40,6 +42,8 @@ Menu::Menu(sf::RenderWindow& window) : window(window), playClicked(false)
     FloatRect textRect = textStartButton.getLocalBounds();
     textStartButton.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     textStartButton.setPosition(rectStartButton.getPosition() + Vector2f(rectStartButton.getSize() / 2.0f));
+
+    GameManager& manager = GameManager::GetInstance();
 }
 
 Menu::~Menu() {}
@@ -72,10 +76,12 @@ void Menu::HandleInput(Event& event)
     if (event.mouseButton.button == Mouse::Left) {
         Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
         if (rectStartButton.getGlobalBounds().contains(mousePos)) {
+            GameManager::GetInstance().SetPlayerName(userInput);
             playClicked = true;
         }
     }
     else if (event.type == Event::KeyPressed && event.key.code == Keyboard::Enter) {
+        GameManager::GetInstance().SetPlayerName(userInput);
         playClicked = true;
     }
 }

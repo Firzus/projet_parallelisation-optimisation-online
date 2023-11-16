@@ -3,15 +3,16 @@
 Game::Game(RenderWindow& window) : 
 window(window),
 grid(window),
+scoreIndicator(window),
 turnMessage(window)
 {
-	textureX.loadFromFile("assets/icons/x.png");
 	textureO.loadFromFile("assets/icons/o.png");
+	textureX.loadFromFile("assets/icons/x.png");
 
-	spriteX.setTexture(textureX);
 	spriteO.setTexture(textureO);
+	spriteX.setTexture(textureX);
 
-    CleanBoard();
+    ResetGame();
 }
 
 Game::~Game() {}
@@ -20,6 +21,7 @@ void Game::Draw()
 {
 	grid.Draw();
     turnMessage.Draw();
+    scoreIndicator.Draw();
 
     for (int row = 0; row < gridSize; ++row) {
         for (int col = 0; col < gridSize; ++col) {
@@ -40,6 +42,7 @@ void Game::Draw()
 void Game::Update()
 {
     turnMessage.Update(GetPlayerName(currentPlayer));
+    scoreIndicator.Update(scoreP1, scoreP2);
 }
 
 void Game::HandleMouseClick(float x, float y) {
@@ -54,12 +57,11 @@ void Game::HandleMouseClick(float x, float y) {
             board[row][col] = currentPlayer;
 
             if (CheckWin(currentPlayer)) {
-                cout << "le joueur : " << currentPlayer << " a gagne !" << endl;
-                CleanBoard();
+                UpdateScore(currentPlayer);
+                StartNewRound();
             }
             else if (CheckDraw()) {
-                cout << "Personne n'a gagne" << endl;
-                CleanBoard();
+                StartNewRound();
             }
             else {
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
@@ -103,13 +105,63 @@ bool Game::CheckDraw() {
     return true;
 }
 
+void Game::UpdateScore(char winner) {
+    if (winner == 'O') {
+        scoreP1++;
+    }
+    else if (winner == 'X') {
+        scoreP2++;
+    }
+}
+
+void Game::StartNewRound() {
+    currentRound++;
+    if (currentRound > 3) {
+        GetWinner();
+        isGameOver = true;
+    }
+    else {
+        CleanBoard();
+    }
+}
+
+bool Game::IsGameOver()
+{
+    return isGameOver;
+}
+
+void Game::GetWinner()
+{
+    if (scoreP1 > scoreP2) {
+        GameManager::GetInstance().SetWinner(GameManager::GetInstance().GetPlayerName());
+    }
+    else if (scoreP2 > scoreP1) {
+        GameManager::GetInstance().SetWinner("Ordinateur");
+    }
+    else {
+        GameManager::GetInstance().SetWinner("Personne");
+    }
+
+    ResetGame();
+}
+
+void Game::ResetGame() {
+    playerHasWon = false;
+    currentPlayer = 'O';
+    scoreP1 = 0;
+    scoreP2 = 0;
+    currentRound = 1;
+
+    CleanBoard();
+}
+
 Vector2f Game::GetCellPosition(int row, int col) {
     return Vector2f(offset + col * cellSize, offset + row * cellSize);
 }
 
 string Game::GetPlayerName(char currentPlayer) {
-    if (currentPlayer == 'X') {
-        return "Player";
+    if (currentPlayer == 'O') {
+        return GameManager::GetInstance().GetPlayerName();
     }
     else {
         return "Ordinateur";
@@ -120,6 +172,4 @@ void Game::CleanBoard() {
     for (auto& row : board) {
         row.fill(' ');
     }
-    playerHasWon = false;
-    currentPlayer = 'X';
 }
