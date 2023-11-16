@@ -91,20 +91,20 @@ void serverConfig::AcceptConnexion() {
 void serverConfig::ReceiveAndsendData() {
 	// Receive until the peer shuts down the connection
 	do {
-		recvbuf[iResult] = '\0';
-		std::string jsonString(recvbuf);
-
-
-		json receivedJson = json::parse(jsonString);
-
-
-		// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
-		bool happy = receivedJson["happy"];
-		float pi = receivedJson["pi"];
-
 
 		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+
 		if (iResult > 0) {
+
+			recvbuf[iResult] = '\0';
+			std::string jsonString(recvbuf);
+
+			json receivedJson = json::parse(jsonString);
+
+			// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
+			bool happy = receivedJson["happy"];
+			float pi = receivedJson["pi"];
+
 			printf("Bytes received: %d\n", iResult);
 			// Echo the buffer back to the sender
 			iSendResult = send(ClientSocket, recvbuf, iResult, 0);

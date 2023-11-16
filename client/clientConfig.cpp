@@ -78,7 +78,7 @@ void clientConfig::ConnectSocketMethod() {
 void clientConfig::SendAndReceiveData() {
 	bool test = true;
 	json ex3 = { {"happy", test},{"pi", 0.2}, };
-	// Convertir l'objet JSON en chaîne JSON
+	// Convertir l'objet JSON en chaû‹e JSON
 	std::string jsonString = ex3.dump();
 
 	// Utiliser sendbuf dans la portée actuelle
