@@ -37,7 +37,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         return FALSE;
     }
-    //clientConfig client;
+    clientConfig client;
     app.Run();
 
     // Initialise les chaînes globales
