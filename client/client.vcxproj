@@ -142,12 +142,14 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="NetworkButton.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="RestartButton.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="ScoreIndicator.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TurnMessage.h" />
+    <ClInclude Include="WaitingScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -158,10 +160,12 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="NetworkButton.cpp" />
     <ClCompile Include="RestartButton.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="ScoreIndicator.cpp" />
     <ClCompile Include="TurnMessage.cpp" />
+    <ClCompile Include="WaitingScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="client.rc" />

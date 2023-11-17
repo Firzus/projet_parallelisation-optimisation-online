@@ -26,10 +26,10 @@ void clientConfig::InitWinSock() {
 	}
 }
 
-void clientConfig::CreateSocket() {
-
+void clientConfig::CreateSocket()
+{
 	// Resolve the server address and port 
-	iResult = getaddrinfo("10.1.3.100", DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();
@@ -80,7 +80,7 @@ void clientConfig::SendAndReceiveData() {
 	std::string sendbuf = data.dump();
 
 	// Utiliser sendbuf dans la portée actuelle
-	iResult = send(ConnectSocket, sendbuf.c_str(), sendbuf.length(), 0);
+	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
 		

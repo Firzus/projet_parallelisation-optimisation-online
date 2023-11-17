@@ -7,6 +7,8 @@ game(window),
 result(window),
 exitButton(window),
 restartButton(window),
+networkButton(window),
+waitingScreen(window),
 state(ApplicationState::Menu)
 {}
 
@@ -82,6 +84,7 @@ void Application::Render()
 {
     window.clear(Color(243, 197, 255));
     exitButton.Draw();
+    networkButton.Draw();
 
     if (state == ApplicationState::Menu) {
         menu.Draw();
@@ -93,6 +96,12 @@ void Application::Render()
         result.Draw();
         restartButton.Draw();
     }
+
+    if (!GameManager::GetInstance().GetStateConnection())
+    {
+        waitingScreen.Draw();
+    }
+
     window.display();
 }
 
@@ -100,4 +109,6 @@ void Application::Update()
 {
     game.Update();
     result.Update();
+    networkButton.Update();
+    waitingScreen.Update();
 }
