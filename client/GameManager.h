@@ -30,7 +30,7 @@ private:
     string playerName;
     string winnerName;
 
-    bool isConnected = false;
+    bool isConnected = true;
 };
 
 #endif // GAMEMANAGER_H
