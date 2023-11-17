@@ -109,7 +109,6 @@ void serverConfig::ReceiveAndsendData() {
 					OutputDebugString("\n");
 
 					check = receivedJson["check"];
-					OutputDebugStringA(jsonString.c_str());
 					// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
 					//bool happy = receivedJson["happy"];
 					//float pi = receivedJson["pi"];
