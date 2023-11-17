@@ -29,7 +29,7 @@ void clientConfig::InitWinSock() {
 void clientConfig::CreateSocket() {
 
 	// Resolve the server address and port 
-	iResult = getaddrinfo("10.1.3.100", DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(DEFAULT_IP, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();
@@ -78,7 +78,7 @@ void clientConfig::ConnectSocketMethod() {
 void clientConfig::SendAndReceiveData() {
 	// Convertir l'objet JSON en chaû‹e JSON
 	std::string sendbuf = data.dump();
-
+	OutputDebugStringA(sendbuf.c_str());
 	// Utiliser sendbuf dans la portée actuelle
 	iResult = send(ConnectSocket, sendbuf.c_str(), sendbuf.length(), 0);
 	if (iResult == SOCKET_ERROR) {

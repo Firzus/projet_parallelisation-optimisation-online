@@ -1,4 +1,5 @@
 #include "serverConfig.h"
+#include <iostream>
 
 serverConfig::serverConfig()
 {
@@ -89,45 +90,75 @@ void serverConfig::AcceptConnexion() {
 }
 
 void serverConfig::ReceiveAndsendData() {
-	// Receive until the peer shuts down the connection
-	do {
+	while (loop == false) {
+		//check if client socket is valid
+		if (ClientSocket != INVALID_SOCKET) {
+			// Receive until the peer shuts down the connection
+			do {
 
-		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+				if (iResult > 0) {
 
-		if (iResult > 0) {
+					//recvbuf[iResult] = '\0';
+					std::string jsonString(recvbuf);
 
-			recvbuf[iResult] = '\0';
+					std::cout << "Chaine JSON recue : " << jsonString << std::endl;
 
-			std::string jsonString(recvbuf);
+					json receivedJson = json::parse(jsonString);
+					OutputDebugStringA(jsonString.c_str());
+					OutputDebugString("\n");
 
-			json receivedJson = json::parse(jsonString);
+					check = receivedJson["check"];
+					OutputDebugStringA(jsonString.c_str());
+					// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
+					//bool happy = receivedJson["happy"];
+					//float pi = receivedJson["pi"];
 
-			// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
-			// exemple :
-			//std::string user = receivedJson["UserName"];
+					// Faites quelque chose avec les valeurs reçues
+					//std::cout << "happy: " << happy << ", pi: " << pi << std::endl;
 
-			printf("Bytes received: %d\n", iResult);
-			// Echo the buffer back to the sender
-			iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-			if (iSendResult == SOCKET_ERROR) {
-				printf("send failed: %d\n", WSAGetLastError());
+					printf("\n");
+					printf("Bytes received: %d\n", iResult);
+
+					// Echo the buffer back to the sender
+					iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+					if (iSendResult == SOCKET_ERROR) {
+						printf("send failed: %d\n", WSAGetLastError());
+						closesocket(ClientSocket);
+						WSACleanup();
+					}
+					printf("Bytes sent: %d\n", iSendResult);
+				}
+				else if (iResult == 0) {
+					printf("Connection closing...\n");
+				}
+				else {
+					printf("recv failed: %d\n", WSAGetLastError());
+					closesocket(ClientSocket);
+					WSACleanup();
+				}
+			} while (iResult > 0);
+		}
+		if (check == 1) {
+			iResult = shutdown(ClientSocket, SD_SEND);
+			if (iResult == SOCKET_ERROR) {
+				printf("shutdown failed: %d\n", WSAGetLastError());
 				closesocket(ClientSocket);
 				WSACleanup();
-				//return 1;
 			}
-			printf("Bytes sent: %d\n", iSendResult);
-		}
-		else if (iResult == 0) {
-			printf("Connection closing...\n");
-		}
-		else {
-			printf("recv failed: %d\n", WSAGetLastError());
+			// cleanup
 			closesocket(ClientSocket);
 			WSACleanup();
-			//return 1;
+			loop = true;
+		}
+		ClientSocket = accept(ListenSocket, NULL, NULL);
+		if (ClientSocket == INVALID_SOCKET) {
+			printf("accept failed: %d\n", WSAGetLastError());
+			closesocket(ListenSocket);
+			WSACleanup();
 		}
 
-	} while (iResult > 0);
+	}
 }
 
 void serverConfig::Shutdown() {
