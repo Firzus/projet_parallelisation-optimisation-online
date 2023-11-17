@@ -96,6 +96,12 @@ void Application::Render()
         result.Draw();
         restartButton.Draw();
     }
+
+    if (!GameManager::GetInstance().GetStateConnection())
+    {
+        waitingScreen.Draw();
+    }
+
     window.display();
 }
 

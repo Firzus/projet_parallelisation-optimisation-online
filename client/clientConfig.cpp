@@ -80,7 +80,7 @@ void clientConfig::SendAndReceiveData() {
 	std::string sendbuf = data.dump();
 
 	// Utiliser sendbuf dans la portée actuelle
-	iResult = send(ConnectSocket, sendbuf.c_str(), sendbuf.length(), 0);
+	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
 		

@@ -10,6 +10,7 @@
 #include "RestartButton.h"
 #include "NetworkButton.h"
 #include "WaitingScreen.h"
+#include "GameManager.h"
 
 #include <windows.h>
 
