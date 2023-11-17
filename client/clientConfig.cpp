@@ -88,7 +88,6 @@ void clientConfig::SendAndReceiveData() {
 		WSACleanup();
 		//return 1;
 	}
-	MessageBox(NULL, "1", 0, 0);
 	printf("Bytes Sent: %ld\n", iResult);
 	
 
