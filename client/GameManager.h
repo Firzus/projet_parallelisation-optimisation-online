@@ -21,11 +21,16 @@ public:
     void SetWinner(const string& name);
     string GetWinner() const;
 
+    void SetConnection(const bool& state);
+    bool GetStateConnection() const;
+
 private:
     GameManager() {}
 
     string playerName;
     string winnerName;
+
+    bool isConnected = false;
 };
 
 #endif // GAMEMANAGER_H

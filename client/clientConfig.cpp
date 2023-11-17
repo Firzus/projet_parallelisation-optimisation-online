@@ -26,10 +26,10 @@ void clientConfig::InitWinSock() {
 	}
 }
 
-void clientConfig::CreateSocket() {
-
+void clientConfig::CreateSocket()
+{
 	// Resolve the server address and port 
-	iResult = getaddrinfo("10.1.3.100", DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();

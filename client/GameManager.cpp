@@ -17,3 +17,13 @@ string GameManager::GetWinner() const
 {
     return winnerName;
 }
+
+void GameManager::SetConnection(const bool& state)
+{
+    isConnected = state;
+}
+
+bool GameManager::GetStateConnection() const
+{
+    return isConnected;
+}
