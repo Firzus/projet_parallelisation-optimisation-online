@@ -20,7 +20,7 @@ using json = nlohmann::json;
 class clientConfig {
 
 public:
-	struct addrinfo* result = NULL,* ptr = NULL,hints;
+	struct addrinfo* result = NULL, * ptr = NULL, hints;
 
 	clientConfig();
 
@@ -35,7 +35,14 @@ public:
 private:
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
-
+	json data = {
+		{"UserName", "fabien"},
+		{"CurrentPlayer", "X"},
+		{"arrayX", 2},
+		{"arrayY", 2},
+		{"PositionMouseX", 2.0},
+		{"PositionMouseY", 2.0},
+	};
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;
 	char recvbuf[DEFAULT_BUFLEN];

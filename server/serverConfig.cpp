@@ -97,13 +97,14 @@ void serverConfig::ReceiveAndsendData() {
 		if (iResult > 0) {
 
 			recvbuf[iResult] = '\0';
+
 			std::string jsonString(recvbuf);
 
 			json receivedJson = json::parse(jsonString);
 
 			// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
-			bool happy = receivedJson["happy"];
-			float pi = receivedJson["pi"];
+			// exemple :
+			//std::string user = receivedJson["UserName"];
 
 			printf("Bytes received: %d\n", iResult);
 			// Echo the buffer back to the sender

@@ -29,7 +29,7 @@ void clientConfig::InitWinSock() {
 void clientConfig::CreateSocket() {
 
 	// Resolve the server address and port 
-	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo("10.1.3.100", DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();
@@ -76,13 +76,11 @@ void clientConfig::ConnectSocketMethod() {
 }
 
 void clientConfig::SendAndReceiveData() {
-	bool test = true;
-	json ex3 = { {"happy", test},{"pi", 0.2}, };
 	// Convertir l'objet JSON en chaû‹e JSON
-	std::string jsonString = ex3.dump();
+	std::string sendbuf = data.dump();
 
 	// Utiliser sendbuf dans la portée actuelle
-	iResult = send(ConnectSocket, jsonString.c_str(), jsonString.length(), 0);
+	iResult = send(ConnectSocket, sendbuf.c_str(), sendbuf.length(), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
 		
@@ -106,22 +104,22 @@ void clientConfig::SendAndReceiveData() {
 	}
 
 	// Receive data until the server closes the connection
-	do {
-		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0) {
-			printf("Bytes received: %d\n", iResult);
-			
-		}
+	//do {
+	//	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+	//	if (iResult > 0) {
+	//		printf("Bytes received: %d\n", iResult);
+	//		
+	//	}
 
-		else if (iResult == 0){
-			printf("Connection closed\n");
-			
-		}
-		else {
-			printf("recv failed: %d\n", WSAGetLastError());
-			
-		}
-	} while (iResult > 0);
+	//	else if (iResult == 0){
+	//		printf("Connection closed\n");
+	//		
+	//	}
+	//	else {
+	//		printf("recv failed: %d\n", WSAGetLastError());
+	//		
+	//	}
+	//} while (iResult > 0);
 }
 
 void clientConfig::Shutdown() {
