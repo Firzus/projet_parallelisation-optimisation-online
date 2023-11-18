@@ -1,7 +1,10 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
+
 #include "framework.h"
+
+#include "clientConfig.h"
 
 #include "Menu.h"
 #include "Game.h"
@@ -35,6 +38,8 @@ private:
 
     RenderWindow window;
     ApplicationState state;
+
+    clientConfig client;
 
     Menu menu;
     Game game;

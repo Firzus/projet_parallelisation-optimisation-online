@@ -1,5 +1,8 @@
 #include <SFML/Graphics.hpp>
 
+#include "GameManager.h"
+#include "clientConfig.h"
+
 using namespace sf;
 
 class ExitButton
@@ -9,7 +12,7 @@ public:
 	~ExitButton();
 
 	void Draw();
-	void HandleEvent(Event& event);
+	void HandleEvent(Event& event, clientConfig& client);
 
 private:
 	RenderWindow& window;

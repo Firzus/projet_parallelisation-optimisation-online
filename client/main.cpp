@@ -1,7 +1,6 @@
 // client.cpp : Définit le point d'entrée de l'application.
 //
 
-#include "clientConfig.h"
 #include "framework.h"
 #include "resource.h"
 #include "Application.h"
@@ -37,7 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     {
         return FALSE;
     }
-    clientConfig client;
+
     app.Run();
 
     // Initialise les chaînes globales

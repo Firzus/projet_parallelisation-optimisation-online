@@ -15,10 +15,11 @@ void ExitButton::Draw()
 	window.draw(spriteExitButton);
 }
 
-void ExitButton::HandleEvent(Event& event)
+void ExitButton::HandleEvent(Event& event, clientConfig& client)
 {
 	if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
 		if (spriteExitButton.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window)))) {
+			client.Shutdown();
 			window.close();
 		}
 	}

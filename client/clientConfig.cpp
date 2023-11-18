@@ -6,8 +6,12 @@ clientConfig::clientConfig()
 	InitWinSock();
 	CreateSocket();
 	ConnectSocketMethod();
+
+	// Update
 	SendAndReceiveData();
-	Shutdown();
+
+	// DÃ©co
+	//Shutdown();
 }
 
 void clientConfig::AddrInfo() {
@@ -29,7 +33,7 @@ void clientConfig::InitWinSock() {
 void clientConfig::CreateSocket()
 {
 	// Resolve the server address and port 
-	iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
+	iResult = getaddrinfo(DEFAULT_IP, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();
@@ -61,25 +65,26 @@ void clientConfig::ConnectSocketMethod() {
 		ConnectSocket = INVALID_SOCKET;
 	}
 
-
 	// Should really try the next address returned by getaddrinfo
 	// if the connect call failed
 	// But for this simple example we just free the resources
 	// returned by getaddrinfo and print an error message
 	freeaddrinfo(result);
 
+	GameManager::GetInstance().SetConnection(true);
+
 	if (ConnectSocket == INVALID_SOCKET) {
 		printf("Unable to connect to server!\n");
+		GameManager::GetInstance().SetConnection(false);
 		WSACleanup();
-		//return 1;
 	}
 }
 
 void clientConfig::SendAndReceiveData() {
-	// Convertir l'objet JSON en chaû‹e JSON
+	// Convertir l'objet JSON en chaï¿½ï¿½e JSON
 	std::string sendbuf = data.dump();
-
-	// Utiliser sendbuf dans la portée actuelle
+	OutputDebugStringA(sendbuf.c_str());
+	// Utiliser sendbuf dans la portï¿½e actuelle
 	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
@@ -88,11 +93,8 @@ void clientConfig::SendAndReceiveData() {
 		WSACleanup();
 		//return 1;
 	}
-	MessageBox(NULL, "1", 0, 0);
 	printf("Bytes Sent: %ld\n", iResult);
 	
-
-
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {

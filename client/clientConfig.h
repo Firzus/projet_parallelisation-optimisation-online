@@ -9,8 +9,9 @@ using json = nlohmann::json;
 #include <iphlpapi.h>
 #include <stdio.h>
 
+#include "GameManager.h"
 
-
+#define DEFAULT_IP NULL
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
 #pragma comment (lib, "Ws2_32.lib")
@@ -18,7 +19,6 @@ using json = nlohmann::json;
 #pragma comment (lib, "AdvApi32.lib")
 
 class clientConfig {
-
 public:
 	struct addrinfo* result = NULL, * ptr = NULL, hints;
 
@@ -31,7 +31,6 @@ public:
 	void SendAndReceiveData();
 	void Shutdown();
 
-
 private:
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
@@ -42,6 +41,7 @@ private:
 		{"arrayY", 2},
 		{"PositionMouseX", 2.0},
 		{"PositionMouseY", 2.0},
+		{"check", 0},
 	};
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;
