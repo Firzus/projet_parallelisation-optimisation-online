@@ -43,10 +43,11 @@ void Application::ProcessEvents()
     while (window.pollEvent(event)) {
         if (event.type == Event::Closed)
         {
+            client.Shutdown();
             window.close();
         }
 
-        exitButton.HandleEvent(event);
+        exitButton.HandleEvent(event, client);
 
         if (state == ApplicationState::Menu)
         {
@@ -111,4 +112,7 @@ void Application::Update()
     result.Update();
     networkButton.Update();
     waitingScreen.Update();
+
+    bool state = GameManager::GetInstance().GetStateConnection();
+    OutputDebugStringA(std::to_string(state ? 1 : 0).c_str());
 }

@@ -6,8 +6,12 @@ clientConfig::clientConfig()
 	InitWinSock();
 	CreateSocket();
 	ConnectSocketMethod();
+
+	// Update
 	SendAndReceiveData();
-	Shutdown();
+
+	// Déco
+	//Shutdown();
 }
 
 void clientConfig::AddrInfo() {
@@ -61,17 +65,18 @@ void clientConfig::ConnectSocketMethod() {
 		ConnectSocket = INVALID_SOCKET;
 	}
 
-
 	// Should really try the next address returned by getaddrinfo
 	// if the connect call failed
 	// But for this simple example we just free the resources
 	// returned by getaddrinfo and print an error message
 	freeaddrinfo(result);
 
+	GameManager::GetInstance().SetConnection(true);
+
 	if (ConnectSocket == INVALID_SOCKET) {
 		printf("Unable to connect to server!\n");
+		GameManager::GetInstance().SetConnection(false);
 		WSACleanup();
-		//return 1;
 	}
 }
 
@@ -90,8 +95,6 @@ void clientConfig::SendAndReceiveData() {
 	}
 	printf("Bytes Sent: %ld\n", iResult);
 	
-
-
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {

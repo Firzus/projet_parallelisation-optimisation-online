@@ -25,12 +25,12 @@ public:
     bool GetStateConnection() const;
 
 private:
-    GameManager() {}
+    GameManager() {};
 
     string playerName;
     string winnerName;
 
-    bool isConnected = true;
+    bool isConnected = false;
 };
 
 #endif // GAMEMANAGER_H
