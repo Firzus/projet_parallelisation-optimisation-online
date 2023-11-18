@@ -26,8 +26,8 @@ void clientConfig::InitWinSock() {
 	}
 }
 
-void clientConfig::CreateSocket() {
-
+void clientConfig::CreateSocket()
+{
 	// Resolve the server address and port 
 	iResult = getaddrinfo(DEFAULT_IP, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
@@ -76,11 +76,11 @@ void clientConfig::ConnectSocketMethod() {
 }
 
 void clientConfig::SendAndReceiveData() {
-	// Convertir l'objet JSON en chaû‹e JSON
+	// Convertir l'objet JSON en chaï¿½ï¿½e JSON
 	std::string sendbuf = data.dump();
 	OutputDebugStringA(sendbuf.c_str());
-	// Utiliser sendbuf dans la portée actuelle
-	iResult = send(ConnectSocket, sendbuf.c_str(), sendbuf.length(), 0);
+	// Utiliser sendbuf dans la portï¿½e actuelle
+	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
 		

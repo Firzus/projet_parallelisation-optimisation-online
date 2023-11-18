@@ -8,6 +8,9 @@
 #include "Result.h"
 #include "ExitButton.h"
 #include "RestartButton.h"
+#include "NetworkButton.h"
+#include "WaitingScreen.h"
+#include "GameManager.h"
 
 #include <windows.h>
 
@@ -38,4 +41,6 @@ private:
     Result result;
     RestartButton restartButton;
     ExitButton exitButton;
+    NetworkButton networkButton;
+    WaitingScreen waitingScreen;
 };
