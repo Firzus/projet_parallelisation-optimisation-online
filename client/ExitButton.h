@@ -12,10 +12,12 @@ public:
 	~ExitButton();
 
 	void Draw();
-	void HandleEvent(Event& event, clientConfig& client);
+	void HandleEvent(Event& event);
 
 private:
 	RenderWindow& window;
+
+	clientConfig  client;
 
 	Texture textureExitButton;
 	Sprite spriteExitButton;
