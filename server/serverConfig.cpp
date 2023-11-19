@@ -105,7 +105,7 @@ void serverConfig::ReceiveAndsendData() {
 				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 				if (iResult > 0) {
 
-					ParseStringRevToJson();
+					JsonObjectToJsonFile();
 
 					/*printf("\n");
 					printf("Bytes received: %d\n", iResult);*/
@@ -166,15 +166,17 @@ void serverConfig::Shutdown() {
 	WSACleanup();
 }
 
-void serverConfig::ParseStringRevToJson()
+void serverConfig::JsonObjectToJsonFile()
 {
 	//Get string data
 	std::string jsonString(recvbuf);
+
 	//parse into json object
 	json receivedJson = json::parse(jsonString);
 	OutputDebugStringA(jsonString.c_str());
 	OutputDebugString("\n");
 
+	//Json object to Json File
 	std::fstream jsonFile("Data.json");
 
 	if (jsonFile.is_open()) {
@@ -188,4 +190,29 @@ void serverConfig::ParseStringRevToJson()
 	}
 
 	check = receivedJson["check"];
+}
+
+json serverConfig::JsonFileToJsonObject()
+{
+	//json file to json object
+	std::fstream jsonFile("Data.json");
+
+	if (jsonFile.is_open()) {
+
+		json jsonObject = json::parse(jsonFile);
+
+		jsonFile.close();
+		return jsonObject;
+	}
+	else {
+		OutputDebugString("Impossible de lire le fichier \n");
+	}
+}
+
+std::string serverConfig::JsonObjectToString()
+{
+	//parse json object to string
+	std::string data = JsonFileToJsonObject().dump();
+
+	return data;
 }

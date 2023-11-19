@@ -34,7 +34,9 @@ public:
 
 
 private:
-	void ParseStringRevToJson();
+	void JsonObjectToJsonFile();
+	json JsonFileToJsonObject();
+	std::string JsonObjectToString();
 
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;

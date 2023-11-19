@@ -41,7 +41,7 @@ private:
 		{"arrayY", 2},
 		{"PositionMouseX", 2.0},
 		{"PositionMouseY", 2.0},
-		{"check", 0},
+		{"check", 1},
 	};
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;
