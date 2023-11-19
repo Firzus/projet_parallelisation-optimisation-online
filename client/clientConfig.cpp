@@ -25,7 +25,8 @@ void clientConfig::InitWinSock() {
 	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
-		printf("WSAStartup failed: %d\n", iResult);
+		OutputDebugStringA("WSAStartup failed: %d\n" + iResult);
+		OutputDebugString("\n");
 		//return 1;
 	}
 }
@@ -35,7 +36,8 @@ void clientConfig::CreateSocket()
 	// Resolve the server address and port 
 	iResult = getaddrinfo(DEFAULT_IP, DEFAULT_PORT, &hints, &result);
 	if (iResult != 0) {
-		printf("getaddrinfo failed: %d\n", iResult);
+		OutputDebugStringA("getaddrinfo failed: %d\n" + iResult);
+		OutputDebugString("\n");
 		WSACleanup();
 		//return 1;
 	}
@@ -50,7 +52,8 @@ void clientConfig::CreateSocket()
 
 	// verify if the socket is valid
 	if (ConnectSocket == INVALID_SOCKET) {
-		printf("Error at socket(): %ld\n", WSAGetLastError());
+		OutputDebugStringA("Error at socket(): %ld\n" + WSAGetLastError());
+		OutputDebugString("\n");
 		freeaddrinfo(result);
 		WSACleanup();
 		//return 1;
@@ -74,7 +77,8 @@ void clientConfig::ConnectSocketMethod() {
 	GameManager::GetInstance().SetConnection(true);
 
 	if (ConnectSocket == INVALID_SOCKET) {
-		printf("Unable to connect to server!\n");
+		OutputDebugString("Unable to connect to server!\n");
+		OutputDebugString("\n");
 		GameManager::GetInstance().SetConnection(false);
 		WSACleanup();
 	}
@@ -84,22 +88,23 @@ void clientConfig::SendAndReceiveData() {
 	// Convertir l'objet JSON en cha��e JSON
 	std::string sendbuf = data.dump();
 	OutputDebugStringA(sendbuf.c_str());
+	OutputDebugString("\n");
 	// Utiliser sendbuf dans la port�e actuelle
 	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iResult == SOCKET_ERROR) {
-		printf("send failed: %d\n", WSAGetLastError());
-		
+		OutputDebugStringA("send failed: %d\n" + WSAGetLastError());
+		OutputDebugString("\n");
 		closesocket(ConnectSocket);
 		WSACleanup();
 		//return 1;
 	}
-	printf("Bytes Sent: %ld\n", iResult);
+	//printf("Bytes Sent: %ld\n", iResult);
 	
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed: %d\n", WSAGetLastError());
-		
+		OutputDebugStringA("shutdown failed: %d\n" + WSAGetLastError());
+		OutputDebugString("\n");
 		closesocket(ConnectSocket);
 		WSACleanup();
 		//return 1;
@@ -129,7 +134,8 @@ void clientConfig::Shutdown() {
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed: %d\n", WSAGetLastError());
+		OutputDebugStringA("shutdown failed: %d\n" + WSAGetLastError());
+		OutputDebugString("\n");
 		closesocket(ConnectSocket);
 		WSACleanup();
 		//return 1;

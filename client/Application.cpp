@@ -114,5 +114,5 @@ void Application::Update()
     waitingScreen.Update();
 
     bool state = GameManager::GetInstance().GetStateConnection();
-    OutputDebugStringA(std::to_string(state ? 1 : 0).c_str());
+    //OutputDebugStringA(std::to_string(state ? 1 : 0).c_str());
 }

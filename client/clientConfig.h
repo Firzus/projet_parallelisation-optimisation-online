@@ -11,7 +11,7 @@ using json = nlohmann::json;
 
 #include "GameManager.h"
 
-#define DEFAULT_IP NULL
+#define DEFAULT_IP "192.168.1.13"
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
 #pragma comment (lib, "Ws2_32.lib")
@@ -41,7 +41,7 @@ private:
 		{"arrayY", 2},
 		{"PositionMouseX", 2.0},
 		{"PositionMouseY", 2.0},
-		{"check", 0},
+		{"check", 1},
 	};
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;
