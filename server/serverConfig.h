@@ -4,9 +4,6 @@
 
 #include <windows.h>
 #include <winsock2.h>
-#include <ws2tcpip.h>
-#include <iphlpapi.h>
-#include <stdio.h>
 
 #include "json.hpp"
 using json = nlohmann::json;
@@ -37,6 +34,8 @@ public:
 
 
 private:
+	void ParseStringRevToJson();
+
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;
 	SOCKET ClientSocket;
@@ -44,5 +43,4 @@ private:
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 	bool loop = false;
-
 };

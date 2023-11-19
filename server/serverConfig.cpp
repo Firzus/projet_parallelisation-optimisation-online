@@ -1,5 +1,11 @@
 #include "serverConfig.h"
+
 #include <iostream>
+#include <fstream>
+#include <ws2tcpip.h>
+#include <iphlpapi.h>
+#include <stdio.h>
+
 
 serverConfig::serverConfig()
 {
@@ -99,25 +105,10 @@ void serverConfig::ReceiveAndsendData() {
 				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 				if (iResult > 0) {
 
-					//recvbuf[iResult] = '\0';
-					std::string jsonString(recvbuf);
+					ParseStringRevToJson();
 
-					std::cout << "Chaine JSON recue : " << jsonString << std::endl;
-
-					json receivedJson = json::parse(jsonString);
-					OutputDebugStringA(jsonString.c_str());
-					OutputDebugString("\n");
-
-					check = receivedJson["check"];
-					// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
-					//bool happy = receivedJson["happy"];
-					//float pi = receivedJson["pi"];
-
-					// Faites quelque chose avec les valeurs reçues
-					//std::cout << "happy: " << happy << ", pi: " << pi << std::endl;
-
-					printf("\n");
-					printf("Bytes received: %d\n", iResult);
+					/*printf("\n");
+					printf("Bytes received: %d\n", iResult);*/
 
 					// Echo the buffer back to the sender
 					iSendResult = send(ClientSocket, recvbuf, iResult, 0);
@@ -173,4 +164,28 @@ void serverConfig::Shutdown() {
 	// cleanup
 	closesocket(ListenSocket);
 	WSACleanup();
+}
+
+void serverConfig::ParseStringRevToJson()
+{
+	//Get string data
+	std::string jsonString(recvbuf);
+	//parse into json object
+	json receivedJson = json::parse(jsonString);
+	OutputDebugStringA(jsonString.c_str());
+	OutputDebugString("\n");
+
+	std::fstream jsonFile("Data.json");
+
+	if (jsonFile.is_open()) {
+
+		jsonFile << std::setw(4) << receivedJson << std::endl;
+
+		jsonFile.close();
+	}
+	else {
+		OutputDebugString("Impossible d'ouvrir le fichier \n");
+	}
+
+	check = receivedJson["check"];
 }
