@@ -47,35 +47,39 @@ void Application::ProcessEvents()
             window.close();
         }
 
-        exitButton.HandleEvent(event, client);
-
-        if (state == ApplicationState::Menu)
+        // Bloque les actions si pas de connexion
+        if (GameManager::GetInstance().GetStateConnection())
         {
-            menu.HandleInput(event);
+            exitButton.HandleEvent(event);
 
-            if (menu.IsStartClicked())
+            if (state == ApplicationState::Menu)
             {
-                state = ApplicationState::Game;
-            }
-        }
-        else if (state == ApplicationState::Game)
-        {
-            if (event.type == Event::MouseButtonPressed) {
-                game.HandleMouseClick(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
-            }
+                menu.HandleInput(event);
 
-            if (game.IsGameOver())
-            {
-                state = ApplicationState::Result;
+                if (menu.IsStartClicked())
+                {
+                    state = ApplicationState::Game;
+                }
             }
-        }
-        else if (state == ApplicationState::Result)
-        {
-            result.HandleInput(event);
-
-            if (result.IsRestartButtonClicked())
+            else if (state == ApplicationState::Game)
             {
-                state = ApplicationState::Menu;
+                if (event.type == Event::MouseButtonPressed) {
+                    game.HandleMouseClick(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
+                }
+
+                if (game.IsGameOver())
+                {
+                    state = ApplicationState::Result;
+                }
+            }
+            else if (state == ApplicationState::Result)
+            {
+                result.HandleInput(event);
+
+                if (result.IsRestartButtonClicked())
+                {
+                    state = ApplicationState::Menu;
+                }
             }
         }
     }
@@ -112,7 +116,4 @@ void Application::Update()
     result.Update();
     networkButton.Update();
     waitingScreen.Update();
-
-    bool state = GameManager::GetInstance().GetStateConnection();
-    OutputDebugStringA(std::to_string(state ? 1 : 0).c_str());
 }
