@@ -1,9 +1,9 @@
 // client.cpp : Définit le point d'entrée de l'application.
 //
 
-#include "Application.h"
 #include "framework.h"
 #include "resource.h"
+#include "Application.h"
 
 #define MAX_LOADSTRING 100
 

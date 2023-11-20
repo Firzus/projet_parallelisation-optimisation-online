@@ -19,6 +19,7 @@ void ExitButton::HandleEvent(Event& event)
 {
 	if (event.type == Event::MouseButtonPressed && event.mouseButton.button == Mouse::Left) {
 		if (spriteExitButton.getGlobalBounds().contains(window.mapPixelToCoords(Mouse::getPosition(window)))) {
+			client.Shutdown();
 			window.close();
 		}
 	}

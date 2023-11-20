@@ -1,14 +1,19 @@
 #include <iostream>
 
 #include <SFML/Graphics.hpp>
-//#include <SFML/Audio.hpp>
+
+#include "framework.h"
+
+#include "clientConfig.h"
 
 #include "Menu.h"
 #include "Game.h"
 #include "Result.h"
-#include "MusicButton.h"
 #include "ExitButton.h"
 #include "RestartButton.h"
+#include "NetworkButton.h"
+#include "WaitingScreen.h"
+#include "GameManager.h"
 
 #include <windows.h>
 
@@ -34,13 +39,13 @@ private:
     RenderWindow window;
     ApplicationState state;
 
+    clientConfig client;
+
     Menu menu;
     Game game;
     Result result;
     RestartButton restartButton;
     ExitButton exitButton;
-    //MusicButton musicButton;
-
-    //Music musicMenuTheme;
-    //Music musicFightTheme;
+    NetworkButton networkButton;
+    WaitingScreen waitingScreen;
 };

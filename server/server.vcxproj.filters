@@ -28,6 +28,10 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="ServeurWeb.h">
+    <ClInclude Include="serverConfig.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
@@ -39,6 +43,7 @@
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="ServeurWeb.cpp">
+    <ClCompile Include="serverConfig.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>

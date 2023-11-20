@@ -7,24 +7,12 @@ game(window),
 result(window),
 exitButton(window),
 restartButton(window),
-//musicButton(window),
+networkButton(window),
+waitingScreen(window),
 state(ApplicationState::Menu)
-{
-    //musicMenuTheme.openFromFile("assets/musics/menu_theme.wav");
-    //musicFightTheme.openFromFile("assets/musics/fight_theme.wav");
+{}
 
-    //musicMenuTheme.setLoop(true);
-    //musicFightTheme.setLoop(true);
-
-    //musicMenuTheme.setVolume(30.f);
-    //musicFightTheme.setVolume(30.f);
-}
-
-Application::~Application()
-{
-    //musicMenuTheme.stop();
-    //musicFightTheme.stop();
-}
+Application::~Application() {}
 
 void Application::Run()
 {
@@ -55,55 +43,43 @@ void Application::ProcessEvents()
     while (window.pollEvent(event)) {
         if (event.type == Event::Closed)
         {
+            client.Shutdown();
             window.close();
         }
 
-        //musicButton.HandleEvent(event);
-        exitButton.HandleEvent(event);
-
-        if (state == ApplicationState::Menu)
+        // Bloque les actions si pas de connexion
+        if (GameManager::GetInstance().GetStateConnection())
         {
-            //if (musicButton.IsMusicPlaying()) {
-            //    if (musicMenuTheme.getStatus() != Music::Playing) {
-            //        musicMenuTheme.play();
-            //    }
-            //}
-            //else {
-            //    if (musicMenuTheme.getStatus() == Music::Playing) {
-            //        musicMenuTheme.stop();
-            //    }
-            //}
+            exitButton.HandleEvent(event);
 
-            menu.HandleInput(event);
-            if (menu.IsStartClicked())
+            if (state == ApplicationState::Menu)
             {
-                state = ApplicationState::Game;
-                //musicMenuTheme.stop();
-            }
-        }
-        else if (state == ApplicationState::Game)
-        {
-           /* if (musicButton.IsMusicPlaying()) {
-                if (musicFightTheme.getStatus() != Music::Playing) {
-                    musicFightTheme.play();
+                menu.HandleInput(event);
+
+                if (menu.IsStartClicked())
+                {
+                    state = ApplicationState::Game;
                 }
             }
-            else {
-                if (musicFightTheme.getStatus() == Music::Playing) {
-                    musicFightTheme.stop();
+            else if (state == ApplicationState::Game)
+            {
+                if (event.type == Event::MouseButtonPressed) {
+                    game.HandleMouseClick(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
                 }
-            }*/
 
-            if (event.type == Event::MouseButtonPressed) {
-                game.HandleMouseClick(event.mouseButton.x, event.mouseButton.y);
+                if (game.IsGameOver())
+                {
+                    state = ApplicationState::Result;
+                }
             }
-        }
-        else if (state == ApplicationState::Result)
-        {
-            result.HandleInput(event);
+            else if (state == ApplicationState::Result)
+            {
+                result.HandleInput(event);
 
-            if (restartButton.HandleEvent(event)) {
-                state = ApplicationState::Menu;
+                if (result.IsRestartButtonClicked())
+                {
+                    state = ApplicationState::Menu;
+                }
             }
         }
     }
@@ -112,8 +88,8 @@ void Application::ProcessEvents()
 void Application::Render()
 {
     window.clear(Color(243, 197, 255));
-    //musicButton.Draw();
     exitButton.Draw();
+    networkButton.Draw();
 
     if (state == ApplicationState::Menu) {
         menu.Draw();
@@ -125,10 +101,19 @@ void Application::Render()
         result.Draw();
         restartButton.Draw();
     }
+
+    if (!GameManager::GetInstance().GetStateConnection())
+    {
+        waitingScreen.Draw();
+    }
+
     window.display();
 }
 
 void Application::Update()
 {
     game.Update();
+    result.Update();
+    networkButton.Update();
+    waitingScreen.Update();
 }
