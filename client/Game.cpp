@@ -1,6 +1,17 @@
 #include "Game.h"
+#include "clientConfig.h"
 
-Game::Game(RenderWindow& window) : 
+clientConfig client;
+
+Game::Game() :
+window(window),
+grid(window),
+scoreIndicator(window),
+turnMessage(window)
+{
+}
+
+Game::Game(RenderWindow& window) :
 window(window),
 grid(window),
 scoreIndicator(window),
@@ -69,6 +80,7 @@ void Game::HandleMouseClick(float x, float y) {
         }
     }
 }
+
 
 bool Game::CheckWin(char playerSymbol) {
     for (int i = 0; i < 3; i++) {
@@ -151,10 +163,9 @@ void Game::ResetGame() {
         scoreP2 = 0;
         isGameOver = false;
     }
-
+    
     CleanBoard();
 }
-
 
 Vector2f Game::GetCellPosition(int row, int col) {
     return Vector2f(static_cast<float>(offset + col * cellSize), static_cast<float>(offset + row * cellSize));

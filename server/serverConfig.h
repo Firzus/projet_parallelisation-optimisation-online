@@ -15,8 +15,6 @@ using json = nlohmann::json;
 #pragma comment (lib, "AdvApi32.lib")
 
 
-
-
 class serverConfig {
 public:
 	struct addrinfo* result = NULL, * ptr = NULL, hints;
