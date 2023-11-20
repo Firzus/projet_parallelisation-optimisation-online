@@ -15,6 +15,7 @@ TurnMessage::TurnMessage(RenderWindow& window) : window(window)
     textLabelRight.setFont(fontBold);
     textLabelRight.setCharacterSize(24);
     textLabelRight.setFillColor(Color(133, 94, 194));
+    textLabelRight.setString("de jouer");
 }
 
 TurnMessage::~TurnMessage() {}
@@ -37,24 +38,15 @@ void TurnMessage::Update(const string& playerName)
         textWhoPlay.setFillColor(Color(0, 201, 168));
     }
 
-    //string message = "C'est à " + playerName + " de jouer";
-    //textWhoPlay.setString(message);
-
-    //FloatRect textRect = textWhoPlay.getGlobalBounds();
-    //textWhoPlay.setPosition(Vector2f(500 / 2 - textRect.width / 2, 456));
-
-    //
-
     textWhoPlay.setString(playerName);
 
     FloatRect rectTextWhoWin = textWhoPlay.getGlobalBounds();
     FloatRect rectTextLabelLeft = textLabelLeft.getGlobalBounds();
     FloatRect rectTextLabelRight = textLabelRight.getGlobalBounds();
 
-    textLabelLeft.setPosition(Vector2f(0, 0));
-    textWhoPlay.setPosition(Vector2f(0, 0));
-    textLabelRight.setPosition(Vector2f(0, 0));
+    const float globalWidth = spacing*2 + rectTextWhoWin.width + rectTextLabelLeft.width + rectTextLabelRight.width;
 
-    //textWhoPlay.setPosition(Vector2f(250 - (rectTextWhoWin.width + rectTextLabel.width + spacing) / 2, 236));
-    //textLabelLeft.setPosition(Vector2f(textWhoPlay.getPosition().x + rectTextWhoWin.width + 8, 236));
+    textLabelLeft.setPosition(Vector2f(250 - globalWidth / 2, 456));
+    textWhoPlay.setPosition(Vector2f(250 - globalWidth / 2 + rectTextLabelLeft.width + spacing, 456));
+    textLabelRight.setPosition(Vector2f(250 - globalWidth / 2 + rectTextLabelLeft.width + 2*spacing + rectTextWhoWin.width, 456));
 }
