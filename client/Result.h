@@ -22,5 +22,5 @@ private:
 
 	bool isGameRestarted;
 
-	const float spacing = 6.f;
+	const float spacing = 12.f;
 };

@@ -5,11 +5,11 @@ Result::Result(RenderWindow& window) : window(window)
 	fontBold.loadFromFile("assets/fonts/Roboto-Bold.ttf");
 
     textWhoWin.setFont(fontBold);
-    textWhoWin.setCharacterSize(24);
+    textWhoWin.setCharacterSize(36);
 
     textLabel.setFont(fontBold);
     textLabel.setFillColor(Color(133, 94, 194));
-    textLabel.setCharacterSize(24);
+    textLabel.setCharacterSize(36);
     textLabel.setString("GAGNE");
 
     isGameRestarted = false;
@@ -39,6 +39,6 @@ void Result::Update()
     FloatRect rectTextWhoWin = textWhoWin.getGlobalBounds();
     FloatRect rectTextLabel = textLabel.getGlobalBounds();
 
-    textWhoWin.setPosition(Vector2f(250 - (rectTextWhoWin.width + rectTextLabel.width + spacing) / 2, 236));
-    textLabel.setPosition(Vector2f(textWhoWin.getPosition().x + rectTextWhoWin.width + spacing, 236));
+    textWhoWin.setPosition(Vector2f(250 - (rectTextWhoWin.width + rectTextLabel.width + spacing) / 2, 229));
+    textLabel.setPosition(Vector2f(textWhoWin.getPosition().x + rectTextWhoWin.width + spacing, 229));
 }
