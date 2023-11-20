@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <string>
+#include <cctype>
 
 using namespace sf;
 

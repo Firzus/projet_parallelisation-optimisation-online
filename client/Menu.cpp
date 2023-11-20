@@ -65,7 +65,7 @@ void Menu::HandleInput(Event& event)
         }
 
         else if (event.text.unicode < 128 && event.text.unicode > 31) {
-            userInput += static_cast<char>(event.text.unicode);
+            userInput += toupper(static_cast<char>(event.text.unicode));
         }
 
         textInput.setString(userInput.empty() ? "Your name" : userInput);
