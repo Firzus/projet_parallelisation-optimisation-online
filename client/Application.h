@@ -10,7 +10,6 @@
 #include "Game.h"
 #include "Result.h"
 #include "ExitButton.h"
-#include "RestartButton.h"
 #include "NetworkButton.h"
 #include "WaitingScreen.h"
 #include "GameManager.h"
@@ -28,7 +27,7 @@ enum class ApplicationState {
 class Application {
 public:
     Application();
-    virtual ~Application();
+    ~Application();
     void Run();
 
 private:
@@ -44,7 +43,6 @@ private:
     Menu menu;
     Game game;
     Result result;
-    RestartButton restartButton;
     ExitButton exitButton;
     NetworkButton networkButton;
     WaitingScreen waitingScreen;
