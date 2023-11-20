@@ -5,6 +5,7 @@
 #include "Resource.h"
 #include "framework.h"
 #include "serverConfig.h"
+#include "ServeurWeb.h"
 
 #define MAX_LOADSTRING 100
 
@@ -31,6 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     serveur.Run();*/
 
     serverConfig server;
+    ServeurWeb servWeb;
 
     // Initialise les chaînes globales
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
