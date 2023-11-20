@@ -5,7 +5,7 @@ ExitButton::ExitButton(RenderWindow& window) : window(window)
 	textureExitButton.loadFromFile("assets/icons/exit.png");
 
 	spriteExitButton.setTexture(textureExitButton);
-	spriteExitButton.setPosition(Vector2f(16, 444));
+	spriteExitButton.setPosition(Vector2f(444, 444));
 }
 
 ExitButton::~ExitButton() {}

@@ -9,12 +9,11 @@ public:
 	~WaitingScreen();
 
 	void Draw();
-	void Update();
 
 private:
 	RenderWindow& window;
 
-	Font fontSemiBold;
+	Font fontBold;
 	Text textConnection;
 
 	RectangleShape rectBackground;

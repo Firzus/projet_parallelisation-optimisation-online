@@ -9,7 +9,7 @@ class ScoreIndicator
 {
 public:
 	ScoreIndicator(RenderWindow& window);
-	virtual ~ScoreIndicator();
+	~ScoreIndicator();
 
 	void Draw();
 	void Update(int scoreP1, int scoreP2);

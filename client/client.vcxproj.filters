@@ -45,9 +45,6 @@
     <ClInclude Include="Menu.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="RestartButton.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
     <ClInclude Include="Result.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
@@ -92,9 +89,6 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="RestartButton.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
     <ClCompile Include="Result.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
@@ -132,19 +126,16 @@
     <Image Include="assets\icons\exit.png">
       <Filter>Fichiers de ressources\icons</Filter>
     </Image>
-    <Image Include="assets\icons\music_off.png">
-      <Filter>Fichiers de ressources\icons</Filter>
-    </Image>
-    <Image Include="assets\icons\music_on.png">
-      <Filter>Fichiers de ressources\icons</Filter>
-    </Image>
     <Image Include="assets\icons\o.png">
       <Filter>Fichiers de ressources\icons</Filter>
     </Image>
-    <Image Include="assets\icons\restart.png">
+    <Image Include="assets\icons\x.png">
       <Filter>Fichiers de ressources\icons</Filter>
     </Image>
-    <Image Include="assets\icons\x.png">
+    <Image Include="assets\icons\network_off.png">
+      <Filter>Fichiers de ressources\icons</Filter>
+    </Image>
+    <Image Include="assets\icons\network_on.png">
       <Filter>Fichiers de ressources\icons</Filter>
     </Image>
   </ItemGroup>

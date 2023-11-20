@@ -12,7 +12,13 @@ turnMessage(window)
 	spriteO.setTexture(textureO);
 	spriteX.setTexture(textureX);
 
-    ResetGame();
+    isGameOver = false;
+    playerHasWon = false;
+    currentPlayer = 'O';
+    scoreP1 = 0;
+    scoreP2 = 0;
+
+    CleanBoard();
 }
 
 Game::~Game() {}
@@ -116,8 +122,8 @@ void Game::UpdateScore(char winner) {
 
 void Game::StartNewRound() {
     if (scoreP1 >= 3 || scoreP2 >= 3) {
-        GetWinner();
         isGameOver = true;
+        GetWinner();
     }
     else {
         CleanBoard();
@@ -136,25 +142,7 @@ void Game::GetWinner() {
     else if (scoreP2 > scoreP1) {
         GameManager::GetInstance().SetWinner("Ordinateur");
     }
-
-    if (isGameOver) {
-        ResetGame();
-    }
 }
-
-void Game::ResetGame() {
-    playerHasWon = false;
-    currentPlayer = 'O';
-
-    if (isGameOver) {
-        scoreP1 = 0;
-        scoreP2 = 0;
-        isGameOver = false;
-    }
-
-    CleanBoard();
-}
-
 
 Vector2f Game::GetCellPosition(int row, int col) {
     return Vector2f(static_cast<float>(offset + col * cellSize), static_cast<float>(offset + row * cellSize));
