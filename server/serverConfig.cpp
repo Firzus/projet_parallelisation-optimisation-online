@@ -1,16 +1,27 @@
 #include "serverConfig.h"
-#include <iostream>
 
-serverConfig::serverConfig()
+#include <iostream>
+#include <fstream>
+#include <ws2tcpip.h>
+#include <iphlpapi.h>
+#include <stdio.h>
+
+
+serverConfig::serverConfig() {
+
+}
+
+void serverConfig::Init(HWND hWnd)
 {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
+	ConfigureServerSocket(hWnd);
 	LinkSocket();
 	ListenSocketMethod();
-	AcceptConnexion();
-	ReceiveAndsendData();
-	Shutdown();
+	//AcceptConnexion();
+	//ReceiveAndsendData();
+	//Shutdown();
 }
 
 void serverConfig::AddrInfo()
@@ -51,6 +62,11 @@ void serverConfig::CreateSocket() {
 	}
 }
 
+void serverConfig::ConfigureServerSocket(HWND hWnd)
+{
+	WSAAsyncSelect(ListenSocket, hWnd, WM_USER, FD_ACCEPT | FD_READ | FD_CLOSE);
+}
+
 void serverConfig::LinkSocket() {
 	// Setup the TCP listening socket
 	iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
@@ -77,12 +93,14 @@ void serverConfig::ListenSocketMethod() {
 }
 
 void serverConfig::AcceptConnexion() {
-	ClientSocket = INVALID_SOCKET;
 
 	// Accept a client socket
 	ClientSocket = accept(ListenSocket, NULL, NULL);
-	if (ClientSocket == INVALID_SOCKET) {
-		printf("accept failed: %d\n", WSAGetLastError());
+	if (ClientSocket != INVALID_SOCKET) {
+		OutputDebugString("Client connected \n");
+	}
+	else if (ClientSocket == INVALID_SOCKET) {
+		OutputDebugString("accept failed: %d\n");
 		closesocket(ListenSocket);
 		WSACleanup();
 		//return 1;
@@ -90,74 +108,34 @@ void serverConfig::AcceptConnexion() {
 }
 
 void serverConfig::ReceiveAndsendData() {
-	while (loop == false) {
-		//check if client socket is valid
-		if (ClientSocket != INVALID_SOCKET) {
-			// Receive until the peer shuts down the connection
-			do {
+	do {
 
-				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-				if (iResult > 0) {
+		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
 
-					//recvbuf[iResult] = '\0';
-					std::string jsonString(recvbuf);
+			JsonObjectToJsonFile();
 
-					std::cout << "Chaine JSON recue : " << jsonString << std::endl;
+			/*printf("\n");
+			printf("Bytes received: %d\n", iResult);*/
 
-					json receivedJson = json::parse(jsonString);
-					OutputDebugStringA(jsonString.c_str());
-					OutputDebugString("\n");
-
-					check = receivedJson["check"];
-					// Vous pouvez maintenant accéder aux valeurs de l'objet JSON
-					//bool happy = receivedJson["happy"];
-					//float pi = receivedJson["pi"];
-
-					// Faites quelque chose avec les valeurs reçues
-					//std::cout << "happy: " << happy << ", pi: " << pi << std::endl;
-
-					printf("\n");
-					printf("Bytes received: %d\n", iResult);
-
-					// Echo the buffer back to the sender
-					iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-					if (iSendResult == SOCKET_ERROR) {
-						printf("send failed: %d\n", WSAGetLastError());
-						closesocket(ClientSocket);
-						WSACleanup();
-					}
-					printf("Bytes sent: %d\n", iSendResult);
-				}
-				else if (iResult == 0) {
-					printf("Connection closing...\n");
-				}
-				else {
-					printf("recv failed: %d\n", WSAGetLastError());
-					closesocket(ClientSocket);
-					WSACleanup();
-				}
-			} while (iResult > 0);
-		}
-		if (check == 1) {
-			iResult = shutdown(ClientSocket, SD_SEND);
-			if (iResult == SOCKET_ERROR) {
-				printf("shutdown failed: %d\n", WSAGetLastError());
+			// Echo the buffer back to the sender
+			iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+			if (iSendResult == SOCKET_ERROR) {
+				printf("send failed: %d\n", WSAGetLastError());
 				closesocket(ClientSocket);
 				WSACleanup();
 			}
-			// cleanup
+			printf("Bytes sent: %d\n", iSendResult);
+		}
+		else if (iResult == 0) {
+			printf("Connection closing...\n");
+		}
+		else {
+			printf("recv failed: %d\n", WSAGetLastError());
 			closesocket(ClientSocket);
 			WSACleanup();
-			loop = true;
 		}
-		ClientSocket = accept(ListenSocket, NULL, NULL);
-		if (ClientSocket == INVALID_SOCKET) {
-			printf("accept failed: %d\n", WSAGetLastError());
-			closesocket(ListenSocket);
-			WSACleanup();
-		}
-
-	}
+	} while (iResult > 0);
 }
 
 void serverConfig::Shutdown() {
@@ -173,4 +151,72 @@ void serverConfig::Shutdown() {
 	// cleanup
 	closesocket(ListenSocket);
 	WSACleanup();
+	OutputDebugString("Server disconnected \n");
+}
+
+void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
+{
+	switch (WSAGETSELECTEVENT(lParam)) {
+	case FD_ACCEPT:
+		AcceptConnexion();
+		break;
+	case FD_READ:
+		ReceiveAndsendData();
+		break;
+	case FD_CLOSE:
+		Shutdown();
+		closesocket(wParam);
+		break;
+	}
+}
+
+void serverConfig::JsonObjectToJsonFile()
+{
+	//Get string data
+	std::string jsonString(recvbuf);
+
+	//parse into json object
+	json receivedJson = json::parse(jsonString);
+	OutputDebugStringA(jsonString.c_str());
+	OutputDebugString("\n");
+
+	//Json object to Json File
+	std::fstream jsonFile("Data.json");
+
+	if (jsonFile.is_open()) {
+
+		jsonFile << std::setw(4) << receivedJson << std::endl;
+
+		jsonFile.close();
+	}
+	else {
+		OutputDebugString("Impossible d'ouvrir le fichier \n");
+	}
+
+	check = receivedJson["check"];
+}
+
+json serverConfig::JsonFileToJsonObject()
+{
+	//json file to json object
+	std::fstream jsonFile("Data.json");
+
+	if (jsonFile.is_open()) {
+
+		json jsonObject = json::parse(jsonFile);
+
+		jsonFile.close();
+		return jsonObject;
+	}
+	else {
+		OutputDebugString("Impossible de lire le fichier \n");
+	}
+}
+
+std::string serverConfig::JsonObjectToString()
+{
+	//parse json object to string
+	std::string data = JsonFileToJsonObject().dump();
+
+	return data;
 }

@@ -22,7 +22,9 @@ class clientConfig {
 public:
 	struct addrinfo* result = NULL, * ptr = NULL, hints;
 
-	clientConfig();
+	clientConfig() {};
+
+	void Init();
 
 	void AddrInfo();
 	void InitWinSock();
