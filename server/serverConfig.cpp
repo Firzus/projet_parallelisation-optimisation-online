@@ -7,16 +7,18 @@
 #include <stdio.h>
 
 
-serverConfig::serverConfig()
+serverConfig::serverConfig() {
+
+}
+
+void serverConfig::Init(HWND hWnd)
 {
-	AddrInfo();
-	InitWinSock();
-	CreateSocket();
-	LinkSocket();
-	ListenSocketMethod();
-	AcceptConnexion();
-	ReceiveAndsendData();
-	Shutdown();
+	 AddrInfo();
+	 InitWinSock();
+	 CreateSocket();
+	 ConfigureServerSocket(hWnd);
+	 LinkSocket();
+	 ListenSocketMethod();
 }
 
 void serverConfig::AddrInfo()
@@ -57,6 +59,11 @@ void serverConfig::CreateSocket() {
 	}
 }
 
+void serverConfig::ConfigureServerSocket(HWND hWnd)
+{
+	WSAAsyncSelect(ListenSocket, hWnd, WM_SOCKET, FD_ACCEPT | FD_CLOSE);
+}
+
 void serverConfig::LinkSocket() {
 	// Setup the TCP listening socket
 	iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
@@ -93,12 +100,13 @@ void serverConfig::AcceptConnexion() {
 		WSACleanup();
 		//return 1;
 	}
+	OutputDebugString("Client connected \n");
 }
 
 void serverConfig::ReceiveAndsendData() {
-	while (loop == false) {
-		//check if client socket is valid
-		if (ClientSocket != INVALID_SOCKET) {
+	//while (loop == false) {
+	//	//check if client socket is valid
+	//	if (ClientSocket != INVALID_SOCKET) {
 			// Receive until the peer shuts down the connection
 			do {
 
@@ -128,27 +136,27 @@ void serverConfig::ReceiveAndsendData() {
 					WSACleanup();
 				}
 			} while (iResult > 0);
-		}
-		if (check == 1) {
-			iResult = shutdown(ClientSocket, SD_SEND);
-			if (iResult == SOCKET_ERROR) {
-				printf("shutdown failed: %d\n", WSAGetLastError());
-				closesocket(ClientSocket);
-				WSACleanup();
-			}
-			// cleanup
-			closesocket(ClientSocket);
-			WSACleanup();
-			loop = true;
-		}
-		ClientSocket = accept(ListenSocket, NULL, NULL);
-		if (ClientSocket == INVALID_SOCKET) {
-			printf("accept failed: %d\n", WSAGetLastError());
-			closesocket(ListenSocket);
-			WSACleanup();
-		}
+	//	}
+	//	if (check == 1) {
+	//		iResult = shutdown(ClientSocket, SD_SEND);
+	//		if (iResult == SOCKET_ERROR) {
+	//			printf("shutdown failed: %d\n", WSAGetLastError());
+	//			closesocket(ClientSocket);
+	//			WSACleanup();
+	//		}
+	//		// cleanup
+	//		closesocket(ClientSocket);
+	//		WSACleanup();
+	//		loop = true;
+	//	}
+	//	ClientSocket = accept(ListenSocket, NULL, NULL);
+	//	if (ClientSocket == INVALID_SOCKET) {
+	//		printf("accept failed: %d\n", WSAGetLastError());
+	//		closesocket(ListenSocket);
+	//		WSACleanup();
+	//	}
 
-	}
+	//}
 }
 
 void serverConfig::Shutdown() {
@@ -164,6 +172,22 @@ void serverConfig::Shutdown() {
 	// cleanup
 	closesocket(ListenSocket);
 	WSACleanup();
+	OutputDebugString("Server disconnected \n");
+}
+
+void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
+{
+	switch (WSAGETSELECTEVENT(lParam)) {
+	case FD_ACCEPT:
+		AcceptConnexion();
+		break;
+	case FD_READ:
+		ReceiveAndsendData();
+		break;
+	case FD_CLOSE:
+		closesocket(wParam);
+		break;
+	}
 }
 
 void serverConfig::JsonObjectToJsonFile()

@@ -35,7 +35,7 @@ private:
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
 	json data = {
-		{"UserName", "clement"},
+		{"UserName", "fabien"},
 		{"CurrentPlayer", "X"},
 		{"arrayX", 2},
 		{"arrayY", 2},
