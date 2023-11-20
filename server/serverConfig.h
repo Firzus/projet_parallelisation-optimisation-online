@@ -8,7 +8,6 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
-#define WM_SOCKET WM_USER + 1
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
 #pragma comment (lib, "Ws2_32.lib")
@@ -23,17 +22,19 @@ public:
 	serverConfig();
 	
 	void Init(HWND hWnd);
-
+	//server part
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
 	//WSA Async config server
 	void ConfigureServerSocket(HWND hWnd);
-
+	//client part
 	void LinkSocket();
 	void ListenSocketMethod();
 	void AcceptConnexion();
+	//data
 	void ReceiveAndsendData();
+	//shutdown
 	void Shutdown();
 
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
@@ -46,7 +47,7 @@ private:
 
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;
-	SOCKET ClientSocket;
+	SOCKET ClientSocket = INVALID_SOCKET;
 	int iResult, iSendResult, check;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;

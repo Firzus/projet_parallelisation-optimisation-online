@@ -22,7 +22,9 @@ class clientConfig {
 public:
 	struct addrinfo* result = NULL, * ptr = NULL, hints;
 
-	clientConfig();
+	clientConfig() {};
+
+	void Init();
 
 	void AddrInfo();
 	void InitWinSock();
@@ -41,7 +43,7 @@ private:
 		{"arrayY", 2},
 		{"PositionMouseX", 2.0},
 		{"PositionMouseY", 2.0},
-		{"check", 1},
+		{"check", 0},
 	};
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;

@@ -1,17 +1,11 @@
 #include "clientConfig.h"
 
-clientConfig::clientConfig()
-{
+void clientConfig::Init() {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
 	ConnectSocketMethod();
-
-	// Update
 	SendAndReceiveData();
-
-	// Déco
-	//Shutdown();
 }
 
 void clientConfig::AddrInfo() {

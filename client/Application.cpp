@@ -10,12 +10,14 @@ restartButton(window),
 networkButton(window),
 waitingScreen(window),
 state(ApplicationState::Menu)
-{}
+{
+}
 
 Application::~Application() {}
 
 void Application::Run()
 {
+    client.Init();
     MSG msg;
     ZeroMemory(&msg, sizeof(MSG));
 

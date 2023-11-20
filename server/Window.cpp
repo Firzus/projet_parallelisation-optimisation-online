@@ -3,9 +3,10 @@
 #endif 
 #include "Window.h"
 #include "serverConfig.h"
-#include <windowsx.h>
+//#include <windowsx.h>
 
 const wchar_t CLASS_NAME[] = L"Sample Window Class";
+serverConfig server;
 
 Window::Window(HINSTANCE hInstance, int nCmdShow) {
 	CreateClass();
@@ -40,7 +41,7 @@ void Window::Init(HINSTANCE hInstance, int nCmdShow) {
 		NULL        // Additional application data
 	);
 
-	serverConfig server;
+	server.Init(hWnd);
 	if (!hWnd)
 	{
 		MessageBox(0, L"Failed to Create Window!", 0, 0);
@@ -49,7 +50,7 @@ void Window::Init(HINSTANCE hInstance, int nCmdShow) {
 
 	ShowWindow(hWnd, nCmdShow);
 	
-	server.Init(hWnd);
+	
 
 	Update();
 }
@@ -65,13 +66,13 @@ void Window::Update() {
 
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	serverConfig server;
+	
     switch (message)
     {
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
-	case WM_SOCKET:
+	case WM_USER:
 		server.HandleSocketMessage(wParam, lParam);
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);

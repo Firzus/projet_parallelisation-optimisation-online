@@ -13,12 +13,15 @@ serverConfig::serverConfig() {
 
 void serverConfig::Init(HWND hWnd)
 {
-	 AddrInfo();
-	 InitWinSock();
-	 CreateSocket();
-	 ConfigureServerSocket(hWnd);
-	 LinkSocket();
-	 ListenSocketMethod();
+	AddrInfo();
+	InitWinSock();
+	CreateSocket();
+	ConfigureServerSocket(hWnd);
+	LinkSocket();
+	ListenSocketMethod();
+	//AcceptConnexion();
+	//ReceiveAndsendData();
+	//Shutdown();
 }
 
 void serverConfig::AddrInfo()
@@ -61,7 +64,7 @@ void serverConfig::CreateSocket() {
 
 void serverConfig::ConfigureServerSocket(HWND hWnd)
 {
-	WSAAsyncSelect(ListenSocket, hWnd, WM_SOCKET, FD_ACCEPT | FD_CLOSE);
+	WSAAsyncSelect(ListenSocket, hWnd, WM_USER, FD_ACCEPT | FD_READ | FD_CLOSE);
 }
 
 void serverConfig::LinkSocket() {
@@ -90,73 +93,49 @@ void serverConfig::ListenSocketMethod() {
 }
 
 void serverConfig::AcceptConnexion() {
-	ClientSocket = INVALID_SOCKET;
 
 	// Accept a client socket
 	ClientSocket = accept(ListenSocket, NULL, NULL);
-	if (ClientSocket == INVALID_SOCKET) {
-		printf("accept failed: %d\n", WSAGetLastError());
+	if (ClientSocket != INVALID_SOCKET) {
+		OutputDebugString("Client connected \n");
+	}
+	else if (ClientSocket == INVALID_SOCKET) {
+		OutputDebugString("accept failed: %d\n");
 		closesocket(ListenSocket);
 		WSACleanup();
 		//return 1;
 	}
-	OutputDebugString("Client connected \n");
 }
 
 void serverConfig::ReceiveAndsendData() {
-	//while (loop == false) {
-	//	//check if client socket is valid
-	//	if (ClientSocket != INVALID_SOCKET) {
-			// Receive until the peer shuts down the connection
-			do {
+	do {
 
-				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-				if (iResult > 0) {
+		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
 
-					JsonObjectToJsonFile();
+			JsonObjectToJsonFile();
 
-					/*printf("\n");
-					printf("Bytes received: %d\n", iResult);*/
+			/*printf("\n");
+			printf("Bytes received: %d\n", iResult);*/
 
-					// Echo the buffer back to the sender
-					iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-					if (iSendResult == SOCKET_ERROR) {
-						printf("send failed: %d\n", WSAGetLastError());
-						closesocket(ClientSocket);
-						WSACleanup();
-					}
-					printf("Bytes sent: %d\n", iSendResult);
-				}
-				else if (iResult == 0) {
-					printf("Connection closing...\n");
-				}
-				else {
-					printf("recv failed: %d\n", WSAGetLastError());
-					closesocket(ClientSocket);
-					WSACleanup();
-				}
-			} while (iResult > 0);
-	//	}
-	//	if (check == 1) {
-	//		iResult = shutdown(ClientSocket, SD_SEND);
-	//		if (iResult == SOCKET_ERROR) {
-	//			printf("shutdown failed: %d\n", WSAGetLastError());
-	//			closesocket(ClientSocket);
-	//			WSACleanup();
-	//		}
-	//		// cleanup
-	//		closesocket(ClientSocket);
-	//		WSACleanup();
-	//		loop = true;
-	//	}
-	//	ClientSocket = accept(ListenSocket, NULL, NULL);
-	//	if (ClientSocket == INVALID_SOCKET) {
-	//		printf("accept failed: %d\n", WSAGetLastError());
-	//		closesocket(ListenSocket);
-	//		WSACleanup();
-	//	}
-
-	//}
+			// Echo the buffer back to the sender
+			iSendResult = send(ClientSocket, recvbuf, iResult, 0);
+			if (iSendResult == SOCKET_ERROR) {
+				printf("send failed: %d\n", WSAGetLastError());
+				closesocket(ClientSocket);
+				WSACleanup();
+			}
+			printf("Bytes sent: %d\n", iSendResult);
+		}
+		else if (iResult == 0) {
+			printf("Connection closing...\n");
+		}
+		else {
+			printf("recv failed: %d\n", WSAGetLastError());
+			closesocket(ClientSocket);
+			WSACleanup();
+		}
+	} while (iResult > 0);
 }
 
 void serverConfig::Shutdown() {
@@ -185,6 +164,7 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 		ReceiveAndsendData();
 		break;
 	case FD_CLOSE:
+		Shutdown();
 		closesocket(wParam);
 		break;
 	}
