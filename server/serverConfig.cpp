@@ -19,9 +19,6 @@ void serverConfig::Init(HWND hWnd)
 	ConfigureServerSocket(hWnd);
 	LinkSocket();
 	ListenSocketMethod();
-	//AcceptConnexion();
-	//ReceiveAndsendData();
-	//Shutdown();
 }
 
 void serverConfig::AddrInfo()

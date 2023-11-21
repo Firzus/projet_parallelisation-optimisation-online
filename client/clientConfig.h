@@ -25,16 +25,20 @@ public:
 	clientConfig() {};
 
 	void Init();
-
+	//create client 
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
 	void ConnectSocketMethod();
+	// Send and Receive data
 	void SendData();
 	void ReceiveData();
+	// shutdown
 	void Shutdown();
 
 private:
+	void JsonStringToJsonObject();
+
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
 	json data = {

@@ -35,7 +35,6 @@ public:
 	//data
 	void SendData();
 	void ReceiveData();
-	void ReceiveAndsendData();
 	//shutdown
 	void Shutdown();
 

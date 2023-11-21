@@ -109,10 +109,8 @@ void clientConfig::ReceiveData()
 	do {
 		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			printf("Bytes received: %d\n", iResult);
-
+			JsonStringToJsonObject();
 		}
-
 		else if (iResult == 0) {
 			printf("Connection closed\n");
 
@@ -140,4 +138,15 @@ void clientConfig::Shutdown() {
 	// cleanup
 	closesocket(ConnectSocket);
 	WSACleanup();
+}
+
+void clientConfig::JsonStringToJsonObject()
+{
+	//Get string data
+	std::string jsonString(recvbuf);
+
+	//parse into json object
+	data = json::parse(jsonString);
+	OutputDebugStringA(jsonString.c_str());
+	OutputDebugString("\n");
 }
