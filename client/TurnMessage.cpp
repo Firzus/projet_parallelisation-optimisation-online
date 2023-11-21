@@ -10,7 +10,7 @@ TurnMessage::TurnMessage(RenderWindow& window) : window(window)
     textLabelLeft.setFont(fontBold);
     textLabelLeft.setCharacterSize(24);
     textLabelLeft.setFillColor(Color(133, 94, 194));
-    textLabelLeft.setString("C'est ‡");
+    textLabelLeft.setString("C'est ÅE");
 
     textLabelRight.setFont(fontBold);
     textLabelRight.setCharacterSize(24);

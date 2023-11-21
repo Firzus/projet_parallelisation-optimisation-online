@@ -32,6 +32,8 @@ public:
 	bool IsGameOver();
 	void GetWinner();
 
+	void ResetGame();
+
 private:
 
 	RenderWindow& window;
