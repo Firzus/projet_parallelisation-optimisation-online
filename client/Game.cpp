@@ -1,6 +1,19 @@
 #include "Game.h"
+#include "clientConfig.h"
+#include "Data.h"
 
-Game::Game(RenderWindow& window) : 
+clientConfig client;
+Data da;
+
+Game::Game() :
+window(window),
+grid(window),
+scoreIndicator(window),
+turnMessage(window)
+{
+}
+
+Game::Game(RenderWindow& window) :
 window(window),
 grid(window),
 scoreIndicator(window),
@@ -41,6 +54,8 @@ void Game::Draw()
                 spriteO.setPosition(pos);
                 window.draw(spriteO);
             }
+
+            da.SetBoard(board);
         }
     }
 }
@@ -75,6 +90,7 @@ void Game::HandleMouseClick(float x, float y) {
         }
     }
 }
+
 
 bool Game::CheckWin(char playerSymbol) {
     for (int i = 0; i < 3; i++) {
@@ -142,6 +158,19 @@ void Game::GetWinner() {
     else if (scoreP2 > scoreP1) {
         GameManager::GetInstance().SetWinner("Ordinateur");
     }
+}
+
+void Game::ResetGame() {
+    playerHasWon = false;
+    currentPlayer = 'O';
+
+    if (isGameOver) {
+        scoreP1 = 0;
+        scoreP2 = 0;
+        isGameOver = false;
+    }
+    
+    CleanBoard();
 }
 
 Vector2f Game::GetCellPosition(int row, int col) {

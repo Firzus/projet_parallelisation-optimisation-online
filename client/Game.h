@@ -14,6 +14,7 @@ using namespace sf;
 class Game
 {
 public:
+	Game();
 	Game(RenderWindow& window);
 	~Game();
 
@@ -27,10 +28,14 @@ public:
 	void StartNewRound();
 	Vector2f GetCellPosition(int row, int col);
 	string GetPlayerName(char currentPlayer);
+	char GetCurrentPlayer() { return currentPlayer; }
 	bool IsGameOver();
 	void GetWinner();
 
+	void ResetGame();
+
 private:
+
 	RenderWindow& window;
 
 	Grid grid;
