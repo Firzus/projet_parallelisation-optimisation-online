@@ -9,19 +9,20 @@ class Data
 {
 public:
 	void SetPlayerName();
-	string GetPlayerName();
+	std::string GetPlayerName();
 
 	void SetPlayerToken();
 	char GetPlayerToken();
 
 	void SetWinner();
-	string GetWinner();
+	std::string GetWinner();
 
-
+	void SetBoard(const std::array<std::array<char,3>, 3>& board);
+	const std::array<std::array<char, 3>, 3>& GetBoard() const { return boardData;};
 private:
-	string playerName;
-	string winnerName;
+	std::string playerName;
+	std::string winnerName;
 	char currentPlayer;
 	
-	array<array<char, 3>, 3> board{};
+	std::array<std::array<char, 3>, 3> boardData;
 };

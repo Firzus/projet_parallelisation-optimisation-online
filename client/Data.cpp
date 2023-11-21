@@ -32,3 +32,9 @@ std::string Data::GetWinner()
 {
 	return winnerName;
 }
+
+void Data::SetBoard(const std::array<std::array<char, 3>, 3>& board)
+{
+	boardData = board;
+}
+

@@ -1,7 +1,9 @@
 #include "Game.h"
 #include "clientConfig.h"
+#include "Data.h"
 
 clientConfig client;
+Data da;
 
 Game::Game() :
 window(window),
@@ -46,6 +48,8 @@ void Game::Draw()
                 spriteO.setPosition(pos);
                 window.draw(spriteO);
             }
+
+            da.SetBoard(board);
         }
     }
 }

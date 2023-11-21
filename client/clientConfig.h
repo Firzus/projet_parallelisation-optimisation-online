@@ -40,7 +40,7 @@ private:
 		{"UserName", da.GetPlayerName()},
 		{"CurrentPlayer", da.GetPlayerToken()},
 		{"WinnerName", da.GetWinner()},
-		{"TokenPos", 2},
+		{"TokenPos", da.GetBoard()},
 		{"check", 1},
 	};
 
