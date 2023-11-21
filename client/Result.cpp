@@ -11,8 +11,6 @@ Result::Result(RenderWindow& window) : window(window)
     textLabel.setFillColor(Color(133, 94, 194));
     textLabel.setCharacterSize(36);
     textLabel.setString("GAGNE");
-
-    isGameRestarted = false;
 }
 
 Result::~Result() {}

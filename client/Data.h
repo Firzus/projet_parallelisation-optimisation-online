@@ -3,26 +3,33 @@
 #include <stdio.h>
 #include <iostream>
 #include "json.hpp"
+
 using json = nlohmann::json;
+using namespace std;
 
 class Data
 {
 public:
 	void SetPlayerName();
-	std::string GetPlayerName();
+	string GetPlayerName();
 
 	void SetPlayerToken();
 	char GetPlayerToken();
 
 	void SetWinner();
-	std::string GetWinner();
+	string GetWinner();
 
-	void SetBoard(const std::array<std::array<char,3>, 3>& board);
-	const std::array<std::array<char, 3>, 3>& GetBoard() const { return boardData;};
+	void SetBoard(const array<array<char,3>, 3>& board);
+	const array<array<char, 3>, 3>& GetBoard() const { return boardData;};
+
+	void SetAppState();
+	string GetAppState();
+
 private:
-	std::string playerName;
-	std::string winnerName;
+	string playerName;
+	string winnerName;
 	char currentPlayer;
+	string appState;
 	
-	std::array<std::array<char, 3>, 3> boardData;
+	array<array<char, 3>, 3> boardData;
 };
