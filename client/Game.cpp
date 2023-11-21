@@ -25,7 +25,13 @@ turnMessage(window)
 	spriteO.setTexture(textureO);
 	spriteX.setTexture(textureX);
 
-    ResetGame();
+    isGameOver = false;
+    playerHasWon = false;
+    currentPlayer = 'O';
+    scoreP1 = 0;
+    scoreP2 = 0;
+
+    CleanBoard();
 }
 
 Game::~Game() {}
@@ -132,8 +138,8 @@ void Game::UpdateScore(char winner) {
 
 void Game::StartNewRound() {
     if (scoreP1 >= 3 || scoreP2 >= 3) {
-        GetWinner();
         isGameOver = true;
+        GetWinner();
     }
     else {
         CleanBoard();
@@ -151,10 +157,6 @@ void Game::GetWinner() {
     }
     else if (scoreP2 > scoreP1) {
         GameManager::GetInstance().SetWinner("Ordinateur");
-    }
-
-    if (isGameOver) {
-        ResetGame();
     }
 }
 

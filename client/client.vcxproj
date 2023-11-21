@@ -145,7 +145,6 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="NetworkButton.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="RestartButton.h" />
     <ClInclude Include="Result.h" />
     <ClInclude Include="ScoreIndicator.h" />
     <ClInclude Include="targetver.h" />
@@ -163,7 +162,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="NetworkButton.cpp" />
-    <ClCompile Include="RestartButton.cpp" />
     <ClCompile Include="Result.cpp" />
     <ClCompile Include="ScoreIndicator.cpp" />
     <ClCompile Include="TurnMessage.cpp" />
@@ -174,10 +172,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\icons\exit.png" />
-    <Image Include="assets\icons\music_off.png" />
-    <Image Include="assets\icons\music_on.png" />
+    <Image Include="assets\icons\network_off.png" />
+    <Image Include="assets\icons\network_on.png" />
     <Image Include="assets\icons\o.png" />
-    <Image Include="assets\icons\restart.png" />
     <Image Include="assets\icons\x.png" />
     <Image Include="client.ico" />
     <Image Include="small.ico" />

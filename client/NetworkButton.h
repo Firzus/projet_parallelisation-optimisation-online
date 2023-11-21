@@ -18,5 +18,6 @@ private:
 
 	Texture textureNetworkOnButton, textureNetworkOffButton;
 	Sprite spriteNetworkOnButton, spriteNetworkOffButton;
-};
 
+	Sprite* currentSprite = nullptr;
+};

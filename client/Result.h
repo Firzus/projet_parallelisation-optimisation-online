@@ -3,7 +3,6 @@
 #include "GameManager.h"
 
 using namespace sf;
-using namespace std;
 
 class Result
 {
@@ -13,17 +12,15 @@ public:
 
 	void Draw();
 	void Update();
-	void HandleInput(Event& event);
-	bool IsRestartButtonClicked();
 
 private:
 	RenderWindow& window;
 
 	Text textWhoWin;
+	Text textLabel;
 	Font fontBold;
 
-	Texture textureRestartButton;
-	Sprite spriteRestartButton;
+	bool isGameRestarted;
 
-	bool isRestartButtonClicked;
+	const float spacing = 12.f;
 };

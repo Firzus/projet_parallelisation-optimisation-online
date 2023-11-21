@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WINSOCK_DEPRECATED_NO_WARNINGS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>Z:\projet_parallelisation-optimisation-online\server\include</AdditionalIncludeDirectories>
     </ClCompile>
@@ -139,11 +139,13 @@
     <ClInclude Include="serverConfig.h" />
     <ClInclude Include="Serveur.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="serverConfig.cpp" />
     <ClCompile Include="Serveur.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="server.rc" />

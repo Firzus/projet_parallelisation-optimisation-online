@@ -20,15 +20,24 @@ public:
 	struct addrinfo* result = NULL, * ptr = NULL, hints;
 
 	serverConfig();
-
+	
+	void Init(HWND hWnd);
+	//server part
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
+	//WSA Async config server
+	void ConfigureServerSocket(HWND hWnd);
+	//client part
 	void LinkSocket();
 	void ListenSocketMethod();
 	void AcceptConnexion();
+	//data
 	void ReceiveAndsendData();
+	//shutdown
 	void Shutdown();
+
+	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
 
 private:
@@ -38,9 +47,10 @@ private:
 
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;
-	SOCKET ClientSocket;
+	SOCKET ClientSocket = INVALID_SOCKET;
 	int iResult, iSendResult, check;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 	bool loop = false;
+	
 };
