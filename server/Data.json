@@ -1,23 +1,23 @@
 {
-  "CurrentPlayer": 0,
-  "TokenPos": [
-    [
-      0,
-      0,
-      0
+    "CurrentPlayer": 0,
+    "TokenPos": [
+        [
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0
+        ]
     ],
-    [
-      0,
-      0,
-      0
-    ],
-    [
-      0,
-      0,
-      0
-    ]
-  ],
-  "UserName": "",
-  "WinnerName": "",
-  "check": 1
+    "UserName": "",
+    "WinnerName": "",
+    "check": 1
 }
