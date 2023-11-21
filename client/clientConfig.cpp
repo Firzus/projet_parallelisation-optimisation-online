@@ -5,7 +5,7 @@ void clientConfig::Init() {
 	InitWinSock();
 	CreateSocket();
 	ConnectSocketMethod();
-	SendAndReceiveData();
+	SendData();
 }
 
 void clientConfig::AddrInfo() {
@@ -40,7 +40,7 @@ void clientConfig::CreateSocket()
 
 
 	// Create a client SOCKET for connecting to server
-	
+
 	ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
 		ptr->ai_protocol);
 
@@ -78,8 +78,8 @@ void clientConfig::ConnectSocketMethod() {
 	}
 }
 
-void clientConfig::SendAndReceiveData() {
-	// Convertir l'objet JSON en cha��e JSON
+void clientConfig::SendData()
+{
 	std::string sendbuf = data.dump();
 	OutputDebugStringA(sendbuf.c_str());
 	OutputDebugString("\n");
@@ -92,8 +92,6 @@ void clientConfig::SendAndReceiveData() {
 		WSACleanup();
 		//return 1;
 	}
-	//printf("Bytes Sent: %ld\n", iResult);
-	
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
@@ -103,25 +101,29 @@ void clientConfig::SendAndReceiveData() {
 		WSACleanup();
 		//return 1;
 	}
-
-	// Receive data until the server closes the connection
-	//do {
-	//	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-	//	if (iResult > 0) {
-	//		printf("Bytes received: %d\n", iResult);
-	//		
-	//	}
-
-	//	else if (iResult == 0){
-	//		printf("Connection closed\n");
-	//		
-	//	}
-	//	else {
-	//		printf("recv failed: %d\n", WSAGetLastError());
-	//		
-	//	}
-	//} while (iResult > 0);
 }
+
+void clientConfig::ReceiveData()
+{
+	//Receive data until the server closes the connection
+	do {
+		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
+			printf("Bytes received: %d\n", iResult);
+
+		}
+
+		else if (iResult == 0) {
+			printf("Connection closed\n");
+
+		}
+		else {
+			printf("recv failed: %d\n", WSAGetLastError());
+
+		}
+	} while (iResult > 0);
+}
+
 
 void clientConfig::Shutdown() {
 

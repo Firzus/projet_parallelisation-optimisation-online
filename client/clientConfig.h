@@ -30,7 +30,8 @@ public:
 	void InitWinSock();
 	void CreateSocket();
 	void ConnectSocketMethod();
-	void SendAndReceiveData();
+	void SendData();
+	void ReceiveData();
 	void Shutdown();
 
 private:

@@ -107,25 +107,25 @@ void serverConfig::AcceptConnexion() {
 	}
 }
 
-void serverConfig::ReceiveAndsendData() {
-	do {
+void serverConfig::SendData()
+{
+	std::string sendbuf = JsonObjectToString();
 
+	iSendResult = send(ClientSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+	if (iSendResult == SOCKET_ERROR) {
+		printf("send failed: %d\n", WSAGetLastError());
+		closesocket(ClientSocket);
+		WSACleanup();
+	}
+	printf("Bytes sent: %d\n", iSendResult);
+}
+
+void serverConfig::ReceiveData()
+{
+	do {
 		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-
 			JsonObjectToJsonFile();
-
-			/*printf("\n");
-			printf("Bytes received: %d\n", iResult);*/
-
-			// Echo the buffer back to the sender
-			iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-			if (iSendResult == SOCKET_ERROR) {
-				printf("send failed: %d\n", WSAGetLastError());
-				closesocket(ClientSocket);
-				WSACleanup();
-			}
-			printf("Bytes sent: %d\n", iSendResult);
 		}
 		else if (iResult == 0) {
 			printf("Connection closing...\n");
@@ -135,6 +135,7 @@ void serverConfig::ReceiveAndsendData() {
 			closesocket(ClientSocket);
 			WSACleanup();
 		}
+
 	} while (iResult > 0);
 }
 
@@ -161,10 +162,9 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 		AcceptConnexion();
 		break;
 	case FD_READ:
-		ReceiveAndsendData();
+		ReceiveData();
 		break;
 	case FD_CLOSE:
-		Shutdown();
 		closesocket(wParam);
 		break;
 	}
