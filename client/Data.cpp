@@ -38,3 +38,13 @@ void Data::SetBoard(const std::array<std::array<char, 3>, 3>& board)
 	boardData = board;
 }
 
+void Data::SetConnection()
+{
+	isConnected = GameManager::GetInstance().GetStateConnection();
+}
+
+bool Data::GetConnection()
+{
+	return isConnected;
+}
+

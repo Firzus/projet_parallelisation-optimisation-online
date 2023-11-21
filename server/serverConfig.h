@@ -52,5 +52,5 @@ private:
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 	bool loop = false;
-	
+	bool isGameOn = false;
 };

@@ -39,11 +39,20 @@ private:
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
 	json data = {
-		{"UserName", da.GetPlayerName()},
+		{"Player1",
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", da.GetPlayerToken()},
+		},
+
+		{"Player2",
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", da.GetPlayerToken()},
+		},
+
 		{"CurrentPlayer", da.GetPlayerToken()},
-		{"WinnerName", da.GetWinner()},
 		{"TokenPos", da.GetBoard()},
-		{"check", 1},
+		{"WinnerName", da.GetWinner()},
+		{"Connection", da.GetConnection()},
 	};
 
 	int iResult;

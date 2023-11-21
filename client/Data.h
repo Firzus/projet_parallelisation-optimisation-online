@@ -19,7 +19,12 @@ public:
 
 	void SetBoard(const std::array<std::array<char,3>, 3>& board);
 	const std::array<std::array<char, 3>, 3>& GetBoard() const { return boardData;};
+
+	void SetConnection();
+	bool GetConnection();
 private:
+
+	bool isConnected;
 	std::string playerName;
 	std::string winnerName;
 	char currentPlayer;
