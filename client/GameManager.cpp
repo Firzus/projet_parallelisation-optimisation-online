@@ -27,3 +27,12 @@ bool GameManager::GetStateConnection() const
 {
     return isConnected;
 }
+
+void GameManager::SetApplicationState(const ApplicationState& newState)
+{
+    state = newState;
+}
+
+ApplicationState GameManager::GetApplicationState() const {
+    return state;
+}

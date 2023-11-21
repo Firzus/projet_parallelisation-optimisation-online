@@ -18,12 +18,6 @@
 
 using namespace sf;
 
-enum class ApplicationState {
-    Menu,
-    Game,
-    Result
-};
-
 class Application {
 public:
     Application();
@@ -36,7 +30,6 @@ private:
     void Update();
 
     RenderWindow window;
-    ApplicationState state;
 
     clientConfig client;
 

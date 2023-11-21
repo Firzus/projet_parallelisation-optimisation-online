@@ -7,7 +7,7 @@ void Data::SetPlayerName()
 	playerName = GameManager::GetInstance().GetPlayerName();
 }
 
-std::string Data::GetPlayerName()
+string Data::GetPlayerName()
 {
 	return playerName;
 }
@@ -28,13 +28,35 @@ void Data::SetWinner()
 	winnerName = GameManager::GetInstance().GetWinner();
 }
 
-std::string Data::GetWinner()
+string Data::GetWinner()
 {
 	return winnerName;
 }
 
-void Data::SetBoard(const std::array<std::array<char, 3>, 3>& board)
+void Data::SetBoard(const array<array<char, 3>, 3>& board)
 {
 	boardData = board;
 }
 
+void Data::SetAppState()
+{
+	// void
+}
+
+string Data::GetAppState()
+{
+	switch (GameManager::GetInstance().GetApplicationState())
+	{
+	case ApplicationState::Menu:
+		return "menu";
+		break;
+	case ApplicationState::Game:
+		return "game";
+		break;
+	case ApplicationState::Result:
+		return "result";
+		break;
+	default:
+		break;
+	}
+}
