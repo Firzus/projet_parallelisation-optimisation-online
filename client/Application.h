@@ -16,6 +16,8 @@
 
 #include <windows.h>
 
+#include "Resource.h"
+
 using namespace sf;
 
 class Application {
@@ -23,6 +25,8 @@ public:
     Application();
     ~Application();
     void Run();
+
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 private:
     void ProcessEvents();

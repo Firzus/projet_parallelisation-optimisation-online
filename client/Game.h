@@ -31,7 +31,6 @@ public:
 	char GetCurrentPlayer() { return currentPlayer; }
 	bool IsGameOver();
 	void GetWinner();
-
 	void ResetGame();
 
 private:
