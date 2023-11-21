@@ -98,22 +98,25 @@ void ServeurWeb::SendHTMLResponse(const std::string& filePath) {
 		if (ClientSocket != INVALID_SOCKET) {
 			// Receive until the peer shuts down the connection
 			do {
-				std::streamsize fileSize = file.tellg();
-				file.seekg(0, std::ios::beg);
+				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+				if (iResult > 0) {
+					std::streamsize fileSize = file.tellg();
+					file.seekg(0, std::ios::beg);
 
-				std::string httpResponse = "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nContent-Length: " + std::to_string(fileSize) + "\r\n\r\n";
-				std::string fileContent;
-				fileContent.resize(static_cast<size_t>(fileSize));
-				file.read(&fileContent[0], fileSize);
+					std::string httpResponse = "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nContent-Length: " + std::to_string(fileSize) + "\r\n\r\n";
+					std::string fileContent;
+					fileContent.resize(static_cast<size_t>(fileSize));
+					file.read(&fileContent[0], fileSize);
 
-				httpResponse += fileContent;
+					httpResponse += fileContent;
 
-				int iSendResult = send(ClientSocket, httpResponse.c_str(), httpResponse.length(), 0);
-				if (iSendResult == SOCKET_ERROR) {
-					std::cout << "send failed: " << WSAGetLastError() << std::endl;
+					int iSendResult = send(ClientSocket, httpResponse.c_str(), httpResponse.length(), 0);
+					if (iSendResult == SOCKET_ERROR) {
+						std::cout << "send failed: " << WSAGetLastError() << std::endl;
+					}
+					closesocket(ClientSocket);
+					WSACleanup();
 				}
-				closesocket(ClientSocket);
-				WSACleanup();
 			} while (iResult > 0);
 		}
 		if (check == 1) {

@@ -31,7 +31,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*Serveur serveur;
     serveur.Run();*/
 
-    serverConfig server;
+    //serverConfig server;
     ServeurWeb servWeb;
 
     // Initialise les chaînes globales
