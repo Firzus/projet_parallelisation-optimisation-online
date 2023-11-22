@@ -130,7 +130,7 @@ void serverConfig::ReceiveDataPlayerOne() {
 	do {
 		iResult = recv(ClientPlayerOne, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			JsonObjectToJsonFile();
+			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
 			printf("Connection closing...\n");
@@ -160,7 +160,7 @@ void serverConfig::ReceiveDataPlayerTwo() {
 	do {
 		iResult = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			JsonObjectToJsonFile();
+			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
 			printf("Connection closing...\n");
@@ -192,7 +192,7 @@ void serverConfig::ReceiveDataAll()
 		iResult = recv(ClientPlayerOne, recvbuf, recvbuflen, 0);
 		iResult = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			JsonObjectToJsonFile();
+			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
 			printf("Connection closing...\n");
@@ -215,8 +215,6 @@ void serverConfig::ShutdownPlayerOne()
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
-	closesocket(ClientPlayerOne);
-	WSACleanup();
 }
 
 void serverConfig::ShutdownPlayerTwo()
@@ -227,8 +225,6 @@ void serverConfig::ShutdownPlayerTwo()
 		closesocket(ClientPlayerTwo);
 		WSACleanup();
 	}
-	closesocket(ClientPlayerTwo);
-	WSACleanup();
 }
 
 void serverConfig::ShutdownAll() {
@@ -246,7 +242,10 @@ void serverConfig::ShutdownAll() {
 		closesocket(ClientPlayerTwo);
 		WSACleanup();
 	}
+	
+}
 
+void serverConfig::Cleanup() {
 	// cleanup
 	closesocket(ClientPlayerOne);
 	closesocket(ClientPlayerTwo);
@@ -259,17 +258,9 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
-		//if (AcceptPlayerOne() == false) {
-		//	AcceptPlayerOne();
-		//}
-		//else if (AcceptPlayerOne() == true) {
-		//	AcceptPlayerTwo();
-		//}
 		AcceptPlayerOne();
 		break;
 	case FD_READ:
-		ReceiveDataPlayerOne();
-		//ReceiveDataAll();
 		ReceiveDataPlayerOne();
 		break;
 	case FD_CLOSE:
@@ -278,7 +269,7 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 	}
 }
 
-void serverConfig::JsonObjectToJsonFile()
+json serverConfig::JsonStringToJsonObject()
 {
 	//Get string data
 	std::string jsonString(recvbuf);
@@ -288,20 +279,7 @@ void serverConfig::JsonObjectToJsonFile()
 	OutputDebugStringA(jsonString.c_str());
 	OutputDebugString("\n");
 
-	//Json object to Json File
-	std::fstream jsonFile("Data.json");
-
-	if (jsonFile.is_open()) {
-
-		jsonFile << std::setw(4) << receivedJson << std::endl;
-
-		jsonFile.close();
-	}
-	else {
-		OutputDebugString("Impossible d'ouvrir le fichier \n");
-	}
-
-	check = receivedJson["check"];
+	return receivedJson;
 }
 
 json serverConfig::JsonFileToJsonObject()
@@ -324,7 +302,23 @@ json serverConfig::JsonFileToJsonObject()
 std::string serverConfig::JsonObjectToString()
 {
 	//parse json object to string
-	std::string data = JsonFileToJsonObject().dump();
+	std::string data = JsonStringToJsonObject().dump();
 
 	return data;
+}
+
+void serverConfig::JsonObjectToJsonFile()
+{
+	//Json object to Json File
+	std::fstream jsonFile("Data.json");
+
+	if (jsonFile.is_open()) {
+
+		jsonFile << std::setw(4) << JsonStringToJsonObject() << std::endl;
+
+		jsonFile.close();
+	}
+	else {
+		OutputDebugString("Impossible d'ouvrir le fichier \n");
+	}
 }

@@ -36,6 +36,8 @@ public:
 	void ReceiveData();
 	// shutdown
 	void Shutdown();
+	// cleanup
+	void Cleanup();
 
 private:
 	void JsonStringToJsonObject();

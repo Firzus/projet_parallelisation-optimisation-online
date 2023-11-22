@@ -50,13 +50,17 @@ public:
 	void ShutdownPlayerTwo();
 	void ShutdownAll();
 
+	void Cleanup();
+
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
-
 private:
-	void JsonObjectToJsonFile();
+
+	json JsonStringToJsonObject();
 	json JsonFileToJsonObject();
 	std::string JsonObjectToString();
+	void JsonObjectToJsonFile();
+
 
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;

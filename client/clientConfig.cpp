@@ -148,9 +148,12 @@ void clientConfig::Shutdown() {
 		WSACleanup();
 		//return 1;
 	}
+}
 
+void clientConfig::Cleanup()
+{
 	// cleanup
-	//closesocket(ConnectSocket);
+	closesocket(ConnectSocket);
 	WSACleanup();
 }
 
