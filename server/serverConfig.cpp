@@ -7,9 +7,7 @@
 #include <stdio.h>
 
 
-serverConfig::serverConfig() {
-
-}
+serverConfig::serverConfig() {}
 
 void serverConfig::Init(HWND hWnd)
 {
@@ -198,25 +196,54 @@ void serverConfig::JsonObjectToJsonFile()
 
 json serverConfig::JsonFileToJsonObject()
 {
-	//json file to json object
-	std::fstream jsonFile("Data.json");
+	try {
+		std::fstream jsonFile("Data.json");
 
-	if (jsonFile.is_open()) {
+		if (!jsonFile.is_open()) {
+			throw std::runtime_error("Impossible d'ouvrir le fichier Data.json");
+		}
 
 		json jsonObject = json::parse(jsonFile);
-
 		jsonFile.close();
 		return jsonObject;
+
 	}
-	else {
-		OutputDebugString("Impossible de lire le fichier \n");
+	catch (const json::parse_error& e) {
+		// Gestion des erreurs de parsing JSON
+		std::cerr << "Erreur de parsing JSON : " << e.what() << std::endl;
 	}
+	catch (const std::exception& e) {
+		// Gestion des autres erreurs standards
+		std::cerr << "Erreur : " << e.what() << std::endl;
+	}
+	catch (...) {
+		// Gestion de toutes les autres exceptions non spécifiques
+		std::cerr << "Erreur inconnue lors de la lecture du fichier JSON" << std::endl;
+	}
+
+	return json{}; // Retourner un objet JSON vide en cas d'erreur
 }
 
 std::string serverConfig::JsonObjectToString()
 {
-	//parse json object to string
-	std::string data = JsonFileToJsonObject().dump();
-
-	return data;
+	try {
+		// Essayez de parser l'objet JSON en chaîne de caractères
+		std::string data = JsonFileToJsonObject().dump();
+		return data;
+	}
+	catch (const nlohmann::json::exception& e) {
+		// Gérer les exceptions spécifiques à la bibliothèque nlohmann::json
+		std::cerr << "Erreur de traitement JSON : " << e.what() << std::endl;
+		return ""; // Retournez une chaîne vide ou gérez comme nécessaire
+	}
+	catch (const std::exception& e) {
+		// Gérer les autres exceptions standard
+		std::cerr << "Erreur standard : " << e.what() << std::endl;
+		return ""; // Retournez une chaîne vide ou gérez comme nécessaire
+	}
+	catch (...) {
+		// Gérer toutes les autres exceptions non spécifiques
+		std::cerr << "Erreur inconnue lors du traitement JSON" << std::endl;
+		return ""; // Retournez une chaîne vide ou gérez comme nécessaire
+	}
 }
