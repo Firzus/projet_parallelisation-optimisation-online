@@ -7,7 +7,7 @@ void Data::SetPlayerName()
 	playerName = GameManager::GetInstance().GetPlayerName();
 }
 
-std::string Data::GetPlayerName()
+string Data::GetPlayerName()
 {
 	return playerName;
 }
@@ -38,14 +38,26 @@ void Data::SetBoard(const array<array<char, 3>, 3>& board)
 	boardData = board;
 }
 
+const array<array<char, 3>, 3>& Data::GetBoard() const
+{
+	return boardData;
+}
+
 json Data::GetBoardAsJson() const
 {
-	json boardjson;
-	for (const auto& row : boardData)
-	{
-		boardjson.push_back(row);
+	json boardJson;
+	
+	for (const auto& row : boardData) {
+		std::string rowString;
+		for (char c : row) {
+			// Convertir le char en string et l'ajouter à la ligne
+			rowString += c;
+		}
+		// Ajouter la ligne convertie en string au tableau JSON
+		boardJson.push_back(rowString);
 	}
-	return boardjson;
+
+	return boardJson;
 }
 
 void Data::SetConnection()
