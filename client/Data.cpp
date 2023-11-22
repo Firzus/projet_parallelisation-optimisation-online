@@ -28,22 +28,29 @@ void Data::SetWinner()
 	winnerName = GameManager::GetInstance().GetWinner();
 }
 
-std::string Data::GetWinner()
+string Data::GetWinner()
 {
 	return winnerName;
 }
 
-void Data::SetBoard(const std::array<std::array<char, 3>, 3>& board)
+void Data::SetBoard(const array<array<char, 3>, 3>& board)
 {
 	boardData = board;
 }
 
 void Data::SetConnection()
 {
-	isConnected = GameManager::GetInstance().GetStateConnection();
+	if (GameManager::GetInstance().GetStateConnection())
+	{
+		isConnected = 1;
+	}
+	else
+	{
+		isConnected = 0;
+	}
 }
 
-bool Data::GetConnection()
+int Data::GetConnection()
 {
 	return isConnected;
 }
@@ -51,10 +58,18 @@ bool Data::GetConnection()
 void Data::SetGameOver()
 {
 	Game myGame;
-	isGameOver = myGame.IsGameOver();
+
+	if (myGame.IsGameOver())
+	{
+		isGameOver = 1;
+	}
+	else
+	{
+		isGameOver = 0;
+	}
 }
 
-bool Data::GetGameOver()
+int Data::GetGameOver()
 {
 	return isGameOver;
 }

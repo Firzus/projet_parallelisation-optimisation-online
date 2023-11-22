@@ -32,6 +32,8 @@ public:
 	void ConnectSocketMethod();
 
 	void SendAndReceiveData();
+	void CloseConnection();
+	int ShutdownConnection(int how);
 	void Shutdown();
 
 private:
