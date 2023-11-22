@@ -18,7 +18,7 @@ void Data::SetCurrentToken()
 	currentPlayer = myGame.GetCurrentPlayer();
 }
 
-char Data::GetCurrentToken()
+string Data::GetCurrentToken()
 {
 	return currentPlayer;
 }
@@ -50,10 +50,8 @@ json Data::GetBoardAsJson() const
 	for (const auto& row : boardData) {
 		string rowString;
 		for (char c : row) {
-			// Convertir le char en string et l'ajouter à la ligne
 			rowString += c;
 		}
-		// Ajouter la ligne convertie en string au tableau JSON
 		boardJson.push_back(rowString);
 	}
 
@@ -62,17 +60,10 @@ json Data::GetBoardAsJson() const
 
 void Data::SetConnection()
 {
-	if (GameManager::GetInstance().GetStateConnection())
-	{
-		isConnected = 1;
-	}
-	else
-	{
-		isConnected = 0;
-	}
+	isConnected = GameManager::GetInstance().GetStateConnection();
 }
 
-int Data::GetConnection()
+bool Data::GetConnection()
 {
 	return isConnected;
 }
@@ -81,17 +72,10 @@ void Data::SetGameOver()
 {
 	Game myGame;
 
-	if (myGame.IsGameOver())
-	{
-		isGameOver = 1;
-	}
-	else
-	{
-		isGameOver = 0;
-	}
+	isGameOver = myGame.IsGameOver();
 }
 
-int Data::GetGameOver()
+bool Data::GetGameOver()
 {
 	return isGameOver;
 }

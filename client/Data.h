@@ -1,4 +1,5 @@
 #pragma once
+
 #include "framework.h"
 #include <stdio.h>
 #include <iostream>
@@ -14,7 +15,7 @@ public:
 	string GetPlayerName();
 
 	void SetCurrentToken();
-	char GetCurrentToken();
+	string GetCurrentToken();
 
 	void SetWinner();
 	string GetWinner();
@@ -24,17 +25,17 @@ public:
 	json GetBoardAsJson() const;
 
 	void SetConnection();
-	int GetConnection();
+	bool GetConnection();
 
 	void SetGameOver();
-	int GetGameOver();
-private:
+	bool GetGameOver();
 
-	int isGameOver;
-	int isConnected;
+private:
+	bool isGameOver;
+	bool isConnected;
 	string playerName;
 	string winnerName;
-	char currentPlayer;
+	string currentPlayer;
 	
 	array<array<char, 3>, 3> boardData;
 };
