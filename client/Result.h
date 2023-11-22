@@ -20,7 +20,5 @@ private:
 	Text textLabel;
 	Font fontBold;
 
-	bool isGameRestarted;
-
 	const float spacing = 12.f;
 };

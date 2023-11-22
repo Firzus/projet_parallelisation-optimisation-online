@@ -5,6 +5,12 @@
 
 using namespace std;
 
+enum class ApplicationState {
+    Menu,
+    Game,
+    Result
+};
+
 class GameManager {
 public:
     static GameManager& GetInstance() {
@@ -24,8 +30,13 @@ public:
     void SetConnection(const bool& state);
     bool GetStateConnection() const;
 
+    void SetApplicationState(const ApplicationState& newState);
+    ApplicationState GetApplicationState() const;
+
 private:
-    GameManager() {};
+    GameManager() : state(ApplicationState::Menu) {};
+    
+    ApplicationState state;
 
     string playerName;
     string winnerName;

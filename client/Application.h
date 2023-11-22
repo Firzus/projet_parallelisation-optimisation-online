@@ -16,13 +16,9 @@
 
 #include <windows.h>
 
-using namespace sf;
+#include "Resource.h"
 
-enum class ApplicationState {
-    Menu,
-    Game,
-    Result
-};
+using namespace sf;
 
 class Application {
 public:
@@ -30,13 +26,14 @@ public:
     ~Application();
     void Run();
 
+    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 private:
     void ProcessEvents();
     void Render();
     void Update();
 
     RenderWindow window;
-    ApplicationState state;
 
     clientConfig client;
 

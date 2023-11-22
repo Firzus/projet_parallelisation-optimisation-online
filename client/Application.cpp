@@ -7,10 +7,7 @@ game(window),
 result(window),
 exitButton(window),
 networkButton(window),
-waitingScreen(window),
-state(ApplicationState::Menu)
-{
-}
+waitingScreen(window) {}
 
 Application::~Application() {}
 
@@ -38,6 +35,41 @@ void Application::Run()
     }
 }
 
+LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+    switch (message) {
+    case WM_COMMAND:
+    {
+        int wmId = LOWORD(wParam);
+        // Analyse les sélections de menu:
+        switch (wmId) {
+        case IDM_ABOUT:
+            //DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+            break;
+        case IDM_EXIT:
+            DestroyWindow(hWnd);
+            break;
+        default:
+            return DefWindowProc(hWnd, message, wParam, lParam);
+        }
+    }
+    break;
+    case WM_PAINT:
+    {
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        // Code de dessin utilisant hdc...
+        EndPaint(hWnd, &ps);
+    }
+    break;
+    case WM_DESTROY:
+        PostQuitMessage(0);
+        break;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+    return 0;
+}
+
 void Application::ProcessEvents()
 {
     Event event;
@@ -53,16 +85,16 @@ void Application::ProcessEvents()
         {
             exitButton.HandleEvent(event);
 
-            if (state == ApplicationState::Menu)
+            if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Menu)
             {
                 menu.HandleInput(event);
 
                 if (menu.IsStartClicked())
                 {
-                    state = ApplicationState::Game;
+                    GameManager::GetInstance().SetApplicationState(ApplicationState::Game);
                 }
             }
-            else if (state == ApplicationState::Game)
+            else if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Game)
             {
                 if (event.type == Event::MouseButtonPressed) {
                     game.HandleMouseClick(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
@@ -70,10 +102,10 @@ void Application::ProcessEvents()
 
                 if (game.IsGameOver())
                 {
-                    state = ApplicationState::Result;
+                    GameManager::GetInstance().SetApplicationState(ApplicationState::Result);
                 }
             }
-            else if (state == ApplicationState::Result)
+            else if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Result)
             {
                 // Void
             }
@@ -87,13 +119,13 @@ void Application::Render()
     exitButton.Draw();
     networkButton.Draw();
 
-    if (state == ApplicationState::Menu) {
+    if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Menu) {
         menu.Draw();
     }
-    else if (state == ApplicationState::Game) {
+    else if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Game) {
         game.Draw();
     }
-    else if (state == ApplicationState::Result) {
+    else if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Result) {
         result.Draw();
     }
 
