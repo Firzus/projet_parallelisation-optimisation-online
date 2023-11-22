@@ -37,6 +37,7 @@ public:
 	//shutdown
 	void Shutdown();
 
+	void LoadGame();
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
 

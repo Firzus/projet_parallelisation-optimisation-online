@@ -48,3 +48,13 @@ bool Data::GetConnection()
 	return isConnected;
 }
 
+void Data::SetGameOver()
+{
+	Game myGame;
+	isGameOver = myGame.IsGameOver();
+}
+
+void Data::GetGameOver()
+{
+	return isGameOver;
+}

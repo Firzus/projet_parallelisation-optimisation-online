@@ -22,8 +22,12 @@ public:
 
 	void SetConnection();
 	bool GetConnection();
+
+	void SetGameOver();
+	bool GetGameOver();
 private:
 
+	bool isGameOver;
 	bool isConnected;
 	std::string playerName;
 	std::string winnerName;

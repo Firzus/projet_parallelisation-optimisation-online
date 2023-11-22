@@ -86,6 +86,7 @@ void Game::HandleMouseClick(float x, float y) {
             }
             else {
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+                da.SetCurrentToken();
             }
         }
     }
