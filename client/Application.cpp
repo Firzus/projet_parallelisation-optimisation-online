@@ -1,5 +1,4 @@
 #include "Application.h"
-#define MSG_CLIENT_CONNECT (WM_USER+1)
 static clientConfig client;
 
 Application::Application() :
@@ -44,7 +43,7 @@ void Application::Run()
 
 LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
-	case MSG_CLIENT_CONNECT:
+	case WM_USER:
 		client.HandleSocketMessage(wParam, lParam);
 		break;
 	case WM_DESTROY:

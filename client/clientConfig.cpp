@@ -1,6 +1,9 @@
 #include "clientConfig.h"
 #include "Game.h"
-#define MSG_CLIENT_CONNECT (WM_USER+1)
+
+#include <ws2tcpip.h>
+#include <iphlpapi.h>
+#include <stdio.h>
 
 void clientConfig::Init(HWND hWnd) {
 	AddrInfo();
@@ -56,7 +59,7 @@ void clientConfig::CreateSocket()
 
 void clientConfig::ConfigureClientSocket(HWND hWnd)
 {
-	WSAAsyncSelect(ConnectSocket, hWnd, MSG_CLIENT_CONNECT, FD_CONNECT | FD_READ);
+	WSAAsyncSelect(ConnectSocket, hWnd, WM_USER, FD_CONNECT | FD_READ);
 }
 
 void clientConfig::ConnectSocketMethod() 
