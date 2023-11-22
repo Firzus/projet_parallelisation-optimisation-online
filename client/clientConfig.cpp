@@ -92,15 +92,7 @@ void clientConfig::SendData()
 		WSACleanup();
 		//return 1;
 	}
-	// shutdown the send half of the connection since no more data will be sent
-	iResult = shutdown(ConnectSocket, SD_SEND);
-	if (iResult == SOCKET_ERROR) {
-		OutputDebugStringA("shutdown failed: %d\n" + WSAGetLastError());
-		OutputDebugString("\n");
-		closesocket(ConnectSocket);
-		WSACleanup();
-		//return 1;
-	}
+	//Shutdown();
 }
 
 void clientConfig::ReceiveData()
@@ -112,6 +104,7 @@ void clientConfig::ReceiveData()
 			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
+			//Shutdown();
 			printf("Connection closed\n");
 
 		}

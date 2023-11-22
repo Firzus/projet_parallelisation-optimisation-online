@@ -22,21 +22,33 @@ public:
 	serverConfig();
 	
 	void Init(HWND hWnd);
-	//server part
+	//			SERVER PART
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
-	//WSA Async config server
+	//			WSA ASYNC SERVER
 	void ConfigureServerSocket(HWND hWnd);
-	//client part
+	//			SERVER PART
 	void LinkSocket();
 	void ListenSocketMethod();
-	void AcceptConnexion();
-	//data
-	void SendData();
-	void ReceiveData();
-	//shutdown
-	void Shutdown();
+	//			CLIENT PART
+	bool AcceptPlayerOne();
+	bool AcceptPlayerTwo();
+	//			DATA
+	// Player one
+	void SendDataPlayerOne();
+	void ReceiveDataPlayerOne();
+	//Player two
+	void SendDataPlayerTwo();
+	void ReceiveDataPlayerTwo();
+	//All
+	void SendDataAll();
+	void ReceiveDataAll();
+
+	//			SHUTDOWN
+	void ShutdownPlayerOne();
+	void ShutdownPlayerTwo();
+	void ShutdownAll();
 
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
@@ -48,10 +60,9 @@ private:
 
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;
-	SOCKET ClientSocket = INVALID_SOCKET;
+	SOCKET ClientPlayerOne = INVALID_SOCKET;
+	SOCKET ClientPlayerTwo = INVALID_SOCKET;
 	int iResult, iSendResult, check;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
-	bool loop = false;
-	
 };
