@@ -24,10 +24,13 @@ class Application {
 public:
     Application();
     ~Application();
+    void InitClient();
     void Run();
 
+    HWND hWnd;
     static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
+    
 private:
     void ProcessEvents();
     void Render();
@@ -35,7 +38,7 @@ private:
 
     RenderWindow window;
 
-    clientConfig client;
+    
 
     Menu menu;
     Game game;
@@ -43,4 +46,5 @@ private:
     ExitButton exitButton;
     NetworkButton networkButton;
     WaitingScreen waitingScreen;
+    
 };

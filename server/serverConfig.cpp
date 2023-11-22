@@ -260,15 +260,16 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
-		if (AcceptPlayerOne() == false) {
-			AcceptPlayerOne();
-		}
-		else if (AcceptPlayerOne() == true) {
-			AcceptPlayerTwo();
-		}
-		
+		//if (AcceptPlayerOne() == false) {
+		//	AcceptPlayerOne();
+		//}
+		//else if (AcceptPlayerOne() == true) {
+		//	AcceptPlayerTwo();
+		//}
+		AcceptPlayerOne();
 		break;
 	case FD_READ:
+		ReceiveDataPlayerOne();
 		//ReceiveDataAll();
 		break;
 	case FD_CLOSE:

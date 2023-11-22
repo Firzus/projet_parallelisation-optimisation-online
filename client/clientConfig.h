@@ -24,12 +24,15 @@ public:
 
 	clientConfig() {};
 
-	void Init();
+	void Init(HWND hWnd);
 	//create client 
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
+	void ConfigureClientSocket(HWND hWnd);
 	void ConnectSocketMethod();
+	// Handle message
+	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 	// Send and Receive data
 	void SendData();
 	void ReceiveData();

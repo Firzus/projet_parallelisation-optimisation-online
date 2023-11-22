@@ -1,12 +1,13 @@
 #include "clientConfig.h"
 #include "Game.h"
 
-void clientConfig::Init() {
+void clientConfig::Init(HWND hWnd) {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
-	ConnectSocketMethod();
-	SendData();
+	ConfigureClientSocket(hWnd);
+	//ConnectSocketMethod();
+	//SendData();
 }
 
 void clientConfig::AddrInfo() 
@@ -54,6 +55,11 @@ void clientConfig::CreateSocket()
 	}
 }
 
+void clientConfig::ConfigureClientSocket(HWND hWnd)
+{
+	WSAAsyncSelect(ConnectSocket, hWnd, WM_USER, FD_CONNECT | FD_READ | FD_CLOSE);
+}
+
 void clientConfig::ConnectSocketMethod() 
 {
 	// Connect to server.
@@ -78,6 +84,21 @@ void clientConfig::ConnectSocketMethod()
 	}
 }
 
+void clientConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
+{
+	switch (WSAGETSELECTEVENT(lParam)) {
+	case FD_CONNECT:
+		ConnectSocketMethod();
+		break;
+	case FD_READ:
+		ReceiveData();
+		break;
+	case FD_CLOSE:
+		closesocket(wParam);
+		break;
+	}
+}
+
 void clientConfig::SendData()
 {
 	std::string sendbuf = data.dump();
@@ -91,7 +112,7 @@ void clientConfig::SendData()
 		WSACleanup();
 		//return 1;
 	}
-	//Shutdown();
+	Shutdown();
 }
 
 void clientConfig::ReceiveData()
