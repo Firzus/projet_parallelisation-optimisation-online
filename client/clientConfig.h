@@ -48,7 +48,6 @@ private:
 			{"PlayerName", da.GetPlayerName()},
 			{"PlayerToken", "O"},
 		},
-
 		{"CurrentPlayer", da.GetCurrentToken()},
 		{"TokenPos", da.GetBoard()},
 		{"WinnerName", da.GetWinner()},

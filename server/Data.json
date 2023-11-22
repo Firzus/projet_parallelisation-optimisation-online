@@ -1,9 +1,60 @@
-{
-  "Player1": {
-    "PlayerName": "",
-    "PlayerToken": "",
-    "Score": ""
-  }
-
-
-}
+[
+    [
+        "Player1",
+        [
+            "PlayerName",
+            ""
+        ],
+        [
+            "PlayerToken",
+            "X"
+        ]
+    ],
+    [
+        "Player2",
+        [
+            "PlayerName",
+            ""
+        ],
+        [
+            "PlayerToken",
+            "O"
+        ]
+    ],
+    [
+        "CurrentPlayer",
+        0
+    ],
+    [
+        "TokenPos",
+        [
+            [
+                0,
+                0,
+                0
+            ],
+            [
+                0,
+                0,
+                0
+            ],
+            [
+                0,
+                0,
+                0
+            ]
+        ]
+    ],
+    [
+        "WinnerName",
+        ""
+    ],
+    [
+        "Connection",
+        false
+    ],
+    [
+        "IsGameOver",
+        false
+    ]
+]

@@ -31,6 +31,8 @@ turnMessage(window)
     scoreP1 = 0;
     scoreP2 = 0;
 
+    
+
     CleanBoard();
 }
 
@@ -55,7 +57,7 @@ void Game::Draw()
                 window.draw(spriteO);
             }
 
-            da.SetBoard(board);
+            //da.SetBoard(board);
         }
     }
 }
