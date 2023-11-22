@@ -31,19 +31,34 @@ public:
 	void CreateSocket();
 	void ConnectSocketMethod();
 
+
+	string ReceiveData();
+	void SendData(const string& data);
 	void SendAndReceiveData();
+	void CloseConnection();
+	int ShutdownConnection(int how);
 	void Shutdown();
 
 private:
 	Data da;
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
-	json data = {
-		{"UserName", da.GetPlayerName()},
-		{"CurrentPlayer", da.GetPlayerToken()},
+
+	json data = 
+	{
+		{"Player1", {
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", "X"}
+		}},
+		{"Player2", {
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", "O"}
+		}},
+		{"CurrentPlayer", da.GetCurrentToken()},
+		{"TokenPos", da.GetBoardAsJson()},
 		{"WinnerName", da.GetWinner()},
-		{"TokenPos", da.GetBoard()},
-		{"check", 1},
+		{"Connection", da.GetConnection()},
+		{"IsGameOver", da.GetGameOver()}
 	};
 
 	int iResult;

@@ -78,54 +78,67 @@ void clientConfig::ConnectSocketMethod()
 	}
 }
 
-void clientConfig::SendAndReceiveData() 
-{
-	// Convertir l'objet JSON en cha��e JSON
-	std::string sendbuf = data.dump();
-	OutputDebugStringA(sendbuf.c_str());
-	// Utiliser sendbuf dans la port�e actuelle
-	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+void clientConfig::SendData(const string& data) {
+	iResult = send(ConnectSocket, data.c_str(), static_cast<int>(data.length()), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
-		
-		closesocket(ConnectSocket);
-		WSACleanup();
-		//return 1;
+		CloseConnection();
+		throw runtime_error("Send failed");
 	}
 	printf("Bytes Sent: %ld\n", iResult);
-	
-	// shutdown the send half of the connection since no more data will be sent
-	iResult = shutdown(ConnectSocket, SD_SEND);
+}
+
+string clientConfig::ReceiveData() {
+	string receivedData;
+	do {
+		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
+			receivedData.append(recvbuf, iResult);
+		}
+		else if (iResult == 0) {
+			printf("Connection closed\n");
+			break;
+		}
+		else {
+			printf("recv failed: %d\n", WSAGetLastError());
+			CloseConnection();
+			throw runtime_error("Receive failed");
+		}
+	} while (iResult > 0);
+
+	return receivedData;
+}
+
+void clientConfig::SendAndReceiveData() {
+	try {
+		string sendbuf = data.dump();
+		OutputDebugStringA(sendbuf.c_str());
+		SendData(sendbuf);
+		ShutdownConnection(SD_SEND);
+		string receivedData = ReceiveData();
+	}
+	catch (const runtime_error& e) {
+		cerr << e.what() << endl;
+	}
+}
+
+void clientConfig::CloseConnection() {
+	closesocket(ConnectSocket);
+	ConnectSocket = INVALID_SOCKET;
+	WSACleanup();
+}
+
+int clientConfig::ShutdownConnection(int how) {
+	iResult = shutdown(ConnectSocket, how);
 	if (iResult == SOCKET_ERROR) {
 		printf("shutdown failed: %d\n", WSAGetLastError());
-		
-		closesocket(ConnectSocket);
-		WSACleanup();
-		//return 1;
+		CloseConnection();
 	}
-
-	// Receive data until the server closes the connection
-	//do {
-	//	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-	//	if (iResult > 0) {
-	//		printf("Bytes received: %d\n", iResult);
-	//		
-	//	}
-
-	//	else if (iResult == 0){
-	//		printf("Connection closed\n");
-	//		
-	//	}
-	//	else {
-	//		printf("recv failed: %d\n", WSAGetLastError());
-	//		
-	//	}
-	//} while (iResult > 0);
+	return iResult;
 }
 
 void clientConfig::Shutdown() 
 {
-
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {

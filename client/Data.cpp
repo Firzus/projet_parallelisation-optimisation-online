@@ -12,13 +12,13 @@ string Data::GetPlayerName()
 	return playerName;
 }
 
-void Data::SetPlayerToken()
+void Data::SetCurrentToken()
 {
 	Game myGame;
 	currentPlayer = myGame.GetCurrentPlayer();
 }
 
-char Data::GetPlayerToken()
+string Data::GetCurrentToken()
 {
 	return currentPlayer;
 }
@@ -38,25 +38,44 @@ void Data::SetBoard(const array<array<char, 3>, 3>& board)
 	boardData = board;
 }
 
-void Data::SetAppState()
+const array<array<char, 3>, 3>& Data::GetBoard() const
 {
-	// void
+	return boardData;
 }
 
-string Data::GetAppState()
+json Data::GetBoardAsJson() const
 {
-	switch (GameManager::GetInstance().GetApplicationState())
-	{
-	case ApplicationState::Menu:
-		return "menu";
-		break;
-	case ApplicationState::Game:
-		return "game";
-		break;
-	case ApplicationState::Result:
-		return "result";
-		break;
-	default:
-		break;
+	json boardJson;
+	
+	for (const auto& row : boardData) {
+		string rowString;
+		for (char c : row) {
+			rowString += c;
+		}
+		boardJson.push_back(rowString);
 	}
+
+	return boardJson;
+}
+
+void Data::SetConnection()
+{
+	isConnected = GameManager::GetInstance().GetStateConnection();
+}
+
+bool Data::GetConnection()
+{
+	return isConnected;
+}
+
+void Data::SetGameOver()
+{
+	Game myGame;
+
+	isGameOver = myGame.IsGameOver();
+}
+
+bool Data::GetGameOver()
+{
+	return isGameOver;
 }

@@ -6,10 +6,7 @@
 #include <iphlpapi.h>
 #include <stdio.h>
 
-
-serverConfig::serverConfig() {
-
-}
+serverConfig::serverConfig() {}
 
 void serverConfig::Init(HWND hWnd)
 {
@@ -93,7 +90,6 @@ void serverConfig::ListenSocketMethod() {
 }
 
 void serverConfig::AcceptConnexion() {
-
 	// Accept a client socket
 	ClientSocket = accept(ListenSocket, NULL, NULL);
 	if (ClientSocket != INVALID_SOCKET) {
@@ -180,43 +176,63 @@ void serverConfig::JsonObjectToJsonFile()
 	OutputDebugStringA(jsonString.c_str());
 	OutputDebugString("\n");
 
-	//Json object to Json File
-	std::fstream jsonFile("Data.json");
+	////Json object to Json File
+	//std::fstream jsonFile("Data.json");
 
-	if (jsonFile.is_open()) {
+	//if (jsonFile.is_open()) {
 
-		jsonFile << std::setw(4) << receivedJson << std::endl;
+	//	jsonFile << std::setw(4) << receivedJson << std::endl;
 
-		jsonFile.close();
-	}
-	else {
-		OutputDebugString("Impossible d'ouvrir le fichier \n");
-	}
-
-	check = receivedJson["check"];
+	//	jsonFile.close();
+	//}
+	//else {
+	//	OutputDebugString("Impossible d'ouvrir le fichier \n");
+	//}
 }
 
 json serverConfig::JsonFileToJsonObject()
 {
-	//json file to json object
-	std::fstream jsonFile("Data.json");
+	try {
+		std::fstream jsonFile("Data.json");
 
-	if (jsonFile.is_open()) {
+		if (!jsonFile.is_open()) {
+			throw std::runtime_error("Impossible d'ouvrir le fichier Data.json");
+		}
 
 		json jsonObject = json::parse(jsonFile);
-
 		jsonFile.close();
 		return jsonObject;
+
 	}
-	else {
-		OutputDebugString("Impossible de lire le fichier \n");
+	catch (const json::parse_error& e) {
+		std::cerr << "Erreur de parsing JSON : " << e.what() << std::endl;
 	}
+	catch (const std::exception& e) {
+		std::cerr << "Erreur : " << e.what() << std::endl;
+	}
+	catch (...) {
+		std::cerr << "Erreur inconnue lors de la lecture du fichier JSON" << std::endl;
+	}
+
+	return json{};
 }
 
 std::string serverConfig::JsonObjectToString()
 {
-	//parse json object to string
-	std::string data = JsonFileToJsonObject().dump();
-
-	return data;
+	try {
+		std::string data = JsonFileToJsonObject().dump();
+		return data;
+	}
+	catch (const nlohmann::json::exception& e) {
+		std::cerr << "Erreur de traitement JSON : " << e.what() << std::endl;
+		return "";
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Erreur standard : " << e.what() << std::endl;
+		return "";
+	}
+	catch (...) {
+		std::cerr << "Erreur inconnue lors du traitement JSON" << std::endl;
+		return "";
+	}
 }
