@@ -92,7 +92,7 @@ void clientConfig::SendData()
 		WSACleanup();
 		//return 1;
 	}
-	//Shutdown();
+	Shutdown();
 }
 
 void clientConfig::ReceiveData()

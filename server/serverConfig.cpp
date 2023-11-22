@@ -124,7 +124,6 @@ void serverConfig::SendDataPlayerOne() {
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
-	printf("Bytes sent: %d\n", iSendResult);
 }
 
 void serverConfig::ReceiveDataPlayerOne() {
@@ -185,7 +184,6 @@ void serverConfig::SendDataAll()
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
-	printf("Bytes sent: %d\n", iSendResult);
 }
 
 void serverConfig::ReceiveDataAll()
@@ -260,16 +258,17 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
-		if (AcceptPlayerOne() == false) {
-			AcceptPlayerOne();
-		}
-		else if (AcceptPlayerOne() == true) {
-			AcceptPlayerTwo();
-		}
-		
+		//if (AcceptPlayerOne() == false) {
+		//	AcceptPlayerOne();
+		//}
+		//else if (AcceptPlayerOne() == true) {
+		//	AcceptPlayerTwo();
+		//}
+		AcceptPlayerOne();
 		break;
 	case FD_READ:
 		//ReceiveDataAll();
+		ReceiveDataPlayerOne();
 		break;
 	case FD_CLOSE:
 		closesocket(wParam);
