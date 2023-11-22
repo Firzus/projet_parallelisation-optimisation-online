@@ -1,10 +1,23 @@
 {
-    "CurrentPlayer": "X",
-    "PositionMouseX": 2.0,
-    "PositionMouseY": 2.0,
-    "UserName": "fabien",
-    "arrayX": 2,
-    "arrayY": 2,
+    "CurrentPlayer": 0,
+    "TokenPos": [
+        [
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0
+        ],
+        [
+            0,
+            0,
+            0
+        ]
+    ],
+    "UserName": "",
+    "WinnerName": "",
     "check": 0
 }
-

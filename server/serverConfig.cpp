@@ -189,6 +189,7 @@ void serverConfig::SendDataAll()
 void serverConfig::ReceiveDataAll()
 {
 	do {
+		iResult = recv(ClientPlayerOne, recvbuf, recvbuflen, 0);
 		iResult = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
 			JsonObjectToJsonFile();
@@ -267,6 +268,7 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 		AcceptPlayerOne();
 		break;
 	case FD_READ:
+		ReceiveDataPlayerOne();
 		//ReceiveDataAll();
 		ReceiveDataPlayerOne();
 		break;

@@ -48,10 +48,7 @@ void Window::Init(HINSTANCE hInstance, int nCmdShow) {
 		PostQuitMessage(0);
 	}
 
-	ShowWindow(hWnd, nCmdShow);
-	
-	
-
+	//ShowWindow(hWnd, nCmdShow);
 	Update();
 }
 
@@ -66,7 +63,6 @@ void Window::Update() {
 
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	
     switch (message)
     {
     case WM_DESTROY:

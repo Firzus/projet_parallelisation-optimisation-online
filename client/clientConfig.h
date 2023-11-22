@@ -9,7 +9,7 @@ using json = nlohmann::json;
 #include <iphlpapi.h>
 #include <stdio.h>
 
-#include "GameManager.h"
+#include "Data.h"
 
 #define DEFAULT_IP NULL
 #define DEFAULT_BUFLEN 512
@@ -24,12 +24,15 @@ public:
 
 	clientConfig() {};
 
-	void Init();
+	void Init(HWND hWnd);
 	//create client 
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
+	void ConfigureClientSocket(HWND hWnd);
 	void ConnectSocketMethod();
+	// Handle message
+	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 	// Send and Receive data
 	void SendData();
 	void ReceiveData();
@@ -39,17 +42,17 @@ public:
 private:
 	void JsonStringToJsonObject();
 
+	Data da;
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
 	json data = {
-		{"UserName", "fabien"},
-		{"CurrentPlayer", "X"},
-		{"arrayX", 2},
-		{"arrayY", 2},
-		{"PositionMouseX", 2.0},
-		{"PositionMouseY", 2.0},
+		{"UserName", da.GetPlayerName()},
+		{"CurrentPlayer", da.GetPlayerToken()},
+		{"WinnerName", da.GetWinner()},
+		{"TokenPos", da.GetBoard()},
 		{"check", 0},
 	};
+
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;
 	char recvbuf[DEFAULT_BUFLEN];
