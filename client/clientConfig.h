@@ -31,6 +31,9 @@ public:
 	void CreateSocket();
 	void ConnectSocketMethod();
 
+
+	string ReceiveData();
+	void SendData(const string& data);
 	void SendAndReceiveData();
 	void CloseConnection();
 	int ShutdownConnection(int how);
@@ -52,7 +55,7 @@ private:
 			{"PlayerToken", "O"}
 		}},
 		{"CurrentPlayer", da.GetCurrentToken()},
-		//{"TokenPos", da.GetBoardAsJson()},
+		{"TokenPos", da.GetBoardAsJson()},
 		{"WinnerName", da.GetWinner()},
 		{"Connection", da.GetConnection()},
 		{"IsGameOver", da.GetGameOver()}

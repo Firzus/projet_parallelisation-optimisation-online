@@ -105,10 +105,6 @@ void Application::ProcessEvents()
                     GameManager::GetInstance().SetApplicationState(ApplicationState::Result);
                 }
             }
-            else if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Result)
-            {
-                // Void
-            }
         }
     }
 }

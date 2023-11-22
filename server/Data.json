@@ -10,5 +10,10 @@
         "PlayerName": "",
         "PlayerToken": "O"
     },
+    "TokenPos": [
+        "\u0000\u0000\u0000",
+        "\u0000\u0000\u0000",
+        "\u0000\u0000\u0000"
+    ],
     "WinnerName": ""
 }

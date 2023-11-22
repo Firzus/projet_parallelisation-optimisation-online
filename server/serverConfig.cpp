@@ -90,7 +90,6 @@ void serverConfig::ListenSocketMethod() {
 }
 
 void serverConfig::AcceptConnexion() {
-
 	// Accept a client socket
 	ClientSocket = accept(ListenSocket, NULL, NULL);
 	if (ClientSocket != INVALID_SOCKET) {
@@ -177,20 +176,18 @@ void serverConfig::JsonObjectToJsonFile()
 	OutputDebugStringA(jsonString.c_str());
 	OutputDebugString("\n");
 
-	//Json object to Json File
-	std::fstream jsonFile("Data.json");
+	////Json object to Json File
+	//std::fstream jsonFile("Data.json");
 
-	if (jsonFile.is_open()) {
+	//if (jsonFile.is_open()) {
 
-		jsonFile << std::setw(4) << receivedJson << std::endl;
+	//	jsonFile << std::setw(4) << receivedJson << std::endl;
 
-		jsonFile.close();
-	}
-	else {
-		OutputDebugString("Impossible d'ouvrir le fichier \n");
-	}
-
-	check = receivedJson["check"];
+	//	jsonFile.close();
+	//}
+	//else {
+	//	OutputDebugString("Impossible d'ouvrir le fichier \n");
+	//}
 }
 
 json serverConfig::JsonFileToJsonObject()

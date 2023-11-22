@@ -78,42 +78,48 @@ void clientConfig::ConnectSocketMethod()
 	}
 }
 
-void clientConfig::SendAndReceiveData()
-{
-	// Convertir l'objet JSON en chaîne JSON
-	std::string sendbuf = data.dump();
-	OutputDebugStringA(sendbuf.c_str());
-
-	// Envoyer des données
-	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+void clientConfig::SendData(const string& data) {
+	iResult = send(ConnectSocket, data.c_str(), static_cast<int>(data.length()), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
 		CloseConnection();
-		return;
+		throw runtime_error("Send failed");
 	}
 	printf("Bytes Sent: %ld\n", iResult);
+}
 
-	// Arrêter l'envoi puisque plus aucune donnée ne sera envoyée
-	if (ShutdownConnection(SD_SEND) == SOCKET_ERROR) {
-		return;
-	}
-
-	// Recevoir des données jusqu'à ce que le serveur ferme la connexion
-
-	/*
+string clientConfig::ReceiveData() {
+	string receivedData;
 	do {
 		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			printf("Bytes received: %d\n", iResult);
+			receivedData.append(recvbuf, iResult);
 		}
 		else if (iResult == 0) {
 			printf("Connection closed\n");
+			break;
 		}
 		else {
 			printf("recv failed: %d\n", WSAGetLastError());
+			CloseConnection();
+			throw runtime_error("Receive failed");
 		}
 	} while (iResult > 0);
-	*/
+
+	return receivedData;
+}
+
+void clientConfig::SendAndReceiveData() {
+	try {
+		string sendbuf = data.dump();
+		OutputDebugStringA(sendbuf.c_str());
+		SendData(sendbuf);
+		ShutdownConnection(SD_SEND);
+		string receivedData = ReceiveData();
+	}
+	catch (const runtime_error& e) {
+		cerr << e.what() << endl;
+	}
 }
 
 void clientConfig::CloseConnection() {
@@ -133,7 +139,6 @@ int clientConfig::ShutdownConnection(int how) {
 
 void clientConfig::Shutdown() 
 {
-
 	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ConnectSocket, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
