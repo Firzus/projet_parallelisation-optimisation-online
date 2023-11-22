@@ -1,5 +1,6 @@
 #include "clientConfig.h"
 #include "Game.h"
+#define MSG_CLIENT_CONNECT (WM_USER+1)
 
 void clientConfig::Init(HWND hWnd) {
 	AddrInfo();
@@ -57,7 +58,7 @@ void clientConfig::CreateSocket()
 
 void clientConfig::ConfigureClientSocket(HWND hWnd)
 {
-	WSAAsyncSelect(ConnectSocket, hWnd, WM_USER, FD_CONNECT | FD_READ | FD_CLOSE);
+	WSAAsyncSelect(ConnectSocket, hWnd, MSG_CLIENT_CONNECT, FD_CONNECT | FD_READ);
 }
 
 void clientConfig::ConnectSocketMethod() 
@@ -88,7 +89,7 @@ void clientConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_CONNECT:
-		OutputDebugString("connected");
+		OutputDebugString("\nconnected\n");
 		break;
 	case FD_READ:
 		ReceiveData();
