@@ -38,10 +38,10 @@ public:
 	// Player one
 	void SendDataPlayerOne();
 	void ReceiveDataPlayerOne();
-	//Player two
+	// Player two
 	void SendDataPlayerTwo();
 	void ReceiveDataPlayerTwo();
-	//All
+	// All
 	void SendDataAll();
 	void ReceiveDataAll();
 	//			SHUTDOWN
@@ -65,7 +65,7 @@ private:
 	SOCKET ListenSocket = INVALID_SOCKET;
 	SOCKET ClientPlayerOne = INVALID_SOCKET;
 	SOCKET ClientPlayerTwo = INVALID_SOCKET;
-	int iResult, iSendResult, check;
+	int iResult, iResult2, iSendResult, check;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 };

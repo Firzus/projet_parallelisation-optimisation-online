@@ -179,7 +179,13 @@ void serverConfig::SendDataAll()
 
 	iSendResult = send(ClientPlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iSendResult == SOCKET_ERROR) {
-		printf("All send failed: %d\n", WSAGetLastError());
+		printf("Player one send failed: %d\n", WSAGetLastError());
+		closesocket(ClientPlayerOne);
+		WSACleanup();
+	}
+	iSendResult2 = send(ClientPlayerTwo, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+	if (iSendResult2 == SOCKET_ERROR) {
+		printf("Player two send failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
@@ -189,15 +195,16 @@ void serverConfig::ReceiveDataAll()
 {
 	do {
 		iResult = recv(ClientPlayerOne, recvbuf, recvbuflen, 0);
-		iResult = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
-		if (iResult > 0) {
+		iResult2 = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
+		if (iResult > 0 || iResult2 > 0) {
 			JsonStringToJsonObject();
 		}
-		else if (iResult == 0) {
+		else if (iResult == 0 || iResult2 == 0) {
 			printf("All Connection closing...\n");
 		}
 		else {
 			printf("All recv failed: %d\n", WSAGetLastError());
+			closesocket(ClientPlayerOne);
 			closesocket(ClientPlayerTwo);
 			WSACleanup();
 		}
@@ -267,6 +274,7 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
 		AcceptPlayerOne();
+		AcceptPlayerTwo();
 		break;
 	case FD_READ:
 		ReceiveDataPlayerOne();
