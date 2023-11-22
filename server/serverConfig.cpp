@@ -93,7 +93,7 @@ bool serverConfig::AcceptPlayerOne() {
 		return true;
 	}
 	else if (ClientPlayerOne == INVALID_SOCKET) {
-		OutputDebugString("accept failed: %d\n");
+		OutputDebugString("Player one accept failed: %d\n");
 		closesocket(ListenSocket);
 		WSACleanup();
 		return false;
@@ -108,7 +108,7 @@ bool serverConfig::AcceptPlayerTwo()
 		return true;
 	}
 	else if (ClientPlayerTwo == INVALID_SOCKET) {
-		OutputDebugString("accept failed: %d\n");
+		OutputDebugString("Player two accept failed: %d\n");
 		closesocket(ListenSocket);
 		WSACleanup();
 		return false;
@@ -120,7 +120,7 @@ void serverConfig::SendDataPlayerOne() {
 
 	iSendResult = send(ClientPlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iSendResult == SOCKET_ERROR) {
-		printf("send failed: %d\n", WSAGetLastError());
+		printf("Player one send failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
@@ -133,10 +133,10 @@ void serverConfig::ReceiveDataPlayerOne() {
 			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
-			printf("Connection closing...\n");
+			printf("Player one Connection closing...\n");
 		}
 		else {
-			printf("recv failed: %d\n", WSAGetLastError());
+			printf("Player one recv failed: %d\n", WSAGetLastError());
 			closesocket(ClientPlayerOne);
 			WSACleanup();
 		}
@@ -149,11 +149,10 @@ void serverConfig::SendDataPlayerTwo() {
 
 	iSendResult = send(ClientPlayerTwo, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iSendResult == SOCKET_ERROR) {
-		printf("send failed: %d\n", WSAGetLastError());
+		printf("Player two send failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerTwo);
 		WSACleanup();
 	}
-	printf("Bytes sent: %d\n", iSendResult);
 }
 
 void serverConfig::ReceiveDataPlayerTwo() {
@@ -163,10 +162,10 @@ void serverConfig::ReceiveDataPlayerTwo() {
 			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
-			printf("Connection closing...\n");
+			printf("Player two Connection closing...\n");
 		}
 		else {
-			printf("recv failed: %d\n", WSAGetLastError());
+			printf("Player two recv failed: %d\n", WSAGetLastError());
 			closesocket(ClientPlayerTwo);
 			WSACleanup();
 		}
@@ -180,7 +179,7 @@ void serverConfig::SendDataAll()
 
 	iSendResult = send(ClientPlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iSendResult == SOCKET_ERROR) {
-		printf("send failed: %d\n", WSAGetLastError());
+		printf("All send failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
@@ -195,10 +194,10 @@ void serverConfig::ReceiveDataAll()
 			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
-			printf("Connection closing...\n");
+			printf("All Connection closing...\n");
 		}
 		else {
-			printf("recv failed: %d\n", WSAGetLastError());
+			printf("All recv failed: %d\n", WSAGetLastError());
 			closesocket(ClientPlayerTwo);
 			WSACleanup();
 		}
@@ -208,10 +207,9 @@ void serverConfig::ReceiveDataAll()
 
 void serverConfig::ShutdownPlayerOne()
 {
-	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ClientPlayerOne, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed: %d\n", WSAGetLastError());
+		printf("Player one shutdown failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
@@ -221,37 +219,47 @@ void serverConfig::ShutdownPlayerTwo()
 {
 	iResult = shutdown(ClientPlayerTwo, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed: %d\n", WSAGetLastError());
+		printf("Player two shutdown failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerTwo);
 		WSACleanup();
 	}
 }
 
 void serverConfig::ShutdownAll() {
-	// shutdown the send half of the connection since no more data will be sent
 	iResult = shutdown(ClientPlayerOne, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed: %d\n", WSAGetLastError());
+		printf("Player one shutdown failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerOne);
 		WSACleanup();
 	}
 
 	iResult = shutdown(ClientPlayerTwo, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed: %d\n", WSAGetLastError());
+		printf("Player two shutdown failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerTwo);
 		WSACleanup();
 	}
-	
 }
 
-void serverConfig::Cleanup() {
+void serverConfig::Cleanup(int nb) {
 	// cleanup
-	closesocket(ClientPlayerOne);
-	closesocket(ClientPlayerTwo);
-	closesocket(ListenSocket);
+	switch (nb) {
+	case 1:
+		closesocket(ClientPlayerOne);
+		OutputDebugString("Player one disconnected \n");
+		break;
+	case 2:
+		closesocket(ClientPlayerTwo);
+		OutputDebugString("Player  two disconnected \n");
+		break;
+	case 3:
+		closesocket(ClientPlayerOne);
+		closesocket(ClientPlayerTwo);
+		closesocket(ListenSocket);
+		OutputDebugString("All disconnected \n");
+		break;
+	}
 	WSACleanup();
-	OutputDebugString("All disconnected \n");
 }
 
 void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)

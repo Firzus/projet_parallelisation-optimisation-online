@@ -44,13 +44,12 @@ public:
 	//All
 	void SendDataAll();
 	void ReceiveDataAll();
-
 	//			SHUTDOWN
 	void ShutdownPlayerOne();
 	void ShutdownPlayerTwo();
 	void ShutdownAll();
-
-	void Cleanup();
+	//			CLEANUP
+	void Cleanup(int nb);
 
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
