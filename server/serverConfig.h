@@ -65,7 +65,7 @@ private:
 	SOCKET ListenSocket = INVALID_SOCKET;
 	SOCKET ClientPlayerOne = INVALID_SOCKET;
 	SOCKET ClientPlayerTwo = INVALID_SOCKET;
-	int iResult, iResult2, iSendResult, check;
+	int iResult, iResult2, iSendResult, iSendResult2;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 };
