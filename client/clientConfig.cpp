@@ -5,9 +5,9 @@ void clientConfig::Init(HWND hWnd) {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
-	ConfigureClientSocket(hWnd);
+	//ConfigureClientSocket(hWnd);
 	ConnectSocketMethod();
-	//SendData();
+	SendData();
 }
 
 void clientConfig::AddrInfo() 
