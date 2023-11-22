@@ -6,7 +6,7 @@ void clientConfig::Init(HWND hWnd) {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
-	//ConfigureClientSocket(hWnd);
+	ConfigureClientSocket(hWnd);
 	ConnectSocketMethod();
 	SendData();
 }
@@ -41,9 +41,7 @@ void clientConfig::CreateSocket()
 
 	ptr = result;
 
-
 	// Create a client SOCKET for connecting to server
-
 	ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
 		ptr->ai_protocol);
 
@@ -149,7 +147,7 @@ void clientConfig::Shutdown() {
 	}
 
 	// cleanup
-	closesocket(ConnectSocket);
+	//closesocket(ConnectSocket);
 	WSACleanup();
 }
 

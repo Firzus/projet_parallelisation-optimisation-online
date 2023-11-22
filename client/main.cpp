@@ -30,12 +30,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     MyRegisterClass(hInstance);
+    app.InitClient();
     // Effectue l'initialisation de l'application :
     if (!InitInstance (hInstance, nCmdShow))
     {
         return FALSE;
     }
-    app.InitClient();
+    
     app.Run();
 
     // Initialise les chaînes globales

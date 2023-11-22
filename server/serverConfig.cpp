@@ -191,6 +191,7 @@ void serverConfig::SendDataAll()
 void serverConfig::ReceiveDataAll()
 {
 	do {
+		iResult = recv(ClientPlayerOne, recvbuf, recvbuflen, 0);
 		iResult = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
 			JsonObjectToJsonFile();

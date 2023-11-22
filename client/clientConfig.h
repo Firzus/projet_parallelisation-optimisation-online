@@ -50,7 +50,7 @@ private:
 		{"CurrentPlayer", da.GetPlayerToken()},
 		{"WinnerName", da.GetWinner()},
 		{"TokenPos", da.GetBoard()},
-		{"check", 1},
+		{"check", 0},
 	};
 
 	int iResult;
