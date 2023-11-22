@@ -48,7 +48,7 @@ json Data::GetBoardAsJson() const
 	json boardJson;
 	
 	for (const auto& row : boardData) {
-		std::string rowString;
+		string rowString;
 		for (char c : row) {
 			// Convertir le char en string et l'ajouter à la ligne
 			rowString += c;
