@@ -38,8 +38,6 @@ private:
 
     RenderWindow window;
 
-    
-
     Menu menu;
     Game game;
     Result result;

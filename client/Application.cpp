@@ -44,7 +44,7 @@ void Application::Run()
 
 LRESULT CALLBACK Application::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
-	case WM_SOCKET:
+	case WM_USER:
 		client.HandleSocketMessage(wParam, lParam);
 		break;
 	case WM_DESTROY:

@@ -6,7 +6,7 @@ void clientConfig::Init(HWND hWnd) {
 	InitWinSock();
 	CreateSocket();
 	ConfigureClientSocket(hWnd);
-	//ConnectSocketMethod();
+	ConnectSocketMethod();
 	//SendData();
 }
 
@@ -88,7 +88,7 @@ void clientConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_CONNECT:
-		ConnectSocketMethod();
+		OutputDebugString("connected");
 		break;
 	case FD_READ:
 		ReceiveData();

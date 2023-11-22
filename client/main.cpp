@@ -16,7 +16,7 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // nom de la classe de fenêtre 
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 //LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
+//INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 // Instance de l'app SFML
 Application app;
@@ -30,12 +30,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     MyRegisterClass(hInstance);
-    app.InitClient();
     // Effectue l'initialisation de l'application :
     if (!InitInstance (hInstance, nCmdShow))
     {
         return FALSE;
     }
+    app.InitClient();
     app.Run();
 
     // Initialise les chaînes globales
@@ -44,7 +44,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return TRUE;
 }
 
+void CreateClass(HINSTANCE hInstance) {
 
+}
 
 //
 //  FONCTION : MyRegisterClass()
@@ -68,6 +70,7 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.lpszMenuName   = 0;
     wcex.lpszClassName = L"MACLASSE";
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+
 
     return RegisterClassExW(&wcex);
 }
@@ -107,43 +110,43 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - génère un message d'arrêt et retourne
 //
 //
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    switch (message)
-    {
-    case WM_COMMAND:
-        {
-            int wmId = LOWORD(wParam);
-            // Analyse les sélections de menu :
-            switch (wmId)
-            {
-            case IDM_ABOUT:
-                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-                break;
-            case IDM_EXIT:
-                DestroyWindow(hWnd);
-                break;
-            default:
-                return DefWindowProc(hWnd, message, wParam, lParam);
-            }
-        }
-        break;
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: Ajoutez ici le code de dessin qui utilise hdc...
-            EndPaint(hWnd, &ps);
-        }
-        break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-        return DefWindowProc(hWnd, message, wParam, lParam);
-    }
-    return 0;
-}
+//LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    switch (message)
+//    {
+//    case WM_COMMAND:
+//        {
+//            int wmId = LOWORD(wParam);
+//            // Analyse les sélections de menu :
+//            switch (wmId)
+//            {
+//            case IDM_ABOUT:
+//                DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
+//                break;
+//            case IDM_EXIT:
+//                DestroyWindow(hWnd);
+//                break;
+//            default:
+//                return DefWindowProc(hWnd, message, wParam, lParam);
+//            }
+//        }
+//        break;
+//    case WM_PAINT:
+//        {
+//            PAINTSTRUCT ps;
+//            HDC hdc = BeginPaint(hWnd, &ps);
+//            // TODO: Ajoutez ici le code de dessin qui utilise hdc...
+//            EndPaint(hWnd, &ps);
+//        }
+//        break;
+//    case WM_DESTROY:
+//        PostQuitMessage(0);
+//        break;
+//    default:
+//        return DefWindowProc(hWnd, message, wParam, lParam);
+//    }
+//    return 0;
+//}
 
 // Gestionnaire de messages pour la boîte de dialogue À propos de.
 INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
