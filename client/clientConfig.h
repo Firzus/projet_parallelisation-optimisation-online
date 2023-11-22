@@ -50,12 +50,14 @@ private:
 			{"PlayerName", da.GetPlayerName()},
 			{"PlayerToken", "O"},
 		},
-		{"CurrentPlayer", da.GetCurrentToken()},
-		{"TokenPos", da.GetBoard()},
+		{"CurrentPlayer", string(1, da.GetCurrentToken())},
+		{"TokenPos", da.GetBoardAsJson()},
 		{"WinnerName", da.GetWinner()},
 		{"Connection", da.GetConnection()},
 		{"IsGameOver", da.GetGameOver()}
 	};
+	// token, 'X'
+	// token, "X"
 
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;

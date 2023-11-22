@@ -23,7 +23,7 @@
     ],
     [
         "CurrentPlayer",
-        0
+        "\u0000"
     ],
     [
         "TokenPos",
@@ -51,10 +51,10 @@
     ],
     [
         "Connection",
-        false
+        0
     ],
     [
         "IsGameOver",
-        false
+        0
     ]
 ]

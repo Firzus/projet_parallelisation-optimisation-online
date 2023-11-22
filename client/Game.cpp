@@ -31,8 +31,6 @@ turnMessage(window)
     scoreP1 = 0;
     scoreP2 = 0;
 
-    
-
     CleanBoard();
 }
 
@@ -93,7 +91,6 @@ void Game::HandleMouseClick(float x, float y) {
         }
     }
 }
-
 
 bool Game::CheckWin(char playerSymbol) {
     for (int i = 0; i < 3; i++) {

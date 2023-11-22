@@ -38,6 +38,16 @@ void Data::SetBoard(const array<array<char, 3>, 3>& board)
 	boardData = board;
 }
 
+json Data::GetBoardAsJson() const
+{
+	json boardjson;
+	for (const auto& row : boardData)
+	{
+		boardjson.push_back(row);
+	}
+	return boardjson;
+}
+
 void Data::SetConnection()
 {
 	if (GameManager::GetInstance().GetStateConnection())

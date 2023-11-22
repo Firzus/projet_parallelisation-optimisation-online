@@ -19,8 +19,9 @@ public:
 	void SetWinner();
 	string GetWinner();
 
-	void SetBoard(const array<array<char,3>, 3>& board);
-	const array<array<char, 3>, 3>& GetBoard() const { return boardData;};
+	void SetBoard(const std::array<std::array<char,3>, 3>& board);
+	const std::array<std::array<char, 3>, 3>& GetBoard() const { return boardData;};
+	json GetBoardAsJson() const;
 
 	void SetConnection();
 	int GetConnection();
