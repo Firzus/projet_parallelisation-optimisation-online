@@ -18,7 +18,7 @@
 using json = nlohmann::json;
 
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "3000"
+#define DEFAULT_PORT "3001"
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
@@ -38,6 +38,7 @@ public:
 	std::string AcceptConnexion();
 	std::string ParseHttpRequest(const std::string& httpRequest);
 	void HandleHTTPRequest(const std::string& requestUrl);
+	void SendNotFoundResponse();
 	void SendHTMLResponse(const std::string& filePath);
 	void Shutdown();
 

@@ -17,9 +17,6 @@ void ServeurWeb::Init()
 		if (requestUrl == "/data.json") {
 			filePath = "data.json";
 		}
-		else {
-			filePath = "index.html";
-		}
 
 		SendHTMLResponse(filePath);
 	}
@@ -143,17 +140,23 @@ void ServeurWeb::ListenSocketMethod()
 
 void ServeurWeb::HandleHTTPRequest(const std::string& requestUrl)
 {
-	std::string filePath;
 	if (requestUrl == "/data.json")
 	{
-		filePath = "/data.json";
+		std::string filePath = "data.json";
+		SendHTMLResponse(filePath);
 	}
 	else
 	{
-		filePath = "index.html";
+		// Vous pouvez choisir d'envoyer une réponse 404 ici
+		SendNotFoundResponse();
 	}
+}
 
-	SendHTMLResponse(filePath);
+void ServeurWeb::SendNotFoundResponse()
+{
+	std::string httpResponse = "HTTP/1.0 404 Not Found\r\nContent-Length: 0\r\n\r\n";
+	send(ClientSocket, httpResponse.c_str(), httpResponse.length(), 0);
+	closesocket(ClientSocket);
 }
 
 void ServeurWeb::SendHTMLResponse(const std::string& filePath)

@@ -54,7 +54,6 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="index.html" />
     <None Include="data.json" />
   </ItemGroup>
   <ItemGroup>
