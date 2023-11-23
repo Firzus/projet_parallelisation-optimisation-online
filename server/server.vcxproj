@@ -138,6 +138,7 @@
     <ClInclude Include="Resource.h" />
     <ClInclude Include="serverConfig.h" />
     <ClInclude Include="Serveur.h" />
+    <ClInclude Include="ServeurWeb.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -145,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="serverConfig.cpp" />
     <ClCompile Include="Serveur.cpp" />
+    <ClCompile Include="ServeurWeb.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -155,7 +157,10 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data.json" />
+    <None Include="data.json" />
+    <None Include="index.html" />
+    <None Include="script.js" />
+    <None Include="style.css" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

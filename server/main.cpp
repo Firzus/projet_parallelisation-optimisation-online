@@ -1,6 +1,6 @@
 #ifndef UNICODE
 #define UNICODE
-#endif 
+#endif
 
 #include "Window.h"
 
