@@ -1,113 +1,108 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <META NAME="GENERATOR" Content="Microsoft Visual Studio">
+  <head>
+    <meta name="GENERATOR" />
     <title>Tic Tac Toe</title>
     <style>
-        .title {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 24px;
-        }
+      .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+      }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 50vh;
-            width: 60vh;
-            background-color: #f3c5ff;
-            f3c5ff font-size: 16px;
-            margin-left: 650px;
-        }
-        /* Style pour la grille */
-        .grid-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        width: 60vh;
+        background-color: #f3c5ff;
+        font-size: 16px;
+        margin-left: 650px;
+      }
+      /* Style pour la grille */
+      .grid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
 
-        table {
-            border-collapse: collapse;
-            width: 350px; 
-            height: 350px;
-        }
+      table {
+        border-collapse: collapse;
+        width: 350px;
+        height: 350px;
+      }
 
-            table td {
-                border: 1px solid #000;
-                width: 33%; 
-                height: 33%;
-                text-align: center;
-                font-size: 24px; 
-            }
-        /* Style pour les scores */
-        .scores {
-            display: flex;
-            justify-content: space-between;
-            width: 300px; 
-            margin-bottom: 10px;
-        }
+      table td {
+        border: 1px solid #000;
+        width: 33%;
+        height: 33%;
+        text-align: center;
+        font-size: 24px;
+      }
+      /* Style pour les scores */
+      .scores {
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+        margin-bottom: 10px;
+      }
 
-        .scoreO {
-            text-align: left;
-            width: 50%;
-        }
+      .scoreO {
+        text-align: left;
+        width: 50%;
+      }
 
-        .scoreX {
-            text-align: right;
-            width: 50%;
-        }
-
+      .scoreX {
+        text-align: right;
+        width: 50%;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="title">
-        <p>TIC TAC TOE ONLINE</p>
+      <p>TIC TAC TOE ONLINE</p>
     </div>
     <!-- Grande div centrale -->
     <div class="container">
-        <!-- Contenu de la grille -->
-        <div class="grid-container">
-            <!-- Scores au-dessus de la grille -->
-            <div class="scores">
-                <div class="scoreO">
-                    O : 0 <!-- Score simplifié -->
-                </div>
-                <div class="scoreX">
-                    X : 0 <!-- Score simplifié -->
-                </div>
-            </div>
-
-            <!-- Grille de jeu -->
-            <table>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-
-            <!-- Paragraphe annonçant le tour du Joueur 1 -->
-            <p>C'est au Joueur 1 de jouer.</p>
+      <!-- Contenu de la grille -->
+      <div class="grid-container">
+        <!-- Scores au-dessus de la grille -->
+        <div class="scores">
+          <div class="scoreO">
+            O : 0
+            <!-- Score simplifiï¿½ -->
+          </div>
+          <div class="scoreX">
+            X : 0
+            <!-- Score simplifiï¿½ -->
+          </div>
         </div>
+
+        <!-- Grille de jeu -->
+        <table>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+
+        <!-- Paragraphe annonï¿½ant le tour du Joueur 1 -->
+        <p>C'est au Joueur 1 de jouer.</p>
+      </div>
     </div>
-
-</body>
+  </body>
 </html>
-
-
-
-
-
