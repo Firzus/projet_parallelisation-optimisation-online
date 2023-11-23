@@ -157,7 +157,7 @@
   <ItemGroup>
     <None Include="Data.json" />
     <None Include="index.html" />
-    <None Include="Style.css" />
+    <None Include="style.css" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

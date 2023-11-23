@@ -25,6 +25,6 @@
   <ItemGroup>
     <None Include="index.html" />
     <None Include="Data.json" />
-    <None Include="Style.css" />
+    <None Include="style.css" />
   </ItemGroup>
 </Project>
