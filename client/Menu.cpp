@@ -2,8 +2,6 @@
 
 Menu::Menu(sf::RenderWindow& window) : window(window)
 {
-    playClicked = false;
-
     fontRegular.loadFromFile("assets/fonts/Roboto-Regular.ttf");
     fontSemiBold.loadFromFile("assets/fonts/Roboto-Medium.ttf");
     fontBold.loadFromFile("assets/fonts/Roboto-Bold.ttf");
@@ -43,7 +41,7 @@ Menu::Menu(sf::RenderWindow& window) : window(window)
     textStartButton.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
     textStartButton.setPosition(rectStartButton.getPosition() + Vector2f(rectStartButton.getSize() / 2.0f));
 
-    GameManager& manager = GameManager::GetInstance();
+    playClicked = false;
 }
 
 Menu::~Menu() {}
@@ -67,7 +65,7 @@ void Menu::HandleInput(Event& event)
         }
 
         else if (event.text.unicode < 128 && event.text.unicode > 31) {
-            userInput += static_cast<char>(event.text.unicode);
+            userInput += toupper(static_cast<char>(event.text.unicode));
         }
 
         textInput.setString(userInput.empty() ? "Your name" : userInput);

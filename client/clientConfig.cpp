@@ -1,27 +1,30 @@
-#include "clientConfig.h"
+﻿#include "clientConfig.h"
+#include "Game.h"
 
-clientConfig::clientConfig()
-{
+#include <ws2tcpip.h>
+#include <iphlpapi.h>
+#include <stdio.h>
+
+void clientConfig::Init(HWND hWnd) {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
+	ConfigureClientSocket(hWnd);
 	ConnectSocketMethod();
-
-	// Update
-	SendAndReceiveData();
-
-	// Déco
-	//Shutdown();
+	sendJson();
+	//SendData();
 }
 
-void clientConfig::AddrInfo() {
+void clientConfig::AddrInfo() 
+{
 	ZeroMemory(&hints, sizeof(hints));
 	hints.ai_family = AF_INET;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_protocol = IPPROTO_TCP;
 }
 
-void clientConfig::InitWinSock() {
+void clientConfig::InitWinSock() 
+{
 	// Initialize Winsock
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
@@ -42,9 +45,7 @@ void clientConfig::CreateSocket()
 
 	ptr = result;
 
-
 	// Create a client SOCKET for connecting to server
-	
 	ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
 		ptr->ai_protocol);
 
@@ -57,7 +58,13 @@ void clientConfig::CreateSocket()
 	}
 }
 
-void clientConfig::ConnectSocketMethod() {
+void clientConfig::ConfigureClientSocket(HWND hWnd)
+{
+	WSAAsyncSelect(ConnectSocket, hWnd, WM_USER, FD_CONNECT | FD_READ);
+}
+
+void clientConfig::ConnectSocketMethod() 
+{
 	// Connect to server.
 	iResult = connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
 	if (iResult == SOCKET_ERROR) {
@@ -80,48 +87,82 @@ void clientConfig::ConnectSocketMethod() {
 	}
 }
 
-void clientConfig::SendAndReceiveData() {
-	// Convertir l'objet JSON en cha��e JSON
+void clientConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
+{
+	switch (WSAGETSELECTEVENT(lParam)) {
+	case FD_CONNECT:
+		OutputDebugString("\nconnected\n");
+		break;
+	case FD_READ:
+		ReceiveData();
+		break;
+	case FD_CLOSE:
+		closesocket(wParam);
+		break;
+	}
+}
+
+void clientConfig::SendData(const string& data) {
+	iResult = send(ConnectSocket, data.c_str(), static_cast<int>(data.length()), 0);
+	if (iResult == SOCKET_ERROR) {
+		printf("send failed: %d\n", WSAGetLastError());
+		CloseConnection();
+		throw runtime_error("Send failed");
+	}
+	Shutdown();
+	printf("Bytes Sent: %ld\n", iResult);
+}
+
+void clientConfig::sendJson()
+{
 	std::string sendbuf = data.dump();
 	OutputDebugStringA(sendbuf.c_str());
 	// Utiliser sendbuf dans la port�e actuelle
 	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iResult == SOCKET_ERROR) {
 		printf("send failed: %d\n", WSAGetLastError());
-		
+
 		closesocket(ConnectSocket);
 		WSACleanup();
 		//return 1;
 	}
-	printf("Bytes Sent: %ld\n", iResult);
-	
-	// shutdown the send half of the connection since no more data will be sent
-	iResult = shutdown(ConnectSocket, SD_SEND);
+	Shutdown();
+}
+
+string clientConfig::ReceiveData() {
+	string receivedData;
+	do {
+		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
+			receivedData.append(recvbuf, iResult);
+		}
+		else if (iResult == 0) {
+			printf("Connection closed\n");
+			break;
+		}
+		else {
+			printf("recv failed: %d\n", WSAGetLastError());
+			CloseConnection();
+			throw runtime_error("Receive failed");
+		}
+	} while (iResult > 0);
+
+	return receivedData;
+}
+
+void clientConfig::CloseConnection() {
+	closesocket(ConnectSocket);
+	ConnectSocket = INVALID_SOCKET;
+	WSACleanup();
+}
+
+int clientConfig::ShutdownConnection(int how) {
+	iResult = shutdown(ConnectSocket, how);
 	if (iResult == SOCKET_ERROR) {
 		printf("shutdown failed: %d\n", WSAGetLastError());
-		
-		closesocket(ConnectSocket);
-		WSACleanup();
-		//return 1;
+		CloseConnection();
 	}
-
-	// Receive data until the server closes the connection
-	//do {
-	//	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-	//	if (iResult > 0) {
-	//		printf("Bytes received: %d\n", iResult);
-	//		
-	//	}
-
-	//	else if (iResult == 0){
-	//		printf("Connection closed\n");
-	//		
-	//	}
-	//	else {
-	//		printf("recv failed: %d\n", WSAGetLastError());
-	//		
-	//	}
-	//} while (iResult > 0);
+	return iResult;
 }
 
 void clientConfig::Shutdown() {
@@ -134,8 +175,22 @@ void clientConfig::Shutdown() {
 		WSACleanup();
 		//return 1;
 	}
+}
 
+void clientConfig::Cleanup()
+{
 	// cleanup
 	closesocket(ConnectSocket);
 	WSACleanup();
+}
+
+void clientConfig::JsonStringToJsonObject()
+{
+	//Get string data
+	std::string jsonString(recvbuf);
+
+	//parse into json object
+	data = json::parse(jsonString);
+	OutputDebugStringA(jsonString.c_str());
+	OutputDebugString("\n");
 }
