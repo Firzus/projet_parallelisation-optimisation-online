@@ -40,8 +40,6 @@ public:
 
 	//			CLIENT PART
 	bool AcceptPlayerOne(); // testing
-
-
 	//			DATA
 	// Player one
 	void SendDataPlayerOne();// testing
@@ -80,14 +78,16 @@ private:
 private :
 	void AcceptConnection(int clientID);
 
+	void SetNametoPlayerAddress();
+
 	SOCKET clientIncoming = INVALID_SOCKET;
 	sockaddr_in clientAddress;
 	
-	SOCKET firstClientSocket = INVALID_SOCKET;
-	sockaddr_in firstClientAddress;
+	SOCKET PlayerOne = INVALID_SOCKET;
+	sockaddr_in PlayerOneAddress;
 
-	SOCKET secondClientSocket = INVALID_SOCKET;
-	sockaddr_in secondClientAddress;
+	SOCKET PlayerTwo = INVALID_SOCKET;
+	sockaddr_in PlayerTwoAddress;
 
 	int clientCounter = 0;
 };

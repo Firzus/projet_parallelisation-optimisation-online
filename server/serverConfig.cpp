@@ -114,13 +114,19 @@ void serverConfig::AcceptConnection(int clientID)
     }
 }
 
+void serverConfig::SetNametoPlayerAddress()
+{
+	
+}
+
 void serverConfig::SendDataPlayerOne() {
 	std::string sendbuf = JsonObjectToString();
+	OutputDebugStringA(sendbuf.c_str());
 
-	iSendResult = send(ClientPlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+	iSendResult = send(PlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
 	if (iSendResult == SOCKET_ERROR) {
 		printf("Player one send failed: %d\n", WSAGetLastError());
-		closesocket(ClientPlayerOne);
+		closesocket(PlayerOne);
 		WSACleanup();
 	}
 }
@@ -156,11 +162,15 @@ void serverConfig::Cleanup(int nb) {
 	// cleanup
 	switch (nb) {
 	case 1:
-		closesocket(ClientPlayerOne);
+		closesocket(PlayerOne);
 		OutputDebugString("Player one disconnected \n");
 		break;
 	case 2:
-		closesocket(ClientPlayerOne);
+		closesocket(PlayerTwo);
+		break;
+	case 3:
+		closesocket(PlayerOne);
+		closesocket(PlayerTwo);
 		closesocket(ListenSocket);
 		OutputDebugString("All disconnected \n");
 		break;
@@ -175,12 +185,13 @@ void serverConfig::HandleSocketMessage(HWND hWnd, WPARAM wParam, LPARAM lParam)
         if (clientCounter < 2) {
 			AcceptConnection(clientCounter);
             if (clientCounter == 0) {
-                firstClientSocket = clientIncoming;
-                memcpy(&firstClientAddress, &clientAddress, sizeof(sockaddr_in));
+                PlayerOne = clientIncoming;
+                memcpy(&PlayerOneAddress, &clientAddress, sizeof(sockaddr_in));
+				SendDataPlayerOne();
             }
             else if (clientCounter == 1) {
-                secondClientSocket = clientIncoming;
-                memcpy(&secondClientAddress, &clientAddress, sizeof(sockaddr_in));
+                PlayerTwo = clientIncoming;
+                memcpy(&PlayerTwoAddress, &clientAddress, sizeof(sockaddr_in));
             }
             clientCounter++;
 			if (clientCounter >= 2) {
@@ -189,7 +200,7 @@ void serverConfig::HandleSocketMessage(HWND hWnd, WPARAM wParam, LPARAM lParam)
         }
 		break;
 	case FD_READ:
-		//ReceiveDataPlayerOne();
+		ReceiveDataPlayerOne();
 		break;
 	case FD_CLOSE:
 		closesocket(wParam);
