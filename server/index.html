@@ -3,8 +3,68 @@
   <head>
     <meta name="GENERATOR" />
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="script.js" type="text/javascript"></script>
+    <style>
+      body {
+        margin: 0;
+        font-size: 100%;
+      }
+
+      .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh;
+        width: 60vh;
+        background-color: #f3c5ff;
+        font-size: 16px;
+        margin-left: 650px;
+      }
+      /* Style pour la grille */
+      .grid-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 350px;
+        height: 350px;
+      }
+
+      table td {
+        border: 1px solid #000;
+        width: 33%;
+        height: 33%;
+        text-align: center;
+        font-size: 24px;
+      }
+      /* Style pour les scores */
+      .scores {
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+        margin-bottom: 10px;
+      }
+
+      .scoreO {
+        text-align: left;
+        width: 50%;
+      }
+
+      .scoreX {
+        text-align: right;
+        width: 50%;
+      }
+    </style>
   </head>
   <body>
     <div class="title">
@@ -49,5 +109,30 @@
         <p>C'est au Joueur 1 de jouer.</p>
       </div>
     </div>
+
+    <script>
+      function fetchLocalJsonData(filePath) {
+        fetch(filePath)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Network response was not ok " + response.statusText
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            // Vous pouvez manipuler vos données JSON ici
+          })
+          .catch((error) => {
+            console.error("Problem with fetch operation:", error);
+          });
+      }
+
+      setInterval(() => {
+        fetchLocalJsonData("/data.json");
+      }, 1000);
+    </script>
   </body>
 </html>
