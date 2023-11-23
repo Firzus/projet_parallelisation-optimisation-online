@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <winsock2.h>
+#include <exception> 
 
 #include "json.hpp"
 using json = nlohmann::json;
@@ -13,7 +14,6 @@ using json = nlohmann::json;
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
-
 
 class serverConfig {
 public:
@@ -51,6 +51,7 @@ public:
 	//			CLEANUP
 	void Cleanup(int nb);
 
+	void LoadGame();
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
 private:
@@ -68,4 +69,6 @@ private:
 	int iResult, iResult2, iSendResult, iSendResult2;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
+	bool loop = false;
+	bool isGameOn = false;
 };

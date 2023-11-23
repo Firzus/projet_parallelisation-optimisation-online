@@ -55,7 +55,7 @@ void Game::Draw()
                 window.draw(spriteO);
             }
 
-            da.SetBoard(board);
+            //da.SetBoard(board);
         }
     }
 }
@@ -86,11 +86,11 @@ void Game::HandleMouseClick(float x, float y) {
             }
             else {
                 currentPlayer = (currentPlayer == 'X') ? 'O' : 'X';
+                da.SetCurrentToken();
             }
         }
     }
 }
-
 
 bool Game::CheckWin(char playerSymbol) {
     for (int i = 0; i < 3; i++) {

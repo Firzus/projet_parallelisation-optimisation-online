@@ -1,4 +1,5 @@
 #pragma once
+
 #include "framework.h"
 #include <stdio.h>
 #include <iostream>
@@ -13,23 +14,28 @@ public:
 	void SetPlayerName();
 	string GetPlayerName();
 
-	void SetPlayerToken();
-	char GetPlayerToken();
+	void SetCurrentToken();
+	string GetCurrentToken();
 
 	void SetWinner();
 	string GetWinner();
 
 	void SetBoard(const array<array<char,3>, 3>& board);
-	const array<array<char, 3>, 3>& GetBoard() const { return boardData;};
+	const array<array<char, 3>, 3>& GetBoard() const;
+	json GetBoardAsJson() const;
 
-	void SetAppState();
-	string GetAppState();
+	void SetConnection();
+	bool GetConnection();
+
+	void SetGameOver();
+	bool GetGameOver();
 
 private:
+	bool isGameOver;
+	bool isConnected;
 	string playerName;
 	string winnerName;
-	char currentPlayer;
-	string appState;
+	string currentPlayer;
 	
 	array<array<char, 3>, 3> boardData;
 };

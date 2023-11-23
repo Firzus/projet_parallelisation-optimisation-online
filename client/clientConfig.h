@@ -31,10 +31,13 @@ public:
 	void ConnectSocketMethod();
 	// Handle message
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
-	// Send and Receive data
-	void SendData();
-	void ReceiveData();
-	// shutdown
+
+
+	string ReceiveData();
+	void SendData(const string& data);
+	void SendAndReceiveData();
+	void CloseConnection();
+	int ShutdownConnection(int how);
 	void Shutdown();
 	// cleanup
 	void Cleanup();
@@ -45,12 +48,22 @@ private:
 	Data da;
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
-	json data = {
-		{"UserName", da.GetPlayerName()},
-		{"CurrentPlayer", da.GetPlayerToken()},
+
+	json data = 
+	{
+		{"Player1", {
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", "X"}
+		}},
+		{"Player2", {
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", "O"}
+		}},
+		{"CurrentPlayer", da.GetCurrentToken()},
+		{"TokenPos", da.GetBoardAsJson()},
 		{"WinnerName", da.GetWinner()},
-		{"TokenPos", da.GetBoard()},
-		{"check", 0},
+		{"Connection", da.GetConnection()},
+		{"IsGameOver", da.GetGameOver()}
 	};
 
 	int iResult;

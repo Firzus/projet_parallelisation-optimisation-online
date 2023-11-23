@@ -85,17 +85,13 @@ void Application::ProcessEvents()
 					game.HandleMouseClick(static_cast<float>(event.mouseButton.x), static_cast<float>(event.mouseButton.y));
 				}
 
-				if (game.IsGameOver())
-				{
-					GameManager::GetInstance().SetApplicationState(ApplicationState::Result);
-				}
-			}
-			else if (GameManager::GetInstance().GetApplicationState() == ApplicationState::Result)
-			{
-				// Void
-			}
-		}
-	}
+                if (game.IsGameOver())
+                {
+                    GameManager::GetInstance().SetApplicationState(ApplicationState::Result);
+                }
+            }
+        }
+    }
 }
 
 void Application::Render()
