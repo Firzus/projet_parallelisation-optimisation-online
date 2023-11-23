@@ -155,6 +155,7 @@
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data.json" />
     <None Include="index.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
