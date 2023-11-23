@@ -5,9 +5,7 @@
 using json = nlohmann::json;
 
 #include <winsock2.h>
-#include <ws2tcpip.h>
-#include <iphlpapi.h>
-#include <stdio.h>
+
 
 #include "Data.h"
 
@@ -24,22 +22,28 @@ public:
 
 	clientConfig() {};
 
-	void Init();
-
+	void Init(HWND hWnd);
+	//create client 
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
+	void ConfigureClientSocket(HWND hWnd);
 	void ConnectSocketMethod();
+	// Handle message
+	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
-
+	void sendJson();
 	string ReceiveData();
 	void SendData(const string& data);
-	void SendAndReceiveData();
 	void CloseConnection();
 	int ShutdownConnection(int how);
 	void Shutdown();
+	// cleanup
+	void Cleanup();
 
 private:
+	void JsonStringToJsonObject();
+
 	Data da;
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;

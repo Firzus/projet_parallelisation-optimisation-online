@@ -16,9 +16,6 @@ void serverConfig::Init(HWND hWnd)
 	ConfigureServerSocket(hWnd);
 	LinkSocket();
 	ListenSocketMethod();
-	//AcceptConnexion();
-	//ReceiveAndsendData();
-	//Shutdown();
 }
 
 void serverConfig::AddrInfo()
@@ -35,7 +32,6 @@ void serverConfig::InitWinSock() {
 	iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
 	if (iResult != 0) {
 		printf("WSAStartup failed: %d\n", iResult);
-		//return 1;
 	}
 }
 
@@ -45,7 +41,6 @@ void serverConfig::CreateSocket() {
 	if (iResult != 0) {
 		printf("getaddrinfo failed: %d\n", iResult);
 		WSACleanup();
-		//return 1;
 	}
 
 	ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
@@ -55,7 +50,6 @@ void serverConfig::CreateSocket() {
 		printf("Error at socket(): %ld\n", WSAGetLastError());
 		freeaddrinfo(result);
 		WSACleanup();
-		//return 1;
 	}
 }
 
@@ -72,7 +66,6 @@ void serverConfig::LinkSocket() {
 		freeaddrinfo(result);
 		closesocket(ListenSocket);
 		WSACleanup();
-		//return 1;
 	}
 
 	// release the memory 
@@ -89,84 +82,93 @@ void serverConfig::ListenSocketMethod() {
 	}
 }
 
-void serverConfig::AcceptConnexion() {
+bool serverConfig::AcceptPlayerOne() {
 	// Accept a client socket
-	ClientSocket = accept(ListenSocket, NULL, NULL);
-	if (ClientSocket != INVALID_SOCKET) {
-		OutputDebugString("Client connected \n");
+	ClientPlayerOne = accept(ListenSocket, NULL, NULL);
+	if (ClientPlayerOne != INVALID_SOCKET) {
+		OutputDebugString("Player one connected \n");
+		return true;
 	}
-	else if (ClientSocket == INVALID_SOCKET) {
-		OutputDebugString("accept failed: %d\n");
+	else if (ClientPlayerOne == INVALID_SOCKET) {
+		OutputDebugString("Player one accept failed: %d\n");
 		closesocket(ListenSocket);
 		WSACleanup();
-		//return 1;
+		return false;
 	}
 }
 
-void serverConfig::ReceiveAndsendData() {
+
+void serverConfig::SendDataPlayerOne() {
+	std::string sendbuf = JsonObjectToString();
+
+	iSendResult = send(ClientPlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+	if (iSendResult == SOCKET_ERROR) {
+		printf("Player one send failed: %d\n", WSAGetLastError());
+		closesocket(ClientPlayerOne);
+		WSACleanup();
+	}
+}
+
+void serverConfig::ReceiveDataPlayerOne() {
 	do {
-
-		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+		iResult = recv(ClientPlayerOne, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-
-			JsonObjectToJsonFile();
-
-			/*printf("\n");
-			printf("Bytes received: %d\n", iResult);*/
-
-			// Echo the buffer back to the sender
-			iSendResult = send(ClientSocket, recvbuf, iResult, 0);
-			if (iSendResult == SOCKET_ERROR) {
-				printf("send failed: %d\n", WSAGetLastError());
-				closesocket(ClientSocket);
-				WSACleanup();
-			}
-			printf("Bytes sent: %d\n", iSendResult);
+			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
-			printf("Connection closing...\n");
+			printf("Player one Connection closing...\n");
 		}
 		else {
-			printf("recv failed: %d\n", WSAGetLastError());
-			closesocket(ClientSocket);
+			printf("Player one recv failed: %d\n", WSAGetLastError());
+			closesocket(ClientPlayerOne);
 			WSACleanup();
 		}
+
 	} while (iResult > 0);
 }
 
-void serverConfig::Shutdown() {
-	// shutdown the send half of the connection since no more data will be sent
-	iResult = shutdown(ClientSocket, SD_SEND);
+void serverConfig::ShutdownPlayerOne()
+{
+	iResult = shutdown(ClientPlayerOne, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
-		printf("shutdown failed: %d\n", WSAGetLastError());
-		closesocket(ClientSocket);
+		printf("Player one shutdown failed: %d\n", WSAGetLastError());
+		closesocket(ClientPlayerOne);
 		WSACleanup();
-		//return 1;
 	}
+}
 
+void serverConfig::Cleanup(int nb) {
 	// cleanup
-	closesocket(ListenSocket);
+	switch (nb) {
+	case 1:
+		closesocket(ClientPlayerOne);
+		OutputDebugString("Player one disconnected \n");
+		break;
+	case 2:
+		closesocket(ClientPlayerOne);
+		closesocket(ListenSocket);
+		OutputDebugString("All disconnected \n");
+		break;
+	}
 	WSACleanup();
-	OutputDebugString("Server disconnected \n");
 }
 
 void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
-		AcceptConnexion();
+		AcceptPlayerOne();
 		break;
 	case FD_READ:
-		ReceiveAndsendData();
+		ReceiveDataPlayerOne();
 		break;
 	case FD_CLOSE:
-		Shutdown();
 		closesocket(wParam);
 		break;
 	}
 }
 
-void serverConfig::JsonObjectToJsonFile()
+json serverConfig::JsonStringToJsonObject()
 {
 	//Get string data
 	std::string jsonString(recvbuf);
@@ -176,18 +178,7 @@ void serverConfig::JsonObjectToJsonFile()
 	OutputDebugStringA(jsonString.c_str());
 	OutputDebugString("\n");
 
-	////Json object to Json File
-	//std::fstream jsonFile("Data.json");
-
-	//if (jsonFile.is_open()) {
-
-	//	jsonFile << std::setw(4) << receivedJson << std::endl;
-
-	//	jsonFile.close();
-	//}
-	//else {
-	//	OutputDebugString("Impossible d'ouvrir le fichier \n");
-	//}
+	return receivedJson;
 }
 
 json serverConfig::JsonFileToJsonObject()
@@ -219,6 +210,8 @@ json serverConfig::JsonFileToJsonObject()
 
 std::string serverConfig::JsonObjectToString()
 {
+	//parse json object to string
+	//std::string data = JsonStringToJsonObject().dump();
 	try {
 		std::string data = JsonFileToJsonObject().dump();
 		return data;
@@ -235,4 +228,22 @@ std::string serverConfig::JsonObjectToString()
 		std::cerr << "Erreur inconnue lors du traitement JSON" << std::endl;
 		return "";
 	}
+	//return data;
 }
+
+void serverConfig::JsonObjectToJsonFile()
+{
+	//Json object to Json File
+	std::fstream jsonFile("Data.json");
+
+	if (jsonFile.is_open()) {
+
+		jsonFile << std::setw(4) << JsonStringToJsonObject() << std::endl;
+
+		jsonFile.close();
+	}
+	else {
+		OutputDebugString("Impossible d'ouvrir le fichier \n");
+	}
+}
+	
