@@ -1,4 +1,4 @@
-#include "serverConfig.h"
+﻿#include "serverConfig.h"
 
 #include <iostream>
 #include <fstream>
@@ -97,6 +97,22 @@ bool serverConfig::AcceptPlayerOne() {
 	}
 }
 
+void serverConfig::AcceptConnection(int clientID)
+{
+    int clientAddressSize = sizeof(clientAddress);
+
+    clientIncoming = accept(ListenSocket, (struct sockaddr*)&clientAddress, &clientAddressSize);
+    if (clientIncoming != INVALID_SOCKET) {
+        OutputDebugString("\nPlayer connected\n");
+
+        OutputDebugStringA(("Client address: " + std::to_string(clientAddress.sin_addr.s_addr) + ", port: " + std::to_string(clientAddress.sin_port) + "\n").c_str());
+    }
+    else if (clientIncoming == INVALID_SOCKET) {
+        OutputDebugStringA("Erreur lors de l'acceptation de la connexion du client : " + WSAGetLastError());
+        closesocket(ListenSocket);
+        WSACleanup();
+    }
+}
 
 void serverConfig::SendDataPlayerOne() {
 	std::string sendbuf = JsonObjectToString();
@@ -127,8 +143,7 @@ void serverConfig::ReceiveDataPlayerOne() {
 	} while (iResult > 0);
 }
 
-void serverConfig::ShutdownPlayerOne()
-{
+void serverConfig::ShutdownPlayerOne(){
 	iResult = shutdown(ClientPlayerOne, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
 		printf("Player one shutdown failed: %d\n", WSAGetLastError());
@@ -153,14 +168,28 @@ void serverConfig::Cleanup(int nb) {
 	WSACleanup();
 }
 
-void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
+void serverConfig::HandleSocketMessage(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
-		AcceptPlayerOne();
+        if (clientCounter < 2) {
+			AcceptConnection(clientCounter);
+            if (clientCounter == 0) {
+                firstClientSocket = clientIncoming;
+                memcpy(&firstClientAddress, &clientAddress, sizeof(sockaddr_in));
+            }
+            else if (clientCounter == 1) {
+                secondClientSocket = clientIncoming;
+                memcpy(&secondClientAddress, &clientAddress, sizeof(sockaddr_in));
+            }
+            clientCounter++;
+			if (clientCounter >= 2) {
+				WSAAsyncSelect(ListenSocket, hWnd, WM_USER, FD_READ | FD_CLOSE);
+			}
+        }
 		break;
 	case FD_READ:
-		ReceiveDataPlayerOne();
+		//ReceiveDataPlayerOne();
 		break;
 	case FD_CLOSE:
 		closesocket(wParam);
@@ -184,7 +213,7 @@ json serverConfig::JsonStringToJsonObject()
 json serverConfig::JsonFileToJsonObject()
 {
 	try {
-		std::fstream jsonFile("Data.json");
+		std::fstream jsonFile("data.json");
 
 		if (!jsonFile.is_open()) {
 			throw std::runtime_error("Impossible d'ouvrir le fichier Data.json");
@@ -234,7 +263,7 @@ std::string serverConfig::JsonObjectToString()
 void serverConfig::JsonObjectToJsonFile()
 {
 	//Json object to Json File
-	std::fstream jsonFile("Data.json");
+	std::fstream jsonFile("data.json");
 
 	if (jsonFile.is_open()) {
 
@@ -246,4 +275,3 @@ void serverConfig::JsonObjectToJsonFile()
 		OutputDebugString("Impossible d'ouvrir le fichier \n");
 	}
 }
-	

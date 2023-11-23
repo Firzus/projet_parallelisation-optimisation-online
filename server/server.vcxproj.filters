@@ -65,6 +65,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data.json" />
+    <None Include="data.json" />
   </ItemGroup>
 </Project>
