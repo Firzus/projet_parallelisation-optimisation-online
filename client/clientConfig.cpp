@@ -11,7 +11,8 @@ void clientConfig::Init(HWND hWnd) {
 	CreateSocket();
 	ConfigureClientSocket(hWnd);
 	ConnectSocketMethod();
-	sendJson();
+	//sendJson();
+	ReceiveData();
 	//SendData();
 }
 
@@ -60,7 +61,7 @@ void clientConfig::CreateSocket()
 
 void clientConfig::ConfigureClientSocket(HWND hWnd)
 {
-	WSAAsyncSelect(ConnectSocket, hWnd, WM_USER, FD_CONNECT | FD_READ);
+	WSAAsyncSelect(ConnectSocket, hWnd, WM_USER, FD_CONNECT | FD_READ | FD_CLOSE);
 }
 
 void clientConfig::ConnectSocketMethod() 
@@ -134,7 +135,8 @@ string clientConfig::ReceiveData() {
 	do {
 		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
 		if (iResult > 0) {
-			receivedData.append(recvbuf, iResult);
+			//receivedData.append(recvbuf, iResult);
+			JsonStringToJsonObject();
 		}
 		else if (iResult == 0) {
 			printf("Connection closed\n");

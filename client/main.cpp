@@ -45,10 +45,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     return TRUE;
 }
 
-void CreateClass(HINSTANCE hInstance) {
-
-}
-
 //
 //  FONCTION : MyRegisterClass()
 //
