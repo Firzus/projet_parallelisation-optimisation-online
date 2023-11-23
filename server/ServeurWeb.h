@@ -26,6 +26,7 @@ public:
 
 	ServeurWeb();
 
+	void Init();
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();

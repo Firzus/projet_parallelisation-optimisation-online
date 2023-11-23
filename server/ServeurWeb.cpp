@@ -3,8 +3,9 @@
 #include <fstream>
 #include <string>
 
-ServeurWeb::ServeurWeb()
-{
+ServeurWeb::ServeurWeb() {}
+
+void ServeurWeb::Init() {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();

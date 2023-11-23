@@ -10,11 +10,11 @@
 #include "GameManager.h"
 
 using namespace sf;
-using namespace std;
 
 class Game
 {
 public:
+	Game();
 	Game(RenderWindow& window);
 	~Game();
 
@@ -26,13 +26,15 @@ public:
 	void CleanBoard();
 	void UpdateScore(char winner);
 	void StartNewRound();
-	void ResetGame();
 	Vector2f GetCellPosition(int row, int col);
 	string GetPlayerName(char currentPlayer);
+	char GetCurrentPlayer() { return currentPlayer; }
 	bool IsGameOver();
 	void GetWinner();
+	void ResetGame();
 
 private:
+
 	RenderWindow& window;
 
 	Grid grid;
