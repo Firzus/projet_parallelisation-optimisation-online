@@ -1,0 +1,19 @@
+{
+  "Connection": false,
+  "CurrentPlayer": "",
+  "IsGameOver": false,
+  "Player1": {
+    "PlayerName": "",
+    "PlayerToken": "X"
+  },
+  "Player2": {
+    "PlayerName": "",
+    "PlayerToken": "O"
+  },
+  "TokenPos": [
+    "\u0000\u0000\u0000",
+    "\u0000\u0000\u0000",
+    "\u0000\u0000\u0000"
+  ],
+  "WinnerName": ""
+}
