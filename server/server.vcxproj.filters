@@ -56,8 +56,6 @@
   <ItemGroup>
     <None Include="index.html" />
     <None Include="data.json" />
-    <None Include="style.css" />
-    <None Include="script.js" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data.json" />
