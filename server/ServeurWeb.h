@@ -7,18 +7,21 @@
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
 #include <stdio.h>
+#include <iostream>
+#include <fstream>
+#include <sstream> 
+#include <string>
+#include <vector>
 
 #include "json.hpp"
+
 using json = nlohmann::json;
 
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "27020"
+#define DEFAULT_PORT "3000"
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")
-
-
-
 
 class ServeurWeb {
 public:
@@ -32,10 +35,11 @@ public:
 	void CreateSocket();
 	void LinkSocket();
 	void ListenSocketMethod();
-	void AcceptConnexion();
+	std::string AcceptConnexion();
+	std::string ParseHttpRequest(const std::string& httpRequest);
+	void HandleHTTPRequest(const std::string& requestUrl);
 	void SendHTMLResponse(const std::string& filePath);
 	void Shutdown();
-
 
 private:
 	WSADATA wsaData;
@@ -45,6 +49,4 @@ private:
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 	bool loop = false;
-	const std::string& filePath = "index.html";
-
 };
