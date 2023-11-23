@@ -17,6 +17,10 @@ public:
 private:
 	RenderWindow& window;
 
-	Text textWhoPlay;
 	Font fontBold;
+	Text textWhoPlay;
+	Text textLabelLeft;
+	Text textLabelRight;
+	
+	const float spacing = 8.0f;
 };

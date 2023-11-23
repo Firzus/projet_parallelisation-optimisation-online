@@ -5,11 +5,9 @@
 using json = nlohmann::json;
 
 #include <winsock2.h>
-#include <ws2tcpip.h>
-#include <iphlpapi.h>
-#include <stdio.h>
 
-#include "GameManager.h"
+
+#include "Data.h"
 
 #define DEFAULT_IP NULL
 #define DEFAULT_BUFLEN 512
@@ -22,27 +20,51 @@ class clientConfig {
 public:
 	struct addrinfo* result = NULL, * ptr = NULL, hints;
 
-	clientConfig();
+	clientConfig() {};
 
+	void Init(HWND hWnd);
+	//create client 
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
+	void ConfigureClientSocket(HWND hWnd);
 	void ConnectSocketMethod();
-	void SendAndReceiveData();
+	// Handle message
+	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
+
+	void sendJson();
+	string ReceiveData();
+	void SendData(const string& data);
+	void CloseConnection();
+	int ShutdownConnection(int how);
 	void Shutdown();
+	// cleanup
+	void Cleanup();
 
 private:
+	void JsonStringToJsonObject();
+
+	Data da;
 	WSADATA wsaData;
 	SOCKET ConnectSocket = INVALID_SOCKET;
-	json data = {
-		{"UserName", "fabien"},
-		{"CurrentPlayer", "X"},
-		{"arrayX", 2},
-		{"arrayY", 2},
-		{"PositionMouseX", 2.0},
-		{"PositionMouseY", 2.0},
-		{"check", 0},
+
+	json data = 
+	{
+		{"Player1", {
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", "X"}
+		}},
+		{"Player2", {
+			{"PlayerName", da.GetPlayerName()},
+			{"PlayerToken", "O"}
+		}},
+		{"CurrentPlayer", da.GetCurrentToken()},
+		{"TokenPos", da.GetBoardAsJson()},
+		{"WinnerName", da.GetWinner()},
+		{"Connection", da.GetConnection()},
+		{"IsGameOver", da.GetGameOver()}
 	};
+
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;
 	char recvbuf[DEFAULT_BUFLEN];
