@@ -18,7 +18,7 @@
 using json = nlohmann::json;
 
 #define DEFAULT_BUFLEN 512
-#define DEFAULT_PORT "8080"
+#define DEFAULT_PORT "3000"
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
 #pragma comment (lib, "AdvApi32.lib")

@@ -1,11 +1,6 @@
 #include "ServeurWeb.h"
-#include <iostream>
-#include <fstream>
-#include <string>
 
-ServeurWeb::ServeurWeb()
-{
-}
+ServeurWeb::ServeurWeb() {}
 
 void ServeurWeb::Init()
 {
@@ -55,9 +50,6 @@ std::string ServeurWeb::AcceptConnexion()
 	std::string httpRequest(buffer, bytesReceived);
 
 	std::string requestUrl = ParseHttpRequest(httpRequest);
-
-	// Fermeture de la socket client
-	//closesocket(ClientSocket);
 
 	return requestUrl;
 }
