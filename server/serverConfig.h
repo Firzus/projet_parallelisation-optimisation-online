@@ -33,20 +33,14 @@ public:
 	void ListenSocketMethod();
 	//			CLIENT PART
 	bool AcceptPlayerOne();
-	bool AcceptPlayerTwo();
 	//			DATA
 	// Player one
 	void SendDataPlayerOne();
 	void ReceiveDataPlayerOne();
-	// Player two
-	void SendDataPlayerTwo();
-	void ReceiveDataPlayerTwo();
-	// All
-	void SendDataAll();
-	void ReceiveDataAll();
+
 	//			SHUTDOWN
 	void ShutdownPlayerOne();
-	void ShutdownPlayerTwo();
+
 	void ShutdownAll();
 	//			CLEANUP
 	void Cleanup(int nb);
@@ -65,8 +59,7 @@ private:
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;
 	SOCKET ClientPlayerOne = INVALID_SOCKET;
-	SOCKET ClientPlayerTwo = INVALID_SOCKET;
-	int iResult, iResult2, iSendResult, iSendResult2;
+	int iResult, iSendResult;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 	bool loop = false;

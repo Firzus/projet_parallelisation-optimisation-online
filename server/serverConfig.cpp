@@ -82,7 +82,7 @@ void serverConfig::ListenSocketMethod() {
 	}
 }
 
-void serverConfig::AcceptConnexion() {
+bool serverConfig::AcceptPlayerOne() {
 	// Accept a client socket
 	ClientPlayerOne = accept(ListenSocket, NULL, NULL);
 	if (ClientPlayerOne != INVALID_SOCKET) {
@@ -97,20 +97,6 @@ void serverConfig::AcceptConnexion() {
 	}
 }
 
-bool serverConfig::AcceptPlayerTwo()
-{
-	ClientPlayerTwo = accept(ListenSocket, NULL, NULL);
-	if (ClientPlayerTwo != INVALID_SOCKET) {
-		OutputDebugString("Player two connected \n");
-		return true;
-	}
-	else if (ClientPlayerTwo == INVALID_SOCKET) {
-		OutputDebugString("Player two accept failed: %d\n");
-		closesocket(ListenSocket);
-		WSACleanup();
-		return false;
-	}
-}
 
 void serverConfig::SendDataPlayerOne() {
 	std::string sendbuf = JsonObjectToString();
@@ -141,106 +127,12 @@ void serverConfig::ReceiveDataPlayerOne() {
 	} while (iResult > 0);
 }
 
-void serverConfig::SendDataPlayerTwo() {
-	std::string sendbuf = JsonObjectToString();
-
-	iSendResult = send(ClientPlayerTwo, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
-	if (iSendResult == SOCKET_ERROR) {
-		printf("Player two send failed: %d\n", WSAGetLastError());
-		closesocket(ClientPlayerTwo);
-		WSACleanup();
-	}
-}
-
-void serverConfig::ReceiveDataPlayerTwo() {
-	do {
-		iResult = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
-		if (iResult > 0) {
-			JsonStringToJsonObject();
-		}
-		else if (iResult == 0) {
-			printf("Player two Connection closing...\n");
-		}
-		else {
-			printf("Player two recv failed: %d\n", WSAGetLastError());
-			closesocket(ClientPlayerTwo);
-			WSACleanup();
-		}
-
-	} while (iResult > 0);
-}
-
-void serverConfig::SendDataAll()
-{
-	std::string sendbuf = JsonObjectToString();
-
-	iSendResult = send(ClientPlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
-	if (iSendResult == SOCKET_ERROR) {
-		printf("Player one send failed: %d\n", WSAGetLastError());
-		closesocket(ClientPlayerOne);
-		WSACleanup();
-	}
-	iSendResult2 = send(ClientPlayerTwo, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
-	if (iSendResult2 == SOCKET_ERROR) {
-		printf("Player two send failed: %d\n", WSAGetLastError());
-		closesocket(ClientPlayerOne);
-		WSACleanup();
-	}
-}
-
-void serverConfig::ReceiveDataAll()
-{
-	do {
-		iResult = recv(ClientPlayerOne, recvbuf, recvbuflen, 0);
-		iResult2 = recv(ClientPlayerTwo, recvbuf, recvbuflen, 0);
-		if (iResult > 0 || iResult2 > 0) {
-			JsonStringToJsonObject();
-		}
-		else if (iResult == 0 || iResult2 == 0) {
-			printf("All Connection closing...\n");
-		}
-		else {
-			printf("All recv failed: %d\n", WSAGetLastError());
-			closesocket(ClientPlayerOne);
-			closesocket(ClientPlayerTwo);
-			WSACleanup();
-		}
-
-	} while (iResult > 0);
-}
-
 void serverConfig::ShutdownPlayerOne()
 {
 	iResult = shutdown(ClientPlayerOne, SD_SEND);
 	if (iResult == SOCKET_ERROR) {
 		printf("Player one shutdown failed: %d\n", WSAGetLastError());
 		closesocket(ClientPlayerOne);
-		WSACleanup();
-	}
-}
-
-void serverConfig::ShutdownPlayerTwo()
-{
-	iResult = shutdown(ClientPlayerTwo, SD_SEND);
-	if (iResult == SOCKET_ERROR) {
-		printf("Player two shutdown failed: %d\n", WSAGetLastError());
-		closesocket(ClientPlayerTwo);
-		WSACleanup();
-	}
-}
-
-void serverConfig::ShutdownAll() {
-	iResult = shutdown(ClientPlayerOne, SD_SEND);
-	if (iResult == SOCKET_ERROR) {
-		printf("Player one shutdown failed: %d\n", WSAGetLastError());
-		closesocket(ClientPlayerOne);
-		WSACleanup();
-	}
-
-	iResult = shutdown(ClientPlayerTwo, SD_SEND);
-	if (iResult == SOCKET_ERROR) {
-		printf("Player two shutdown failed: %d\n", WSAGetLastError());
-		closesocket(ClientPlayerTwo);
 		WSACleanup();
 	}
 }
@@ -253,12 +145,7 @@ void serverConfig::Cleanup(int nb) {
 		OutputDebugString("Player one disconnected \n");
 		break;
 	case 2:
-		closesocket(ClientPlayerTwo);
-		OutputDebugString("Player  two disconnected \n");
-		break;
-	case 3:
 		closesocket(ClientPlayerOne);
-		closesocket(ClientPlayerTwo);
 		closesocket(ListenSocket);
 		OutputDebugString("All disconnected \n");
 		break;
@@ -271,7 +158,6 @@ void serverConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
 		AcceptPlayerOne();
-		AcceptPlayerTwo();
 		break;
 	case FD_READ:
 		ReceiveDataPlayerOne();

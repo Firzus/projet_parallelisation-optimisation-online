@@ -32,10 +32,9 @@ public:
 	// Handle message
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
-
+	void sendJson();
 	string ReceiveData();
 	void SendData(const string& data);
-	void SendAndReceiveData();
 	void CloseConnection();
 	int ShutdownConnection(int how);
 	void Shutdown();

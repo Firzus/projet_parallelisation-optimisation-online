@@ -1,4 +1,4 @@
-#include "clientConfig.h"
+﻿#include "clientConfig.h"
 #include "Game.h"
 
 #include <ws2tcpip.h>
@@ -11,7 +11,8 @@ void clientConfig::Init(HWND hWnd) {
 	CreateSocket();
 	ConfigureClientSocket(hWnd);
 	ConnectSocketMethod();
-	SendData();
+	sendJson();
+	//SendData();
 }
 
 void clientConfig::AddrInfo() 
@@ -112,6 +113,22 @@ void clientConfig::SendData(const string& data) {
 	printf("Bytes Sent: %ld\n", iResult);
 }
 
+void clientConfig::sendJson()
+{
+	std::string sendbuf = data.dump();
+	OutputDebugStringA(sendbuf.c_str());
+	// Utiliser sendbuf dans la port�e actuelle
+	iResult = send(ConnectSocket, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+	if (iResult == SOCKET_ERROR) {
+		printf("send failed: %d\n", WSAGetLastError());
+
+		closesocket(ConnectSocket);
+		WSACleanup();
+		//return 1;
+	}
+	Shutdown();
+}
+
 string clientConfig::ReceiveData() {
 	string receivedData;
 	do {
@@ -133,19 +150,6 @@ string clientConfig::ReceiveData() {
 	return receivedData;
 }
 
-void clientConfig::SendAndReceiveData() {
-	try {
-		string sendbuf = data.dump();
-		OutputDebugStringA(sendbuf.c_str());
-		SendData(sendbuf);
-		ShutdownConnection(SD_SEND);
-		string receivedData = ReceiveData();
-	}
-	catch (const runtime_error& e) {
-		cerr << e.what() << endl;
-	}
-}
-
 void clientConfig::CloseConnection() {
 	closesocket(ConnectSocket);
 	ConnectSocket = INVALID_SOCKET;
@@ -160,27 +164,6 @@ int clientConfig::ShutdownConnection(int how) {
 	}
 	return iResult;
 }
-
-void clientConfig::ReceiveData()
-{
-	//Receive data until the server closes the connection
-	do {
-		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0) {
-			JsonStringToJsonObject();
-		}
-		else if (iResult == 0) {
-			//Shutdown();
-			printf("Connection closed\n");
-
-		}
-		else {
-			printf("recv failed: %d\n", WSAGetLastError());
-
-		}
-	} while (iResult > 0);
-}
-
 
 void clientConfig::Shutdown() {
 
