@@ -89,24 +89,24 @@
         <!-- Grille de jeu -->
         <table>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="token1"></td>
+            <td id="l1c2"></td>
+            <td id="c3l1"></td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="token4"></td>
+            <td id="l2c2"></td>
+            <td id="c3l2"></td>
           </tr>
           <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="token7"></td>
+            <td id="l3c2"></td>
+            <td id="c3l3"></td>
           </tr>
         </table>
 
         <!-- Paragraphe annoncant le tour du Joueur 1 -->
-        <p>C'est au Joueur 1 de jouer.</p>
+        <p id="player"></p>
       </div>
     </div>
 
@@ -122,13 +122,24 @@
             return response.json();
           })
           .then((data) => {
-            console.log(data);
+              console.log(data);
+              document.getElementById('player').textContent = data.CurrentPlayer;
+              document.getElementById('token1').textContent = data.TokenPos[0];
+              document.getElementById('l1c2').textContent = data.TokenPos[1];
+              document.getElementById('c3l1').textContent = data.TokenPos[2];
+              document.getElementById('token4').textContent = data.TokenPos[3];
+              document.getElementById('l2c2').textContent = data.TokenPos[4];
+              document.getElementById('c3l2').textContent = data.TokenPos[5];
+              document.getElementById('token7').textContent = data.TokenPos[6];
+              document.getElementById('l3c2').textContent = data.TokenPos[7];
+              document.getElementById('c3l3').textContent = data.TokenPos[8];
             // Vous pouvez manipuler vos données JSON ici
           })
           .catch((error) => {
             console.error("Problem with fetch operation:", error);
           });
-      }
+        }
+
 
       setInterval(() => {
         fetchLocalJsonData("/data.json");
