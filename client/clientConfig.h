@@ -5,8 +5,6 @@
 using json = nlohmann::json;
 
 #include <winsock2.h>
-
-
 #include "Data.h"
 
 #define DEFAULT_IP NULL
@@ -31,6 +29,10 @@ public:
 	void ConnectSocketMethod();
 	// Handle message
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
+
+	void StartClientThread();
+	void JoinClientThread();
+	void ClientThreadFunction();
 
 	void sendJson();
 	string ReceiveData();

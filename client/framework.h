@@ -5,7 +5,7 @@
 #pragma once
 
 #include "targetver.h"
-
+#include <thread>
 #include <SFML/Graphics.hpp>
 
 #ifndef WIN32_LEAN_AND_MEAN

@@ -103,6 +103,22 @@ void clientConfig::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
 	}
 }
 
+void clientConfig::StartClientThread()
+{
+}
+
+void clientConfig::ClientThreadFunction()
+{
+	while (true)
+	{
+		string receivedData = ReceiveData();
+		if (!receivedData.empty())
+		{
+			sendJson();
+		}
+	}
+}
+
 void clientConfig::SendData(const string& data) {
 	iResult = send(ConnectSocket, data.c_str(), static_cast<int>(data.length()), 0);
 	if (iResult == SOCKET_ERROR) {

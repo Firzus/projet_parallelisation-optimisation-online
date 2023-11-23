@@ -6,6 +6,7 @@
 #include <winsock2.h>
 #include <exception> 
 #include <map>
+#include <thread>
 
 #include "json.hpp"
 using json = nlohmann::json;
@@ -25,6 +26,8 @@ public:
 	serverConfig();
 	
 	void Init(HWND hWnd);
+
+	void RunServer(HWND hWnd);
 
 	//			SERVER PART
 	void AddrInfo();

@@ -18,6 +18,16 @@ void serverConfig::Init(HWND hWnd)
 	ListenSocketMethod();
 }
 
+void serverConfig::RunServer(HWND hWnd)
+{
+	AddrInfo();
+	InitWinSock();	
+	CreateSocket();
+	ConfigureServerSocket(hWnd);
+	LinkSocket();
+	ListenSocketMethod();
+}
+
 void serverConfig::AddrInfo()
 {
 	ZeroMemory(&hints, sizeof(hints));
