@@ -1,0 +1,55 @@
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    width: 60vh;
+    background-color: #f3c5ff;
+    font-size: 16px;
+    margin-left: 650px;
+}
+/* Style pour la grille */
+.grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+table {
+    border-collapse: collapse;
+    width: 350px;
+    height: 350px;
+}
+
+    table td {
+        border: 1px solid #000;
+        width: 33%;
+        height: 33%;
+        text-align: center;
+        font-size: 24px;
+    }
+/* Style pour les scores */
+.scores {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+.scoreO {
+    text-align: left;
+    width: 50%;
+}
+
+.scoreX {
+    text-align: right;
+    width: 50%;
+}
