@@ -12,7 +12,7 @@ void clientConfig::Init(HWND hWnd) {
 	ConfigureClientSocket(hWnd);
 	ConnectSocketMethod();
 	//sendJson();
-	ReceiveData();
+	//ReceiveData();
 	//SendData();
 }
 

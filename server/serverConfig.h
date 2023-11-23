@@ -12,7 +12,6 @@ using json = nlohmann::json;
 
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "27015"
-#define MAXVALUES 2
 
 #pragma comment (lib, "Ws2_32.lib")
 #pragma comment (lib, "Mswsock.lib")
@@ -39,11 +38,10 @@ public:
 	void ListenSocketMethod();
 
 	//			CLIENT PART
-	bool AcceptPlayerOne(); // testing
 	//			DATA
 	// Player one
 	void SendDataPlayerOne();// testing
-	void ReceiveDataPlayerOne(); // testing
+	void ReceiveDataPlayerOne();// testing
 
 	//			SHUTDOWN
 	void ShutdownPlayerOne(); // testing
@@ -56,18 +54,18 @@ public:
 
 private:
 
-	// convert string buf to json object
-	json JsonStringToJsonObject();
-	// convert json file to json object
+	// convert string buf data to json object data
+	json RecvBufToJsonObject();
+	// convert json file data to json object data
 	json JsonFileToJsonObject();
-	// convert json object to string
-	std::string JsonObjectToString();
-	// convert json object to file
-	void JsonObjectToJsonFile();
+	// convert json object data to string data
+	// 0 for convert since json file || 1 for convert since json object to string
+	std::string JsonObjectToString(int value);
+	// convert json object data to file data
+	void StoreJsonObjectToJsonFile();
 	
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;
-	SOCKET ClientPlayerOne = INVALID_SOCKET;
 	
 	int iResult, iSendResult;
 	char recvbuf[DEFAULT_BUFLEN];
@@ -75,10 +73,12 @@ private:
 	bool isGameOn = false;
 	bool isConnected = false;
 
-private :
+private : // 
 	void AcceptConnection(int clientID);
-
 	void SetNametoPlayerAddress();
+
+	bool Check();
+	void Checkturn();
 
 	SOCKET clientIncoming = INVALID_SOCKET;
 	sockaddr_in clientAddress;
@@ -90,6 +90,7 @@ private :
 	sockaddr_in PlayerTwoAddress;
 
 	int clientCounter = 0;
+	bool turn = false;
 };
 
 // 1476460810
