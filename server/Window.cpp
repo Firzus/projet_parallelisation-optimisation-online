@@ -71,8 +71,8 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
-	/*case WM_USER:
-		server.HandleSocketMessage(wParam, lParam);*/
+	case WM_USER:
+		server.HandleSocketMessage(wParam, lParam);
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

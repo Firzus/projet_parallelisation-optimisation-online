@@ -41,7 +41,7 @@ private:
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;
 	SOCKET ClientSocket;
-	int iResult, iSendResult, check;
+	int iResult, iSendResult;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
 	bool loop = false;

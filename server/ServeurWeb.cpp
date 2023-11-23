@@ -94,52 +94,27 @@ void ServeurWeb::AcceptConnexion() {
 
 void ServeurWeb::SendHTMLResponse(const std::string& filePath) {
 	std::ifstream file(filePath, std::ios::in | std::ios::binary | std::ios::ate);
-	while (loop == false) {
-		//check if client socket is valid
-		if (ClientSocket != INVALID_SOCKET) {
-			// Receive until the peer shuts down the connection
-			do {
-				iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
-				if (iResult > 0) {
-					std::streamsize fileSize = file.tellg();
-					file.seekg(0, std::ios::beg);
+	do {
+		iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+		if (iResult > 0) {
+			std::streamsize fileSize = file.tellg();
+			file.seekg(0, std::ios::beg);
 
-					std::string httpResponse = "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nContent-Length: " + std::to_string(fileSize) + "\r\n\r\n";
-					std::string fileContent;
-					fileContent.resize(static_cast<size_t>(fileSize));
-					file.read(&fileContent[0], fileSize);
+			std::string httpResponse = "HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nContent-Length: " + std::to_string(fileSize) + "\r\n\r\n";
+			std::string fileContent;
+			fileContent.resize(static_cast<size_t>(fileSize));
+			file.read(&fileContent[0], fileSize);
 
-					httpResponse += fileContent;
+			httpResponse += fileContent;
 
-					int iSendResult = send(ClientSocket, httpResponse.c_str(), httpResponse.length(), 0);
-					if (iSendResult == SOCKET_ERROR) {
-						std::cout << "send failed: " << WSAGetLastError() << std::endl;
-					}
-					closesocket(ClientSocket);
-					WSACleanup();
-				}
-			} while (iResult > 0);
-		}
-		if (check == 1) {
-			iResult = shutdown(ClientSocket, SD_SEND);
-			if (iResult == SOCKET_ERROR) {
-				printf("shutdown failed: %d\n", WSAGetLastError());
-				closesocket(ClientSocket);
-				WSACleanup();
+			int iSendResult = send(ClientSocket, httpResponse.c_str(), httpResponse.length(), 0);
+			if (iSendResult == SOCKET_ERROR) {
+				std::cout << "send failed: " << WSAGetLastError() << std::endl;
 			}
-			// cleanup
 			closesocket(ClientSocket);
 			WSACleanup();
-			loop = true;
 		}
-		ClientSocket = accept(ListenSocket, NULL, NULL);
-		if (ClientSocket == INVALID_SOCKET) {
-			printf("accept failed: %d\n", WSAGetLastError());
-			closesocket(ListenSocket);
-			WSACleanup();
-		}
-
-	}
+	} while (iResult > 0);
 }
 
 void ServeurWeb::Shutdown() {
