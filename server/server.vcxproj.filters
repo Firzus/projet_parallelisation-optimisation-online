@@ -5,6 +5,7 @@
     <ClCompile Include="serverConfig.cpp" />
     <ClCompile Include="Serveur.cpp" />
     <ClCompile Include="ServeurWeb.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
@@ -14,6 +15,7 @@
     <ClInclude Include="Serveur.h" />
     <ClInclude Include="ServeurWeb.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="server.rc" />
@@ -35,9 +37,6 @@
     <ClInclude Include="json.hpp">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Fichiers d%27en-tête</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -49,9 +48,6 @@
     <ClCompile Include="serverConfig.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Fichiers sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="server.ico" />
@@ -59,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="index.html" />
-    <None Include="Data.json" />
+    <None Include="data.json" />
     <None Include="style.css" />
     <None Include="script.js" />
   </ItemGroup>
