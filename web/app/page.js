@@ -1,21 +1,23 @@
-async function getData() {
+export async function getData() {
   const urlApi = "http://localhost:3001/data.json";
-  const res = await fetch(urlApi, { cache: 'no-store' });
+  const res = await fetch(urlApi, { cache: "no-store" });
 
   if (!res.ok) {
-      throw new Error(`HTTP error! Status: ${res.status}`);
+    throw new Error(`HTTP error! Status: ${res.status}`);
   }
 
-  return res.json()
+  return res.json();
 }
 
 export default async function Home() {
   const data = await getData();
   console.log(data);
-  
   return (
-    <main>
-      app
-    </main>
-  )
+    <div className="bg-white">
+      <main className="container flex flex-col gap-4 h-screen">
+        <section>grid</section>
+        <section className="flex gap-2">profile</section>
+      </main>
+    </div>
+  );
 }
