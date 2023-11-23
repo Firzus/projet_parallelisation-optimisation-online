@@ -1,3 +1,8 @@
+body{
+    margin: 0;
+    font-size: 100%;
+}
+
 .title {
     display: flex;
     justify-content: center;
