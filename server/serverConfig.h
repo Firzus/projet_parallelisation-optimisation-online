@@ -40,14 +40,19 @@ public:
 	//			CLIENT PART
 	//			DATA
 	// Player one
-	void SendDataPlayerOne();// testing
-	void ReceiveDataPlayerOne();// testing
+	void SendDataPlayerOne(int valueConvert);
+	void ReceiveDataPlayerOne();
+
+	//Player Two
+	void SendDataPlayerTwo(int valueConvert);
+	void ReceiveDataPlayerTwo();
 
 	//			SHUTDOWN
-	void ShutdownPlayerOne(); // testing
+	// 1 for Player One | 2 for Player Two | 3 for Server socket
+	void Shutdown(int value);
 
 	//			CLEANUP
-	void Cleanup(int nb);
+	void Cleanup(int value);
 	
 	//          HANDLE EVENT SOCKET
 	void HandleSocketMessage(HWND hWnd, WPARAM wParam, LPARAM lParam);
@@ -59,7 +64,7 @@ private:
 	// convert json file data to json object data
 	json JsonFileToJsonObject();
 	// convert json object data to string data
-	// 0 for convert since json file || 1 for convert since json object to string
+	// (0 for convert since json file || 1 for convert since json object) to string
 	std::string JsonObjectToString(int value);
 	// convert json object data to file data
 	void StoreJsonObjectToJsonFile();
@@ -70,8 +75,6 @@ private:
 	int iResult, iSendResult;
 	char recvbuf[DEFAULT_BUFLEN];
 	int recvbuflen = DEFAULT_BUFLEN;
-	bool isGameOn = false;
-	bool isConnected = false;
 
 private : // 
 	void AcceptConnection(int clientID);
@@ -90,7 +93,7 @@ private : //
 	sockaddr_in PlayerTwoAddress;
 
 	int clientCounter = 0;
-	bool turn = false;
+	bool turn = false, PlayerOneIsConnected = false, PlayerTwoIsConnected = false;
 };
 
 // 1476460810

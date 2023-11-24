@@ -83,24 +83,24 @@ void serverConfig::ListenSocketMethod() {
 }
 void serverConfig::AcceptConnection(int clientID)
 {
-    int clientAddressSize = sizeof(clientAddress);
+	int clientAddressSize = sizeof(clientAddress);
 
-    clientIncoming = accept(ListenSocket, (struct sockaddr*)&clientAddress, &clientAddressSize);
-    if (clientIncoming != INVALID_SOCKET) {
-        OutputDebugString("\nPlayer connected\n");
+	clientIncoming = accept(ListenSocket, (struct sockaddr*)&clientAddress, &clientAddressSize);
+	if (clientIncoming != INVALID_SOCKET) {
+		OutputDebugString("\nPlayer connected\n");
 
-        OutputDebugStringA(("Client address: " + std::to_string(clientAddress.sin_addr.s_addr) + ", port: " + std::to_string(clientAddress.sin_port) + "\n").c_str());
-    }
-    else if (clientIncoming == INVALID_SOCKET) {
-        OutputDebugStringA("Erreur lors de l'acceptation de la connexion du client : " + WSAGetLastError());
-        closesocket(ListenSocket);
-        WSACleanup();
-    }
+		OutputDebugStringA(("Client address: " + std::to_string(clientAddress.sin_addr.s_addr) + ", port: " + std::to_string(clientAddress.sin_port) + "\n").c_str());
+	}
+	else if (clientIncoming == INVALID_SOCKET) {
+		OutputDebugStringA("Erreur lors de l'acceptation de la connexion du client : " + WSAGetLastError());
+		closesocket(ListenSocket);
+		WSACleanup();
+	}
 }
 
 void serverConfig::SetNametoPlayerAddress()
 {
-	
+
 }
 
 bool serverConfig::Check()
@@ -119,18 +119,19 @@ bool serverConfig::Check()
 			closesocket(PlayerOne);
 			WSACleanup();
 		}
-
+		Shutdown(1);
 		sendCheck2 = send(PlayerTwo, buf.c_str(), static_cast<int>(buf.length()), 0);
 		if (sendCheck2 == SOCKET_ERROR) {
 			OutputDebugStringA(("Player two send check failed: %d\n" + std::to_string(WSAGetLastError()) + "\n").c_str());
 			closesocket(PlayerOne);
 			WSACleanup();
 		}
+		Shutdown(2);
 		return true;
 	}
 	else {
 
-		return false; 
+		return false;
 	}
 }
 
@@ -140,24 +141,28 @@ void serverConfig::Checkturn()
 	//bool turn = true | is Player Two to play and send his json data, Player One can't send anyhting
 	if (Check() == true) {
 		OutputDebugString("check is true");
-		//Player One to play
-		// 
-		//store data to json file
-		StoreJsonObjectToJsonFile();
-		if (turn == false) {
 
-		}
-		else {// Player Two to play
-
-
+		switch (turn) {
+		case false://Player One to play
+			ReceiveDataPlayerOne();
+			SendDataPlayerTwo(1);
 			//store data to json file
 			StoreJsonObjectToJsonFile();
+			turn = true;//switch turn
+			break;
+		case true:// Player Two to play
+			ReceiveDataPlayerTwo();
+			SendDataPlayerOne(1);
+			//store data to json file
+			StoreJsonObjectToJsonFile();
+			turn = false;//switch turn
+			break;
 		}
 	}
 }
 
-void serverConfig::SendDataPlayerOne() {
-	std::string sendbuf = JsonObjectToString(0);
+void serverConfig::SendDataPlayerOne(int valueConvert) {
+	std::string sendbuf = JsonObjectToString(valueConvert);
 	OutputDebugStringA(sendbuf.c_str());
 
 	iSendResult = send(PlayerOne, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
@@ -166,44 +171,94 @@ void serverConfig::SendDataPlayerOne() {
 		closesocket(PlayerOne);
 		WSACleanup();
 	}
+	Shutdown(1);
+}
+
+void serverConfig::SendDataPlayerTwo(int valueConvert) {
+	std::string sendbuf = JsonObjectToString(valueConvert);
+	OutputDebugStringA(sendbuf.c_str());
+
+	iSendResult = send(PlayerTwo, sendbuf.c_str(), static_cast<int>(sendbuf.length()), 0);
+	if (iSendResult == SOCKET_ERROR) {
+		printf("Player two send failed: %d\n", WSAGetLastError());
+		closesocket(PlayerTwo);
+		WSACleanup();
+	}
+	Shutdown(2);
 }
 
 void serverConfig::ReceiveDataPlayerOne() {
-	do {
-		iResult = recv(PlayerOne, recvbuf, recvbuflen, 0);
-		if (iResult > 0) {
-			RecvBufToJsonObject();
-		}
-		else if (iResult == 0) {
-			printf("Player one Connection closing...\n");
-		}
-		else {
-			printf("Player one recv failed: %d\n", WSAGetLastError());
-			closesocket(PlayerOne);
-			WSACleanup();
-		}
 
-	} while (iResult > 0);
-}
-
-void serverConfig::ShutdownPlayerOne(){
-	iResult = shutdown(PlayerOne, SD_SEND);
-	if (iResult == SOCKET_ERROR) {
-		printf("Player one shutdown failed: %d\n", WSAGetLastError());
+	iResult = recv(PlayerOne, recvbuf, recvbuflen, 0);
+	if (iResult > 0) {
+		RecvBufToJsonObject();
+	}
+	else if (iResult == 0) {
+		OutputDebugString("Player one Connection closing...\n");
+	}
+	else {
+		printf("Player one recv failed: %d\n", WSAGetLastError());
 		closesocket(PlayerOne);
 		WSACleanup();
 	}
 }
 
-void serverConfig::Cleanup(int nb) {
+void serverConfig::ReceiveDataPlayerTwo() {
+	iResult = recv(PlayerTwo, recvbuf, recvbuflen, 0);
+	if (iResult > 0) {
+		RecvBufToJsonObject();
+	}
+	else if (iResult == 0) {
+		OutputDebugString("Player one Connection closing...\n");
+	}
+	else {
+		printf("Player one recv failed: %d\n", WSAGetLastError());
+		closesocket(PlayerTwo);
+		WSACleanup();
+	}
+}
+
+void serverConfig::Shutdown(int value) {
+
+	switch (value) {
+	case 1:
+		iResult = shutdown(PlayerOne, SD_SEND);
+		if (iResult == SOCKET_ERROR) {
+			printf("Player one shutdown failed: %d\n", WSAGetLastError());
+			closesocket(PlayerTwo);
+			WSACleanup();
+		}
+		break;
+	case 2:
+		iResult = shutdown(PlayerTwo, SD_SEND);
+		if (iResult == SOCKET_ERROR) {
+			printf("Player two shutdown failed: %d\n", WSAGetLastError());
+			closesocket(PlayerTwo);
+			WSACleanup();
+		}
+		break;
+	case 3:
+		iResult = shutdown(ListenSocket, SD_SEND);
+		if (iResult == SOCKET_ERROR) {
+			printf("Server shutdown failed: %d\n", WSAGetLastError());
+			closesocket(ListenSocket);
+			WSACleanup();
+		}
+		break;
+	}
+
+}
+
+void serverConfig::Cleanup(int value) {
 	// cleanup
-	switch (nb) {
+	switch (value) {
 	case 1:
 		closesocket(PlayerOne);
 		OutputDebugString("Player one disconnected \n");
 		break;
 	case 2:
 		closesocket(PlayerTwo);
+		OutputDebugString("Player two disconnected \n");
 		break;
 	case 3:
 		closesocket(PlayerOne);
@@ -219,26 +274,27 @@ void serverConfig::HandleSocketMessage(HWND hWnd, WPARAM wParam, LPARAM lParam)
 {
 	switch (WSAGETSELECTEVENT(lParam)) {
 	case FD_ACCEPT:
-        if (clientCounter < 2) {
+		if (clientCounter < 2) {
 			AcceptConnection(clientCounter);
-            if (clientCounter == 0) {
-                PlayerOne = clientIncoming;
-                memcpy(&PlayerOneAddress, &clientAddress, sizeof(sockaddr_in));
-            }
-            else if (clientCounter == 1) {
-                PlayerTwo = clientIncoming;
-                memcpy(&PlayerTwoAddress, &clientAddress, sizeof(sockaddr_in));
-            }
-            clientCounter++;
+			if (clientCounter == 0) {
+				PlayerOne = clientIncoming;
+				memcpy(&PlayerOneAddress, &clientAddress, sizeof(sockaddr_in));
+				PlayerOneIsConnected = true;
+			}
+			else if (clientCounter == 1) {
+				PlayerTwo = clientIncoming;
+				memcpy(&PlayerTwoAddress, &clientAddress, sizeof(sockaddr_in));
+				PlayerTwoIsConnected = true;
+			}
+			clientCounter++;
 			if (clientCounter >= 2) {
 				WSAAsyncSelect(ListenSocket, hWnd, WM_USER, FD_READ | FD_CLOSE);
 			}
-        }
+		}
 		Check();
 		break;
 	case FD_READ:
-		//Checkturn();
-		//ReceiveDataPlayerOne();
+		Checkturn();
 		break;
 	case FD_CLOSE:
 		closesocket(wParam);
@@ -248,6 +304,8 @@ void serverConfig::HandleSocketMessage(HWND hWnd, WPARAM wParam, LPARAM lParam)
 
 json serverConfig::RecvBufToJsonObject()
 {
+	bool statePlayerOne = PlayerOneIsConnected;
+	bool statePlayerTwo = PlayerTwoIsConnected;
 	//Get string data
 	std::string jsonString(recvbuf);
 
@@ -255,6 +313,9 @@ json serverConfig::RecvBufToJsonObject()
 	json jsonObject = json::parse(jsonString);
 	OutputDebugStringA(jsonString.c_str());
 	OutputDebugString("\n");
+
+	jsonObject["player1"]["isConnected"] = PlayerOneIsConnected;
+	jsonObject["player2"]["isConnected"] = PlayerTwoIsConnected;
 
 	return jsonObject;
 }
@@ -287,19 +348,19 @@ json serverConfig::JsonFileToJsonObject()
 }
 
 std::string serverConfig::JsonObjectToString(int value)
-{	
+{
 	try {
 		std::string data;
 		switch (value) {
 		case 0:
-			 data = JsonFileToJsonObject().dump();
+			data = JsonFileToJsonObject().dump();
 			break;
 		case 1:
 			data = RecvBufToJsonObject().dump();
 			break;
 		}
 		return data;
-		
+
 	}
 	catch (const nlohmann::json::exception& e) {
 		std::cerr << "Erreur de traitement JSON : " << e.what() << std::endl;
@@ -313,7 +374,6 @@ std::string serverConfig::JsonObjectToString(int value)
 		std::cerr << "Erreur inconnue lors du traitement JSON" << std::endl;
 		return "";
 	}
-	//return data;
 }
 
 void serverConfig::StoreJsonObjectToJsonFile()
