@@ -2,13 +2,13 @@
     "connection": false,
     "currentPlayer": "",
     "isGameOver": false,
-    "player1": {
+    "playerOne": {
         "isConnected": true,
         "playerName": "",
         "playerToken": "O",
         "score": 0
     },
-    "player2": {
+    "playerTwo": {
         "isConnected": false,
         "playerName": "",
         "playerToken": "X",

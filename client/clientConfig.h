@@ -50,13 +50,13 @@ private:
 
 	json data = 
 	{
-		{"player1", {
+		{"playerOne", {
 			{"playerName", da.GetPlayerName()},
 			{"playerToken", "O"},
 			{"score", da.GetPlayer1Score()},
 			{"isConnected", false}
 		}},
-		{"player2", {
+		{"playerTwo", {
 			{"playerName", da.GetPlayerName()},
 			{"playerToken", "X"},
 			{"score", da.GetPlayer2Score()},

@@ -309,8 +309,8 @@ json serverConfig::RecvBufToJsonObject()
 	OutputDebugStringA(jsonString.c_str());
 	OutputDebugString("\n");
 
-	jsonObject["player1"]["isConnected"] = PlayerOneIsConnected;
-	jsonObject["player2"]["isConnected"] = PlayerTwoIsConnected;
+	jsonObject["playerOne"]["isConnected"] = PlayerOneIsConnected;
+	jsonObject["playerTwo"]["isConnected"] = PlayerTwoIsConnected;
 
 	return jsonObject;
 }

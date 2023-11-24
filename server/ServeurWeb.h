@@ -29,7 +29,7 @@ public:
 
 	ServeurWeb();
 
-	void Init();
+	void Init(HWND hWnd);
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
@@ -41,6 +41,9 @@ public:
 	void SendNotFoundResponse();
 	void SendHTMLResponse(const std::string& filePath);
 	void Shutdown();
+
+	void ConfigureWebServerSocket(HWND hWnd);
+	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
 private:
 	WSADATA wsaData;
