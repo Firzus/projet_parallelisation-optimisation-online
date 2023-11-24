@@ -289,19 +289,12 @@ void serverConfig::HandleSocketMessage(HWND hWnd, WPARAM wParam, LPARAM lParam)
 		Check();
 		break;
 	case FD_READ:
-		test();
-		//Checkturn();
+		Checkturn();
 		break;
 	case FD_CLOSE:
 		closesocket(wParam);
 		break;
 	}
-}
-
-void serverConfig::test()
-{
-	ReceiveDataPlayerOne();
-	StoreJsonObjectToJsonFile();
 }
 
 json serverConfig::RecvBufToJsonObject()
