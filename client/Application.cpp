@@ -76,6 +76,11 @@ void Application::ProcessEvents()
 
 				if (menu.IsStartClicked())
 				{
+					/*while (client.Check() != true)
+					{
+						OutputDebugStringW(L"En attente de connexion");
+					}*/
+
 					GameManager::GetInstance().SetApplicationState(ApplicationState::Game);
 				}
 			}

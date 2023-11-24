@@ -125,31 +125,46 @@ void clientConfig::sendJson()
 
 		closesocket(ConnectSocket);
 		WSACleanup();
-		//return 1;
 	}
 	Shutdown();
 }
 
-string clientConfig::ReceiveData() {
-	string receivedData;
-	do {
-		iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
-		if (iResult > 0) {
-			//receivedData.append(recvbuf, iResult);
-			JsonStringToJsonObject();
-		}
-		else if (iResult == 0) {
-			printf("Connection closed\n");
-			break;
-		}
-		else {
-			printf("recv failed: %d\n", WSAGetLastError());
-			CloseConnection();
-			throw runtime_error("Receive failed");
-		}
-	} while (iResult > 0);
+void clientConfig::ReceiveData() {
+	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+	if (iResult > 0) {
+		JsonStringToJsonObject();
+	}
+	else if (iResult == 0) {
+		printf("Connection closed\n");
+	}
+	else {
+		printf("recv failed: %d\n", WSAGetLastError());
+		CloseConnection();
+		throw runtime_error("Receive failed");
+	}
+}
 
-	return receivedData;
+bool clientConfig::Check() {
+	iResult = recv(ConnectSocket, recvbuf, recvbuflen, 0);
+
+	if (iResult > 0) {
+		if (std::atoi(recvbuf) == 1)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else if (iResult == 0) {
+		printf("Connection closed\n");
+	}
+	else {
+		printf("recv failed: %d\n", WSAGetLastError());
+		CloseConnection();
+		throw runtime_error("Receive failed");
+	}
 }
 
 void clientConfig::CloseConnection() {

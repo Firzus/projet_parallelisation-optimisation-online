@@ -33,7 +33,8 @@ public:
 	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
 
 	void sendJson();
-	string ReceiveData();
+	void ReceiveData();
+	bool Check();
 	void SendData(const string& data);
 	void CloseConnection();
 	int ShutdownConnection(int how);
@@ -41,14 +42,7 @@ public:
 	// cleanup
 	void Cleanup();
 
-private:
-	void JsonStringToJsonObject();
-
-	Data da;
-	WSADATA wsaData;
-	SOCKET ConnectSocket = INVALID_SOCKET;
-
-	json data = 
+	json data =
 	{
 		{"player1", {
 			{"playerName", da.GetPlayerName()},
@@ -68,6 +62,13 @@ private:
 		{"connection", da.GetConnection()},
 		{"isGameOver", da.GetGameOver()}
 	};
+
+private:
+	void JsonStringToJsonObject();
+
+	Data da;
+	WSADATA wsaData;
+	SOCKET ConnectSocket = INVALID_SOCKET;
 
 	int iResult;
 	int recvbuflen = DEFAULT_BUFLEN;

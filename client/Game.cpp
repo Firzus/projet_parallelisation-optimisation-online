@@ -134,6 +134,9 @@ void Game::UpdateScore(char winner) {
     else if (winner == 'X') {
         scoreP2++;
     }
+
+    client.sendJson();
+    client.ReceiveData();
 }
 
 void Game::StartNewRound() {
@@ -146,12 +149,12 @@ void Game::StartNewRound() {
     }
 }
 
-bool Game::IsGameOver()
+bool Game::IsGameOver() const
 {
     return isGameOver;
 }
 
-void Game::GetWinner() {
+void Game::GetWinner() const {
     if (scoreP1 > scoreP2) {
         GameManager::GetInstance().SetWinner(GameManager::GetInstance().GetPlayerName());
     }
@@ -186,12 +189,12 @@ string Game::GetPlayerName(char currentPlayer) {
     }
 }
 
-int Game::GetPlayer1Score()
+int Game::GetPlayer1Score() const
 {
     return scoreP1;
 }
 
-int Game::GetPlayer2Score()
+int Game::GetPlayer2Score() const
 {
     return scoreP2;
 }

@@ -119,7 +119,6 @@ void ServeurWeb::LinkSocket()
 		freeaddrinfo(result);
 		closesocket(ListenSocket);
 		WSACleanup();
-		// return 1;
 	}
 
 	// release the memory
@@ -134,7 +133,6 @@ void ServeurWeb::ListenSocketMethod()
 		printf("Listen failed with error: %ld\n", WSAGetLastError());
 		closesocket(ListenSocket);
 		WSACleanup();
-		// return 1;
 	}
 }
 
