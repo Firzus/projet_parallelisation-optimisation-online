@@ -1,3 +1,4 @@
+// Components
 import Grid from "@components/Grid";
 import Profile from "@components/Profile";
 import TurnIndicator from "@components/TurnIndicator";
@@ -26,31 +27,33 @@ export default async function Stats() {
         <section className="flex">
           {/* Turn */}
           <TurnIndicator
-            currentPlayer={data.CurrentPlayer}
-            winner={data.WinnerName}
-          // scorePlayerOne=""
-          // scorePlayerTwo=""
+            currentPlayer={data.currentPlayer}
+            winner={data.winnerName}
+            scorePlayerOne={data.player1.score}
+            scorePlayerTwo={data.player2.score}
           />
         </section>
 
         <section className="flex gap-8 justify-between">
-          <Grid dataGrid={data.TokenPos} />
+          <Grid dataGrid={data.tokenPos} />
 
           <div className="flex flex-col justify-between">
             {/* Player One */}
             <Profile
-              playerName={data.Player1.PlayerName}
-              playerToken={data.Player1.PlayerToken}
+              playerName={data.player1.playerName}
+              playerToken={data.player1.playerToken}
+              isConnect={data.player1.isConnected}
+              // isConnect={data.playerOne.isConnected}
               bgColor="beige"
-            // isConnect={data.Player1.IsConnect}
             />
 
             {/* Player Two */}
             <Profile
-              playerName={data.Player2.PlayerName}
-              playerToken={data.Player2.PlayerToken}
+              playerName={data.player2.playerName}
+              playerToken={data.player2.playerToken}
+              isConnect={data.player2.isConnected}
+              // isConnect={data.playerTwo.isConnect}
               bgColor="green"
-            // isConnect={data.Player2.IsConnect}
             />
           </div>
         </section>
