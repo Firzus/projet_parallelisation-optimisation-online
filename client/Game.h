@@ -28,6 +28,8 @@ public:
 	void StartNewRound();
 	Vector2f GetCellPosition(int row, int col);
 	string GetPlayerName(char currentPlayer);
+	int GetPlayer1Score();
+	int GetPlayer2Score();
 	char GetCurrentPlayer() { return currentPlayer; }
 	bool IsGameOver();
 	void GetWinner();

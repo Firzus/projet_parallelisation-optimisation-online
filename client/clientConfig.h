@@ -52,11 +52,13 @@ private:
 	{
 		{"Player1", {
 			{"PlayerName", da.GetPlayerName()},
-			{"PlayerToken", "X"}
+			{"PlayerToken", "X"},
+			{"Player1Score", da.GetPlayer1Score()}
 		}},
 		{"Player2", {
 			{"PlayerName", da.GetPlayerName()},
-			{"PlayerToken", "O"}
+			{"PlayerToken", "O"},
+			{"Player2Score", da.GetPlayer2Score()}
 		}},
 		{"CurrentPlayer", da.GetCurrentToken()},
 		{"TokenPos", da.GetBoardAsJson()},
