@@ -10,17 +10,17 @@ void ServeurWeb::Init()
 	LinkSocket();
 	ListenSocketMethod();
 
-	//while (true) {
-	//	std::string requestUrl = AcceptConnexion();
-	//	std::string filePath;
-	//	
-	//	if (requestUrl == "/data.json") {
-	//		filePath = "data.json";
-	//	}
+	while (true) {
+		std::string requestUrl = AcceptConnexion();
+		std::string filePath;
+		
+		if (requestUrl == "/data.json") {
+			filePath = "data.json";
+		}
 
-	//	SendHTMLResponse(filePath);
-	//}
-	//Shutdown();
+		SendHTMLResponse(filePath);
+	}
+	Shutdown();
 }
 
 std::string ServeurWeb::AcceptConnexion()
