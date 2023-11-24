@@ -18,41 +18,42 @@ export default async function Stats() {
 
   return (
     <div className="h-screen bg-neutral-950 py-8">
-      <main className="container flex flex-col gap-8">
-        <h1 className="text-neutral-50 mx-auto text-5xl pb-8 font-semibold">
+      <main className="container flex flex-col gap-16 max-w-5xl">
+        <h1 className="text-neutral-50 mx-auto text-4xl py-8 font-semibold">
           TicTacToe Board
         </h1>
 
-        <section className="flex gap-8 justify-around">
-          {/* Player One */}
-          <Profile
-            playerName={data.Player1.PlayerName}
-            playerToken={data.Player1.PlayerToken}
-            bgColor="beige"
-          />
-
+        <section className="flex">
           {/* Turn */}
           <TurnIndicator
             currentPlayer={data.CurrentPlayer}
+            winner={data.WinnerName}
           // scorePlayerOne=""
           // scorePlayerTwo=""
           />
-
-          {/* Player Two */}
-          <Profile
-            playerName={data.Player2.PlayerName}
-            playerToken={data.Player2.PlayerToken}
-            bgColor="green"
-          />
         </section>
 
-        <section className="">
-          {/* Game Grid */}
-          <Grid
-            dataGrid={data.TokenPos}
-          />
-        </section>
+        <section className="flex gap-8 justify-between">
+          <Grid dataGrid={data.TokenPos} />
 
+          <div className="flex flex-col justify-between">
+            {/* Player One */}
+            <Profile
+              playerName={data.Player1.PlayerName}
+              playerToken={data.Player1.PlayerToken}
+              bgColor="beige"
+            // isConnect={data.Player1.IsConnect}
+            />
+
+            {/* Player Two */}
+            <Profile
+              playerName={data.Player2.PlayerName}
+              playerToken={data.Player2.PlayerToken}
+              bgColor="green"
+            // isConnect={data.Player2.IsConnect}
+            />
+          </div>
+        </section>
       </main>
     </div>
   );

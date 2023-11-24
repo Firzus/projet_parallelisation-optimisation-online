@@ -5,8 +5,6 @@ import React, { useState, useEffect } from 'react';
 export default function Grid({
     dataGrid
 }) {
-    console.log(dataGrid);
-
     const [tokenPositions, setTokenPositions] = useState([
         ['', '', ''],
         ['', '', ''],
@@ -14,28 +12,19 @@ export default function Grid({
     ]);
 
     useEffect(() => {
-        // Simuler un appel API
-        const dataFromAPI = {
-            "TokenPos": [
-                "\u0000X\u0000",
-                "\u0000O\u0000",
-                "\u0000\u0000\u0000"
-            ],
-        };
-
-        const tokenArray = dataFromAPI.TokenPos.map(row =>
+        const tokenArray = dataGrid.map(row =>
             row.split('').map(token => (token === '\u0000' ? '' : token))
         );
         setTokenPositions(tokenArray);
     }, []);
 
     return (
-        <div className="grid grid-cols-3 gap-1 w-fit">
+        <div className="grid grid-cols-3 gap-2">
             {tokenPositions.map((row, rowIndex) => (
                 row.map((token, colIndex) => (
-                    <div key={`${rowIndex}-${colIndex}`} className="w-20 h-20 bg-black flex justify-center items-center">
+                    <div key={`${rowIndex}-${colIndex}`} className="w-32 h-32 bg-neutral-900 flex justify-center items-center">
                         {token && (
-                            <div className={`w-10 h-10 rounded-full ${token === 'X' ? 'bg-cyan-500' : 'bg-yellow-200'}`}></div>
+                            <div className={`w-16 h-16 rounded-full ${token === 'X' ? 'bg-player-two' : 'bg-player-one'}`}></div>
                         )}
                     </div>
                 ))
