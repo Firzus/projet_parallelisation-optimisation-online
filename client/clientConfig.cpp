@@ -9,7 +9,7 @@ void clientConfig::Init(HWND hWnd) {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
-	ConfigureClientSocket(hWnd);
+	//ConfigureClientSocket(hWnd);
 	ConnectSocketMethod();
 	//sendJson();
 	//ReceiveData();

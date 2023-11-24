@@ -1,19 +1,23 @@
 {
-  "Connection": false,
-  "CurrentPlayer": "",
-  "IsGameOver": false,
-  "Player1": {
-    "PlayerName": "",
-    "PlayerToken": "X"
-  },
-  "Player2": {
-    "PlayerName": "",
-    "PlayerToken": "O"
-  },
-  "TokenPos": [
-    "\u0000\u0000\u0000",
-    "\u0000\u0000\u0000",
-    "\u0000\u0000\u0000"
-  ],
-  "WinnerName": ""
+    "connection": false,
+    "currentPlayer": "",
+    "isGameOver": false,
+    "player1": {
+        "isConnected": true,
+        "playerName": "",
+        "playerToken": "O",
+        "score": 0
+    },
+    "player2": {
+        "isConnected": false,
+        "playerName": "",
+        "playerToken": "X",
+        "score": 0
+    },
+    "tokenPos": [
+        "\u0000\u0000\u0000",
+        "\u0000\u0000\u0000",
+        "\u0000\u0000\u0000"
+    ],
+    "winnerName": ""
 }
