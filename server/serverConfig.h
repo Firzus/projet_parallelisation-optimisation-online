@@ -78,7 +78,7 @@ private:
 
 private : // 
 	void AcceptConnection(int clientID);
-	void SetNametoPlayerAddress();
+	//void SetNametoPlayerAddress();
 
 	bool Check();
 	void Checkturn();

@@ -53,13 +53,13 @@ private:
 		{"player1", {
 			{"playerName", da.GetPlayerName()},
 			{"playerToken", "O"},
-			{"score", 0},
+			{"score", da.GetPlayer1Score()},
 			{"isConnected", false}
 		}},
 		{"player2", {
 			{"playerName", da.GetPlayerName()},
 			{"playerToken", "X"},
-			{"score", 0},
+			{"score", da.GetPlayer2Score()},
 			{"isConnected", false}
 		}},
 		{"currentPlayer", da.GetCurrentToken()},

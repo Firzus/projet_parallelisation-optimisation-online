@@ -98,11 +98,6 @@ void serverConfig::AcceptConnection(int clientID)
 	}
 }
 
-void serverConfig::SetNametoPlayerAddress()
-{
-
-}
-
 bool serverConfig::Check()
 {
 	if (PlayerOneAddress.sin_addr.s_addr && PlayerTwoAddress.sin_addr.s_addr != 0) {
