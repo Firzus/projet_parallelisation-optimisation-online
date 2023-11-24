@@ -50,9 +50,6 @@ void Window::Init(HINSTANCE hInstance, int nCmdShow) {
 		MessageBox(0, L"Failed to Create Window!", 0, 0);
 		PostQuitMessage(0);
 	}
-
-	//ShowWindow(hWnd, nCmdShow);
-	Update();
 }
 
 void Window::Update() {

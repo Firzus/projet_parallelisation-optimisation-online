@@ -9,5 +9,6 @@
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     Window window(hInstance, nCmdShow);
+    window.Update();
     return 0;
 }
