@@ -2,6 +2,8 @@
 #include "GameManager.h"
 #include "Game.h"
 
+Game game;
+
 void Data::SetPlayerName()
 {
 	playerName = GameManager::GetInstance().GetPlayerName();
@@ -14,8 +16,7 @@ string Data::GetPlayerName()
 
 void Data::SetCurrentToken()
 {
-	Game myGame;
-	currentPlayer = myGame.GetCurrentPlayer();
+	currentPlayer = game.GetCurrentPlayer();
 }
 
 string Data::GetCurrentToken()
@@ -70,12 +71,30 @@ bool Data::GetConnection()
 
 void Data::SetGameOver()
 {
-	Game myGame;
-
-	isGameOver = myGame.IsGameOver();
+	isGameOver = game.IsGameOver();
 }
 
 bool Data::GetGameOver()
 {
 	return isGameOver;
+}
+
+void Data::SetPlayer1Score()
+{
+	scoreP1 = game.GetPlayer1Score();
+}
+
+int Data::GetPlayer1Score()
+{
+	return scoreP1;
+}
+
+void Data::SetPlayer2Score()
+{
+	scoreP2 = game.GetPlayer2Score();
+}
+
+int Data::GetPlayer2Score()
+{
+	return scoreP2;
 }
