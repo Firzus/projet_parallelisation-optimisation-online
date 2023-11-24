@@ -50,21 +50,23 @@ private:
 
 	json data = 
 	{
-		{"Player1", {
-			{"PlayerName", da.GetPlayerName()},
-			{"PlayerToken", "X"},
-			{"Player1Score", da.GetPlayer1Score()}
+		{"player1", {
+			{"playerName", da.GetPlayerName()},
+			{"playerToken", "O"},
+			{"score", da.GetPlayer1Score()},
+			{"isConnected", false}
 		}},
-		{"Player2", {
-			{"PlayerName", da.GetPlayerName()},
-			{"PlayerToken", "O"},
-			{"Player2Score", da.GetPlayer2Score()}
+		{"player2", {
+			{"playerName", da.GetPlayerName()},
+			{"playerToken", "X"},
+			{"score", da.GetPlayer2Score()},
+			{"isConnected", false}
 		}},
-		{"CurrentPlayer", da.GetCurrentToken()},
-		{"TokenPos", da.GetBoardAsJson()},
-		{"WinnerName", da.GetWinner()},
-		{"Connection", da.GetConnection()},
-		{"IsGameOver", da.GetGameOver()}
+		{"currentPlayer", da.GetCurrentToken()},
+		{"tokenPos", da.GetBoardAsJson()},
+		{"winnerName", da.GetWinner()},
+		{"connection", da.GetConnection()},
+		{"isGameOver", da.GetGameOver()}
 	};
 
 	int iResult;
