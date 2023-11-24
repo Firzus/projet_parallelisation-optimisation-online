@@ -44,7 +44,7 @@ void Window::Init(HINSTANCE hInstance, int nCmdShow) {
 	);
 
 	server.Init(hWnd);
-	//serverWeb.Init();
+	serverWeb.Init();
 	if (!hWnd)
 	{
 		MessageBox(0, L"Failed to Create Window!", 0, 0);
