@@ -44,7 +44,7 @@ void Window::Init(HINSTANCE hInstance, int nCmdShow) {
 	);
 
 	server.Init(hWnd);
-	serverWeb.Init(hWnd);
+	serverWeb.Init();
 	if (!hWnd)
 	{
 		MessageBox(0, L"Failed to Create Window!", 0, 0);
@@ -62,6 +62,7 @@ void Window::Update() {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+	
 }
 
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -73,7 +74,6 @@ LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
         break;
 	case WM_USER:
 		server.HandleSocketMessage(hWnd, wParam, lParam);
-		serverWeb.HandleSocketMessage(wParam, lParam);
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

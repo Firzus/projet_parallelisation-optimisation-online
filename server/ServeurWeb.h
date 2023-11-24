@@ -29,7 +29,7 @@ public:
 
 	ServeurWeb();
 
-	void Init(HWND hWnd);
+	void Init();
 	void AddrInfo();
 	void InitWinSock();
 	void CreateSocket();
@@ -42,9 +42,7 @@ public:
 	void SendHTMLResponse(const std::string& filePath);
 	void Shutdown();
 
-	void ConfigureWebServerSocket(HWND hWnd);
-	void HandleSocketMessage(WPARAM wParam, LPARAM lParam);
-
+	void Loop();
 private:
 	WSADATA wsaData;
 	SOCKET ListenSocket = INVALID_SOCKET;

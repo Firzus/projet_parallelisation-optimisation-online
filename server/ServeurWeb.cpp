@@ -2,15 +2,25 @@
 
 ServeurWeb::ServeurWeb() {}
 
-void ServeurWeb::Init(HWND hWnd)
+void ServeurWeb::Init()
 {
 	AddrInfo();
 	InitWinSock();
 	CreateSocket();
-	ConfigureWebServerSocket(hWnd);
 	LinkSocket();
 	ListenSocketMethod();
-	Shutdown();
+
+	//while (true) {
+	//	std::string requestUrl = AcceptConnexion();
+	//	std::string filePath;
+	//	
+	//	if (requestUrl == "/data.json") {
+	//		filePath = "data.json";
+	//	}
+
+	//	SendHTMLResponse(filePath);
+	//}
+	//Shutdown();
 }
 
 std::string ServeurWeb::AcceptConnexion()
@@ -221,27 +231,14 @@ void ServeurWeb::Shutdown()
 	WSACleanup();
 }
 
-void ServeurWeb::ConfigureWebServerSocket(HWND hWnd)
+void ServeurWeb::Loop()
 {
-	WSAAsyncSelect(ListenSocket, hWnd, WM_USER, FD_ACCEPT | FD_READ | FD_CLOSE);
-}
+		std::string requestUrl = AcceptConnexion();
+		std::string filePath;
+		
+		if (requestUrl == "/data.json") {
+			filePath = "data.json";
+		}
 
-void ServeurWeb::HandleSocketMessage(WPARAM wParam, LPARAM lParam)
-{
-	std::string requestUrl = AcceptConnexion();
-	std::string filePath;
-	switch (WSAGETSELECTEVENT(lParam)) {
-	case FD_ACCEPT:
-			if (requestUrl == "/data.json") {
-				filePath = "data.json";
-			}
-
-			SendHTMLResponse(filePath);
-		break;
-	case FD_READ:
-		break;
-	case FD_CLOSE:
-		closesocket(wParam);
-		break;
-	}
+		SendHTMLResponse(filePath);
 }

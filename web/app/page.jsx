@@ -29,8 +29,8 @@ export default async function Stats() {
           <TurnIndicator
             currentPlayer={data.currentPlayer}
             winner={data.winnerName}
-            scorePlayerOne={data.player1.score}
-            scorePlayerTwo={data.player2.score}
+            scorePlayerOne={data.playerOne.score}
+            scorePlayerTwo={data.playerTwo.score}
           />
         </section>
 
@@ -40,18 +40,18 @@ export default async function Stats() {
           <div className="flex flex-col justify-between">
             {/* Player One */}
             <Profile
-              playerName={data.player1.playerName}
-              playerToken={data.player1.playerToken}
-              isConnect={data.player1.isConnected}
+              playerName={data.playerOne.playerName}
+              playerToken={data.playerOne.playerToken}
+              isConnect={data.playerOne.isConnected}
               // isConnect={data.playerOne.isConnected}
               bgColor="beige"
             />
 
             {/* Player Two */}
             <Profile
-              playerName={data.player2.playerName}
-              playerToken={data.player2.playerToken}
-              isConnect={data.player2.isConnected}
+              playerName={data.playerTwo.playerName}
+              playerToken={data.playerTwo.playerToken}
+              isConnect={data.playerTwo.isConnected}
               // isConnect={data.playerTwo.isConnect}
               bgColor="green"
             />

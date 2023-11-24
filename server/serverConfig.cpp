@@ -103,7 +103,7 @@ bool serverConfig::Check()
 	if (PlayerOneAddress.sin_addr.s_addr && PlayerTwoAddress.sin_addr.s_addr != 0) {
 		OutputDebugStringA(("\n" + std::to_string(PlayerOneAddress.sin_addr.s_addr) + "\n").c_str());
 		OutputDebugStringA(("\n" + std::to_string(PlayerTwoAddress.sin_addr.s_addr) + "\n").c_str());
-		OutputDebugString("Players are connected");
+		OutputDebugString("\nPlayers are connected\n");
 		// send both clients check ready variable
 		int sendCheck = 0, sendCheck2 = 0;
 		std::string buf = "1";//stoi(buf) to parse to int
