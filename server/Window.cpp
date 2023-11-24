@@ -3,10 +3,12 @@
 #endif 
 #include "Window.h"
 #include "serverConfig.h"
+#include "ServeurWeb.h"
 //#include <windowsx.h>
 
 const wchar_t CLASS_NAME[] = L"Sample Window Class";
 serverConfig server;
+ServeurWeb serverWeb;
 
 Window::Window(HINSTANCE hInstance, int nCmdShow) {
 	CreateClass();
@@ -42,6 +44,7 @@ void Window::Init(HINSTANCE hInstance, int nCmdShow) {
 	);
 
 	server.Init(hWnd);
+	serverWeb.Init();
 	if (!hWnd)
 	{
 		MessageBox(0, L"Failed to Create Window!", 0, 0);

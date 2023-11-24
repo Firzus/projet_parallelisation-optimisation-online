@@ -186,6 +186,16 @@ string Game::GetPlayerName(char currentPlayer) {
     }
 }
 
+int Game::GetPlayer1Score()
+{
+    return scoreP1;
+}
+
+int Game::GetPlayer2Score()
+{
+    return scoreP2;
+}
+
 void Game::CleanBoard() {
     for (auto& row : board) {
         row.fill(' ');
